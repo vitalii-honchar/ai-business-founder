@@ -1,5 +1,5 @@
-import React from 'react';
 import { createClient } from '@/lib/db/dbServer';
+import ProjectTable from '@/components/project/projectTable';
 
 const DashboardPage = async () => {
   const supabase = await createClient();
@@ -12,13 +12,7 @@ const DashboardPage = async () => {
       <div className="mb-4">
         <button className="bg-blue-500 text-white px-4 py-2 rounded">➕ Add Project</button>
       </div>
-      <ul className="list-disc pl-5">
-        {projects?.map((project) => (
-          <li key={project.id} className="mb-2">
-            {project.name}
-          </li>
-        ))}
-      </ul>
+      <ProjectTable projects={projects} />
     </div>
   );
 };
