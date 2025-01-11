@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/db/dbClient';
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -10,14 +11,34 @@ const LoginPage = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
 
+  useEffect(() => {
+    const supabase = createClient();
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        Cookies.set('access_token', session.access_token);
+        Cookies.set('refresh_token', session.refresh_token);
+        router.push('/dashboard');
+      }
+    });
+
+    return () => {
+      authListener.unsubscribe();
+    };
+  }, [router]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit called');
+    console.log('Email:', email);
+    console.log('Password:', password);
+
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
+      console.error('Error during sign in:', error);
       setError(error.message);
     } else {
-      router.push('/dashboard');
+      console.log('Sign in successful, redirecting to dashboard');
     }
   };
 
