@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from 'next/link';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
         <div className="min-h-screen flex flex-col">
           <header className="bg-white shadow">
             <div className="container mx-auto p-4">
-              <h1 className="text-2xl font-bold">AI Business Founder</h1>
+              <Link href="/" legacyBehavior>
+                <a className="text-2xl font-bold">AI Business Founder</a>
+              </Link>
             </div>
           </header>
           <main className="flex-grow container mx-auto p-4">
