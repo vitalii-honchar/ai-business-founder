@@ -17,7 +17,7 @@ const ProjectTable = ({ projects }) => {
                         >
                             <td className="py-3 px-6">{project.name}</td>
                             <td className="py-3 px-6">
-                                <a href={`/projects/${project.id}`}>
+                                <a href={`/project/${project.id}`}>
                                     <button className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200">
                                         Open
                                     </button>
