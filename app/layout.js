@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
           </main>
           <footer className="bg-white shadow mt-4">
             <div className="container mx-auto p-4 text-center">
-              <p className="text-sm">&copy; 2023 AI Business Founder. All rights reserved.</p>
+              <p className="text-sm">&copy; 2025 AI Business Founder. All rights reserved.</p>
             </div>
           </footer>
         </div>
