@@ -18,7 +18,8 @@ export async function login(formData) {
     console.log("error", error)
 
     if (error) {
-        redirect('/error')
+        const errorMessage = encodeURIComponent('Invalid email or password');
+        redirect(`/login?error=${errorMessage}`);
     }
 
     revalidatePath('/', 'layout')

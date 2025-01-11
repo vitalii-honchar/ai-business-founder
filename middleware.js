@@ -38,8 +38,6 @@ export async function middleware(request) {
   } = await supabase.auth.getUser()
 
 
-  console.log('user', user)
-
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
