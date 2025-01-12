@@ -10,10 +10,7 @@ export async function POST(request, { params }) {
         console.log('Update project name: body =', body);
 
         const name = await projectService.updateName(id, body);
-        return NextResponse.json({
-            success: true,
-            data: { name: name }
-        });
+        return NextResponse.json({ name });
     } catch (error) {
         console.error('Error updating name:', error); // Add error logging
         return NextResponse.json({

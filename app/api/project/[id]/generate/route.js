@@ -30,11 +30,8 @@ export async function POST(request, { params }) {
             }, { status: 400 });
         }
 
-        const content = await handler(id, data);
-        return NextResponse.json({
-            success: true,
-            data: content
-        });
+        const res = await handler(id, data);
+        return NextResponse.json(res);
     } catch (error) {
         console.error('Error processing request:', error); // Add error logging
         return NextResponse.json({
