@@ -1,8 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-import context from './prompt/context.mjs';
-import createHwwPrompt from './prompt/hww.mjs';
-import createTamSamSomPrompts from './prompt/tamSamSom.mjs';
+import context from '../lib/ai/prompt/context.js';
+import createHwwPrompt from '../lib/ai/prompt/hww.js';
+import createTamSamSomPrompts from '../lib/ai/prompt/tamSamSom.js';
 
 // Competitor Analysis prompt
 const competitorAnalysisPrompt = `${context}
