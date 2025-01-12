@@ -9,6 +9,7 @@ const defaultFormData = {
     language: "",
     platform: "",
     currency: "",
+    auditory: "", // Add new field
 }
 
 const placeholders = {
@@ -18,7 +19,18 @@ const placeholders = {
     language: "Primary language for your service/product (e.g., 'English', 'Spanish')",
     platform: "Delivery platform or channel (e.g., 'Mobile App', 'Web Platform', 'Physical Store')",
     currency: "Primary currency for transactions (e.g., 'USD', 'EUR', 'GBP')",
+    auditory: "Define your target audience (e.g., 'Small business owners', 'College students', 'Working professionals')"
 }
+
+const orderedFields = [
+    'problem',
+    'auditory',
+    'industry',
+    'location',
+    'language',
+    'platform',
+    'currency'
+];
 
 export default function ValidationUserInputComponent({ onSubmit, loading, initialFormData }) {
     const [formData, setFormData] = useState(initialFormData || defaultFormData)
@@ -37,15 +49,15 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
 
     return (
         <form className="space-y-6" onSubmit={handleSubmit}>
-            {Object.entries(formData).map(([key, value]) => (
+            {orderedFields.map(key => (
                 <div key={key}>
                     <label className="block text-sm font-medium text-gray-700 capitalize">
                         {key}
                     </label>
-                    {key === 'problem' ? (
+                    {key === 'problem' || key === 'auditory' ? (
                         <textarea
                             name={key}
-                            value={value}
+                            value={formData[key]}
                             onChange={(e) => handleInputChange(key, e.target.value)}
                             rows={4}
                             className="mt-1 w-full rounded-md border border-gray-300 shadow-sm p-2"
@@ -55,7 +67,7 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                         <input
                             type="text"
                             name={key}
-                            value={value}
+                            value={formData[key]}
                             onChange={(e) => handleInputChange(key, e.target.value)}
                             className="mt-1 w-full rounded-md border border-gray-300 shadow-sm p-2"
                             placeholder={placeholders[key]}
