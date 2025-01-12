@@ -99,6 +99,7 @@ async function main() {
       location: "North America and Europe",
       language: "English",
       platform: "Web and mobile applications",
+      currency: "USD",
     }
 
     const tasks = [
