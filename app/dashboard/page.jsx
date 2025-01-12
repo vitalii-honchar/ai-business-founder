@@ -1,19 +1,9 @@
 import ProjectTable from '@/components/project/ProjectTable';
 import AddProjectButton from '@/components/project/AddProjectButton';
-import { createClient } from '@/lib/db/dbServer';
-
-const getProjects = async () => {
-  const supabase = await createClient();
-  const { data: projects, error } = await supabase.from('projects').select('name');
-  if (error) {
-    console.error('Error fetching projects:', error);
-    return [];
-  }
-  return projects;
-};
+import projectRepo from '@/lib/db/repository/project_repo';
 
 const DashboardPage = async () => {
-  const projects = await getProjects();
+  const projects = await projectRepo.getProjectsIdAndNames();
 
   return (
     <div className="container mx-auto p-4">

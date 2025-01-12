@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { generateProjectValidation } from '@/lib/api/project_api';
+import projecApi from '@/lib/client/api/project_api';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent';
 
 export default function EditProjectComponent({ project: initialProject }) {
@@ -18,30 +18,25 @@ export default function EditProjectComponent({ project: initialProject }) {
     const [project, setProject] = useState(initialProject)
     const [error, setError] = useState(null)
 
-    const generateValidation = async () => {
-        setLoading(true)
-        setError(null)
+    const withLoading = (fn) => {
+        return async () => {
+            setLoading(true)
+            setError(null)
 
-        try {
-            const response = await generateProjectValidation(project.id, formData);
-            if (!response.success) throw new Error(response.error)
+            try {
+                await fn();
+            } catch (err) {
+                setError(err.message)
+            } finally {
+                setLoading(false)
+            }
+        };
+    };
 
-            setProject(prev => ({
-                ...prev,
-                data: {
-                    ...prev.data,
-                    analysis: {
-                        ...prev.data?.analysis,
-                        validation: response.content
-                    }
-                }
-            }))
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setLoading(false)
-        }
-    }
+    const generateValidation = withLoading(async () => {
+        const newProject = await projecApi.generateProjectValidation(project.id, formData);
+        setProject(newProject);
+    });
 
     return (
         <div className="flex h-screen">
