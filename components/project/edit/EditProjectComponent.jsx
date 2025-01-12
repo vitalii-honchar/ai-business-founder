@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import projecApi from '@/lib/client/api/project_api'
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
+import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
 
 export default function EditProjectComponent({ project: initialProject }) {
     const [loading, setLoading] = useState(false)
@@ -95,9 +96,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                             {loading ? (
                                 <div className="h-32 bg-gray-200 rounded"></div>
                             ) : project?.data?.analysis?.validation?.tamSamSom ? (
-                                <pre className="whitespace-pre-wrap">
-                                    {JSON.stringify(project.data.analysis.validation.tamSamSom, null, 2)}
-                                </pre>
+                                <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} />
                             ) : (
                                 <p className="text-gray-500">Not generated yet</p>
                             )}
