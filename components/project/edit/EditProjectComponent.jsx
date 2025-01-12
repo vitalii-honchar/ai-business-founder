@@ -3,6 +3,8 @@
 import { useState } from 'react'
 
 export default function EditProjectComponent({ project }) {
+    console.log('Project:', project)
+
     const [formData, setFormData] = useState({
         problem: "Many small and medium-sized businesses (SMBs) struggle to track and reduce their carbon footprint due to a lack of affordable, user-friendly tools. This prevents them from complying with environmental regulations and meeting consumer expectations for sustainable practices.",
         industry: "Small and medium-sized businesses in retail, manufacturing, and logistics.",
@@ -18,9 +20,9 @@ export default function EditProjectComponent({ project }) {
     const generateValidation = async () => {
         setLoading(true)
         setError(null)
-        
+
         try {
-            const response = await fetch('/api/generate', {
+            const response = await fetch(`/api/project/${project.id}/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -28,10 +30,11 @@ export default function EditProjectComponent({ project }) {
                     data: formData
                 }),
             })
-            
+
             const data = await response.json()
+            console.log('Validation response:', data)
             if (!data.success) throw new Error(data.error)
-            
+
             setValidationResults(data.content)
         } catch (err) {
             setError(err.message)
@@ -75,7 +78,7 @@ export default function EditProjectComponent({ project }) {
                             )}
                         </div>
                     ))}
-                    
+
                     <button
                         onClick={generateValidation}
                         disabled={loading}
@@ -93,11 +96,11 @@ export default function EditProjectComponent({ project }) {
                         {error}
                     </div>
                 )}
-                
+
                 <div className="space-y-8">
                     <section>
                         <h2 className="text-2xl font-bold mb-4">Validation</h2>
-                        
+
                         <div className="mb-6">
                             <h3 className="text-xl font-semibold mb-2">HWW</h3>
                             <div className="bg-gray-50 p-4 rounded-lg">

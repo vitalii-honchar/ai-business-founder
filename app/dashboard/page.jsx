@@ -4,7 +4,7 @@ import { createClient } from '@/lib/db/dbServer';
 
 const getProjects = async () => {
   const supabase = await createClient();
-  const { data: projects, error } = await supabase.from('projects').select();
+  const { data: projects, error } = await supabase.from('projects').select('name');
   if (error) {
     console.error('Error fetching projects:', error);
     return [];

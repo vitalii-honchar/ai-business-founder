@@ -2,7 +2,7 @@ import EditProjectComponent from "@/components/project/edit/EditProjectComponent
 import { createClient } from "@/lib/db/dbServer";
 
 export default async function ProjectPage({ params }) {
-    const { id } = params;
+    const { id } = await params;
     const supabase = await createClient();
     const { data: project, error } = await supabase
         .from('projects')

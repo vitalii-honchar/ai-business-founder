@@ -27,9 +27,14 @@ const handlers = {
     'validation': handleValidation,
 };
 
-export async function POST(request) {
+export async function POST(request, { params }) {
     try {
+        const { id } = await params;
+        console.log('Project ID:', id);
+
         const body = await request.json();
+        console.log('Request body:', body); // Add logging for request body
+
         const { type, data } = body;
 
         if (!type || !data) {
@@ -50,9 +55,10 @@ export async function POST(request) {
         const content = await handler(data);
         return NextResponse.json({
             success: true,
-            content
+            data: content
         });
     } catch (error) {
+        console.error('Error processing request:', error); // Add error logging
         return NextResponse.json({
             success: false,
             error: error.message
