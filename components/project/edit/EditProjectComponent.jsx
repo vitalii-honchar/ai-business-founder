@@ -31,16 +31,26 @@ export default function EditProjectComponent({ project: initialProject }) {
             .then(newProject => setProject(newProject));
     })
 
-    const updateProjectName = useCallback(
+    const debouncedUpdateProjectName = useCallback(
         debounce((newName) => {
             setNameLoading(true)
             return projecApi.updateProjectName(project.id, newName)
                 .then((resp) => setName(resp.name))
                 .catch((err) => setError(err.message))
                 .finally(() => setNameLoading(false));
-        }, 500),
+        }, 1000),
         [project.id]
     )
+
+    const handleNameChange = (e) => {
+        const newName = e.target.value
+        setName(newName)
+        debouncedUpdateProjectName(newName)
+    }
+
+    const handleBlur = () => {
+        debouncedUpdateProjectName.flush()
+    }
 
     return (
         <div>
@@ -50,7 +60,8 @@ export default function EditProjectComponent({ project: initialProject }) {
                         <input
                             type="text"
                             value={name || ''}
-                            onChange={(e) => updateProjectName(e.target.value)}
+                            onChange={handleNameChange}
+                            onBlur={handleBlur}
                             className="text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight w-full bg-transparent border-0 focus:ring-0 focus:outline-none"
                             placeholder="Enter project name"
                         />
