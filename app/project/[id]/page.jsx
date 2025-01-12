@@ -1,3 +1,4 @@
+import EditProjectComponent from "@/components/project/edit/EditProjectComponent";
 import { createClient } from "@/lib/db/dbServer";
 
 export default async function ProjectPage({ params }) {
@@ -17,8 +18,7 @@ export default async function ProjectPage({ params }) {
     return (
         <div>
             <h1 className="text-2xl font-bold mb-4">{project.name}</h1>
-            <p>{project.description}</p>
-            {/* Add more project details as needed */}
+            <EditProjectComponent project={project} />
         </div>
     );
 }
