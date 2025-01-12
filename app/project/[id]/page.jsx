@@ -17,7 +17,6 @@ export default async function ProjectPage({ params }) {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-4">{project.name}</h1>
             <EditProjectComponent project={project} />
         </div>
     );
