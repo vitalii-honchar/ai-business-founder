@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { analyzeHww, analyzeTamSamSom } from "@/lib/ai/ai";
+import { repo as projectRepo } from "@/lib/db/repository/project_repo";
 
-const handleValidation = async (data) => {
+const handleValidation = async (projectId, data) => {
     if (!data || typeof data !== 'object') {
         throw new Error('Invalid data format');
     }
@@ -14,10 +15,22 @@ const handleValidation = async (data) => {
     try {
         const [hwwResponse, tamSamSomResponse] = await Promise.all(tasks);
 
-        return {
-            hww: hwwResponse,
-            tamSamSom: tamSamSomResponse,
+        const project = await projectRepo.get(projectId);
+
+        console.log('Project:', project);
+
+        const data = project.data || {
+            analysis: {
+                validation: {}
+            }
         };
+
+        data.analysis.validation.hww = hwwResponse;
+        data.analysis.validation.tamSamSom = tamSamSomResponse;
+        project.data = data;
+        await projectRepo.updateData(projectId, project.version, data);
+
+        return project;
     } catch (error) {
         throw new Error(`Validation analysis failed: ${error.message}`);
     }
@@ -52,7 +65,7 @@ export async function POST(request, { params }) {
             }, { status: 400 });
         }
 
-        const content = await handler(data);
+        const content = await handler(id, data);
         return NextResponse.json({
             success: true,
             data: content
