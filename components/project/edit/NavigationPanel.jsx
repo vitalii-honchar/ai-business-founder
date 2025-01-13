@@ -4,6 +4,10 @@ const navigationItems = [
         id: 'validation',
         subItems: [
             {
+                title: 'User Input',
+                id: 'user-input',
+            },
+            {
                 title: 'HWW',
                 id: 'hww'
             },
