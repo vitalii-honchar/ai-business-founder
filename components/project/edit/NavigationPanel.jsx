@@ -1,46 +1,46 @@
 const navigationItems = [
     {
-        title: 'Validation',
+        title: '✅ Validation',
         id: 'validation',
         subItems: [
             {
-                title: 'User Input',
+                title: '👤 User Input',
                 id: 'user-input',
             },
             {
-                title: 'HWW',
+                title: '🤔 HWW',
                 id: 'hww'
             },
             {
-                title: 'TAM-SAM-SOM',
+                title: '📊 TAM-SAM-SOM',
                 id: 'tam-sam-som'
             }
         ]
     },
     {
-        title: 'User Research',
+        title: '🔍 User Research',
         id: 'user-research',
         subItems: [
             {
-                title: 'Interviews',
+                title: '🎤 Interviews',
                 id: 'interviews'
             },
             {
-                title: 'Surveys',
+                title: '📝 Surveys',
                 id: 'surveys'
             }
         ]
     },
     {
-        title: 'Customer Journey Map',
+        title: '🗺️ Customer Journey Map',
         id: 'journey-map',
         subItems: [
             {
-                title: 'Touchpoints',
+                title: '📍 Touchpoints',
                 id: 'touchpoints'
             },
             {
-                title: 'Pain Points',
+                title: '❗ Pain Points',
                 id: 'pain-points'
             }
         ]
