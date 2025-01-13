@@ -12,14 +12,17 @@ import { useRouter, useSearchParams } from 'next/navigation';
 export default function EditProjectComponent({ project: initialProject }) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    
+
     const [loading, setLoading] = useState(false)
     const [project, setProject] = useState(initialProject)
     const [name, setName] = useState(initialProject.name)
     const [error, setError] = useState(null)
     const [nameLoading, setNameLoading] = useState(false)
-    const [activeStep, setActiveStep] = useState(
-        searchParams.get('step') || 'Validation'
+    const [activeItem, setActiveItem] = useState(
+        {
+            itemId: searchParams.get('itemId') || 'validation',
+            subItemId: searchParams.get('subItemId') || 'hww'
+        }
     );
 
     const withLoading = (fn) => {
@@ -61,12 +64,13 @@ export default function EditProjectComponent({ project: initialProject }) {
         debouncedUpdateProjectName.flush()
     }
 
-    const handleStepChange = (step) => {
-        setActiveStep(step);
+    const handleItemChange = (item) => {
+        setActiveItem(item);
         const params = new URLSearchParams(searchParams);
-        params.set('step', step);
-        router.push(`/project/${project.id}?${params.toString()}`, { 
-            scroll: false 
+        params.set('itemId', item.itemId);
+        params.set('subItemId', item.subItemId);
+        router.push(`/project/${project.id}?${params.toString()}`, {
+            scroll: false
         });
     };
 
@@ -76,7 +80,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                     <strong className="font-bold">Error: </strong>
                     <span className="block sm:inline">{error}</span>
-                    <button 
+                    <button
                         className="absolute top-0 right-0 px-4 py-3"
                         onClick={() => setError(null)}
                     >
@@ -87,7 +91,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                     </button>
                 </div>
             )}
-            
+
             {/* Header with name */}
             <div className="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
                 <div className="flex items-center justify-between">
@@ -110,27 +114,30 @@ export default function EditProjectComponent({ project: initialProject }) {
                 {/* Fixed navigation panel - now on left */}
                 <div className="w-80 flex-shrink-0 border-r border-gray-200 bg-white p-6">
                     <NavigationPanel
-                        activeStep={activeStep}
-                        onStepChange={handleStepChange}
+                        activeItem={activeItem}
+                        onNavigate={handleItemChange}
                     />
                 </div>
 
                 {/* Main scrollable content */}
                 <div className="flex-1 overflow-y-auto px-6 py-6">
-                    {activeStep === 'Validation' && (
+                    {activeItem.itemId === 'validation' && (
                         <ValidationComponent
+                            activeItemId={activeItem.subItemId}
                             project={project}
                             onSubmit={handleValidationSubmit}
                             loading={loading}
                         />
                     )}
-                    {activeStep === 'User Research' && (
+                    {activeItem.itemId === 'user-research' && (
                         <UserResearchComponent
+                            activeItemId={activeItem.subItemId}
                             project={project}
                         />
                     )}
-                    {activeStep === 'Customer Journey Map' && (
+                    {activeItem.itemId === 'journey-map' && (
                         <CustomerJourneyMapComponent
+                            activeItemId={activeItem.subItemId}
                             project={project}
                         />
                     )}
