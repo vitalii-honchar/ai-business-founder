@@ -21,7 +21,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     const [activeItem, setActiveItem] = useState(
         {
             itemId: searchParams.get('itemId') || 'validation',
-            subItemId: searchParams.get('subItemId') || 'hww'
+            subItemId: searchParams.get('subItemId') || 'user-input'
         }
     );
 
