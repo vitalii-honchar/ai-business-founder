@@ -77,7 +77,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 {/* Validation Form */}
                 <div className="bg-white p-6 rounded-lg shadow mb-6">
                     <h2 className="text-xl font-bold mb-4">Project Validation</h2>
-                    <ValidationUserInputComponent 
+                    <ValidationUserInputComponent
                         onSubmit={handleValidationSubmit}
                         loading={loading}
                         initialFormData={project?.data?.input?.validation || null}
@@ -88,7 +88,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 <div className="space-y-6">
                     {/* HWW Analysis */}
                     <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                        <h2 className="text-xl font-bold mb-4">How/What/Why Analysis</h2>
+                        <h2 className="text-xl font-bold mb-4">HWWW</h2>
                         {loading ? (
                             <div className="h-32 bg-gray-200 rounded"></div>
                         ) : project?.data?.analysis?.validation?.hww ? (
@@ -100,7 +100,7 @@ export default function EditProjectComponent({ project: initialProject }) {
 
                     {/* Market Size Analysis */}
                     <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                        <h2 className="text-xl font-bold mb-4">Market Size Analysis</h2>
+                        <h2 className="text-xl font-bold mb-4">TAM-SAM-SOM</h2>
                         {loading ? (
                             <div className="h-32 bg-gray-200 rounded"></div>
                         ) : project?.data?.analysis?.validation?.tamSamSom ? (

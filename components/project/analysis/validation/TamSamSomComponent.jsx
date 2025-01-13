@@ -1,3 +1,5 @@
+import { HiInformationCircle } from 'react-icons/hi';
+
 export default function TamSamSomComponent({ tamSamSom }) {
     const formatNumber = (num) => {
         return new Intl.NumberFormat('en-US', {
@@ -15,6 +17,12 @@ export default function TamSamSomComponent({ tamSamSom }) {
         }).format(num);
     };
 
+    const marketDefinitions = {
+        total_addressable_market: "Total Addressable Market (TAM): The total market demand for your product or service if you could reach everyone who might need it.",
+        serviceable_available_market: "Serviceable Available Market (SAM): The segment of TAM that you can realistically target with your product or service, considering geographical, regulatory or other constraints.",
+        serviceable_obtainable_market: "Serviceable Obtainable Market (SOM): The portion of SAM that you can realistically capture, considering competition and your capabilities."
+    };
+
     return (
         <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
             {/* Market Size Overview */}
@@ -28,7 +36,15 @@ export default function TamSamSomComponent({ tamSamSom }) {
                                         'bg-purple-100 text-purple-600'}`}>
                                 {market.name.split(' ').map(word => word[0]).join('')}
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-800">{market.name}</h3>
+                            <div className="flex items-center">
+                                <h3 className="text-lg font-semibold text-gray-800">{market.name}</h3>
+                                <div className="group relative ml-2">
+                                    <HiInformationCircle className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                                    <div className="invisible group-hover:visible absolute left-0 z-10 w-64 p-2 mt-1 text-sm text-white bg-gray-900 rounded-md shadow-lg">
+                                        {marketDefinitions[market.type]}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="space-y-4">
