@@ -22,7 +22,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         <>
             {/* Validation Form */}
             <div className="bg-white p-6 rounded-lg shadow mb-6" ref={userInputRef}>
-                <h2 className="text-xl font-bold mb-4">Idea Validation</h2>
+                <h2 className="text-xl font-bold mb-4">✅ Idea Validation</h2>
                 <ValidationUserInputComponent
                     onSubmit={onSubmit}
                     loading={loading}
@@ -34,7 +34,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             <div className="space-y-6" ref={hwwRef}>
                 {/* HWW Analysis */}
                 <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                    <h2 className="text-xl font-bold mb-4">HWWW</h2>
+                    <h2 className="text-xl font-bold mb-4">🤔 HWWW</h2>
                     {loading ? (
                         <div className="h-32 bg-gray-200 rounded"></div>
                     ) : project?.data?.analysis?.validation?.hww ? (
@@ -46,7 +46,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
 
                 {/* Market Size Analysis */}
                 <div ref={tamSamSomRef} className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                    <h2 className="text-xl font-bold mb-4">TAM-SAM-SOM</h2>
+                    <h2 className="text-xl font-bold mb-4">📊 TAM-SAM-SOM</h2>
                     {loading ? (
                         <div className="h-32 bg-gray-200 rounded"></div>
                     ) : project?.data?.analysis?.validation?.tamSamSom ? (
