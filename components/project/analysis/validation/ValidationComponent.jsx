@@ -26,7 +26,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
 
     useEffect(() => {
         const options = {
-            threshold: 0.2
+            threshold: 0.3
         };
 
         const handleIntersection = (entries) => {
