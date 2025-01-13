@@ -1,9 +1,8 @@
 export default function HwwComponent({ hww }) {
     return (
         <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
-            {/* Problem Size Section */}
             <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Problem Size</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">How big a problem is this?</h2>
                 <div className="flex flex-col md:flex-row gap-6">
                     <div className="flex-1 bg-blue-50 rounded-lg p-4">
                         <h3 className="text-lg font-semibold text-blue-800 mb-2">Overview</h3>
@@ -16,9 +15,8 @@ export default function HwwComponent({ hww }) {
                 </div>
             </section>
 
-            {/* Root Cause Analysis */}
             <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Root Cause Analysis</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why does this problem exist?</h2>
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
                     <p className="text-gray-700">{hww.root_cause}</p>
                 </div>
@@ -26,12 +24,12 @@ export default function HwwComponent({ hww }) {
 
             {/* Market Challenges & Competitors */}
             <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Market Landscape</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why is nobody solving it?</h2>
                 <div className="bg-red-50 rounded-lg p-4 mb-6">
                     <p className="text-gray-700">{hww.challenges.description}</p>
                 </div>
 
-                <h3 className="text-xl font-semibold text-gray-700 mb-4">Top Market Players</h3>
+                <h3 className="text-xl font-semibold text-gray-700 mb-4">Competitors</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {hww.challenges.competitors.map((competitor, index) => (
                         <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -62,22 +60,8 @@ export default function HwwComponent({ hww }) {
 
             {/* Target Demographics */}
             <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Target Demographics</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Who faces this problem?</h2>
                 <div className="bg-green-50 rounded-lg p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="p-4 bg-white rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-green-700 mb-2">Retail SMBs</h3>
-                            <p className="text-3xl font-bold text-green-600">42%</p>
-                        </div>
-                        <div className="p-4 bg-white rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-green-700 mb-2">Manufacturing SMBs</h3>
-                            <p className="text-3xl font-bold text-green-600">35%</p>
-                        </div>
-                        <div className="p-4 bg-white rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-green-700 mb-2">Logistics Companies</h3>
-                            <p className="text-3xl font-bold text-green-600">23%</p>
-                        </div>
-                    </div>
                     <p className="mt-4 text-gray-700">{hww.affected_demographics}</p>
                 </div>
             </section>
