@@ -14,7 +14,19 @@ const navigationItems = [
             {
                 title: '📊 TAM-SAM-SOM',
                 id: 'tam-sam-som'
-            }
+            },
+            {
+                title: '🎯 Competitor Analysis',
+                id: 'competitor-analysis'
+            },
+            {
+                title: '🔄 SWOT Analysis',
+                id: 'swot-analysis'
+            },
+            {
+                title: '📋 Summary',
+                id: 'summary'
+            },
         ]
     },
     {
