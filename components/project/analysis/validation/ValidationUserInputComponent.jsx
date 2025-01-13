@@ -77,9 +77,8 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                                 value={formData[key] || ''}
                                 onChange={(e) => handleInputChange(key, e.target.value)}
                                 rows={4}
-                                className={`w-full rounded-md border ${
-                                    errors[key] ? 'border-red-500' : 'border-gray-300'
-                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                className={`w-full rounded-md border ${errors[key] ? 'border-red-500' : 'border-gray-300'
+                                    } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
                                 placeholder={placeholders[key]}
                                 disabled={loading}
                             />
@@ -94,9 +93,8 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                                 name={key}
                                 value={formData[key] || ''}
                                 onChange={(e) => handleInputChange(key, e.target.value)}
-                                className={`w-full rounded-md border ${
-                                    errors[key] ? 'border-red-500' : 'border-gray-300'
-                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                className={`w-full rounded-md border ${errors[key] ? 'border-red-500' : 'border-gray-300'
+                                    } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
                                 placeholder={placeholders[key]}
                                 disabled={loading}
                             />
@@ -120,10 +118,10 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Generating...
+                        Vaidating...
                     </>
                 ) : (
-                    'Generate Validation'
+                    '🚀 Validate!'
                 )}
             </button>
         </form>

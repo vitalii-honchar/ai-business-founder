@@ -3,9 +3,7 @@
 import { useState, useCallback } from 'react'
 import debounce from 'lodash/debounce'
 import projecApi from '@/lib/client/api/project_api'
-import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
-import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
-import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
+import ValidationComponent from '@/components/project/analysis/validation/ValidationComponent'
 
 export default function EditProjectComponent({ project: initialProject }) {
     const [loading, setLoading] = useState(false)
@@ -74,42 +72,11 @@ export default function EditProjectComponent({ project: initialProject }) {
 
             {/* Main content */}
             <div className="w-full px-6 py-6">
-                {/* Validation Form */}
-                <div className="bg-white p-6 rounded-lg shadow mb-6">
-                    <h2 className="text-xl font-bold mb-4">Project Validation</h2>
-                    <ValidationUserInputComponent
-                        onSubmit={handleValidationSubmit}
-                        loading={loading}
-                        initialFormData={project?.data?.input?.validation || null}
-                    />
-                </div>
-
-                {/* Analysis Results - Stacked Layout */}
-                <div className="space-y-6">
-                    {/* HWW Analysis */}
-                    <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                        <h2 className="text-xl font-bold mb-4">HWWW</h2>
-                        {loading ? (
-                            <div className="h-32 bg-gray-200 rounded"></div>
-                        ) : project?.data?.analysis?.validation?.hww ? (
-                            <HwwComponent hww={project.data.analysis.validation.hww} />
-                        ) : (
-                            <p className="text-gray-500">Not generated yet</p>
-                        )}
-                    </div>
-
-                    {/* Market Size Analysis */}
-                    <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                        <h2 className="text-xl font-bold mb-4">TAM-SAM-SOM</h2>
-                        {loading ? (
-                            <div className="h-32 bg-gray-200 rounded"></div>
-                        ) : project?.data?.analysis?.validation?.tamSamSom ? (
-                            <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} />
-                        ) : (
-                            <p className="text-gray-500">Not generated yet</p>
-                        )}
-                    </div>
-                </div>
+                <ValidationComponent
+                    project={project}
+                    onSubmit={handleValidationSubmit}
+                    loading={loading}
+                />
             </div>
         </div>
     );
