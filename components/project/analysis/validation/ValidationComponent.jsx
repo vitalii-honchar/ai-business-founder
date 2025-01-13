@@ -2,6 +2,12 @@ import { useEffect, useRef } from 'react';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
 import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
+import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
+
+const userInputId = 'user-input';
+const hwwId = 'hww';
+const tamSamSomId = 'tam-sam-som';
+const validationId = 'validation';
 
 export default function ValidationComponent({ project, loading, onSubmit, activeItemId }) {
     const userInputRef = useRef(null);
@@ -9,14 +15,52 @@ export default function ValidationComponent({ project, loading, onSubmit, active
     const tamSamSomRef = useRef(null);
 
     useEffect(() => {
-        if (activeItemId === 'user-input') {
+        if (activeItemId === userInputId) {
             userInputRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === 'hww') {
+        } else if (activeItemId === hwwId) {
             hwwRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === 'tam-sam-som') {
+        } else if (activeItemId === tamSamSomId) {
             tamSamSomRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
     }, [activeItemId]);
+
+    useEffect(() => {
+        const options = {
+            threshold: 0.2
+        };
+
+        const handleIntersection = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+
+                    const item = {
+                        itemId: validationId,
+                        subItemId: null,
+                    }
+
+                    if (entry.target === userInputRef.current) {
+                        item.subItemId = userInputId;
+                    }
+                    else if (entry.target === hwwRef.current) {
+                        item.subItemId = hwwId;
+                    }
+                    else if (entry.target === tamSamSomRef.current) {
+                        item.subItemId = tamSamSomId;
+                    }
+
+                    eventEmitter.emit(eventItemVisible, item);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(handleIntersection, options);
+
+        if (userInputRef.current) observer.observe(userInputRef.current);
+        if (hwwRef.current) observer.observe(hwwRef.current);
+        if (tamSamSomRef.current) observer.observe(tamSamSomRef.current);
+
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import projecApi from '@/lib/client/api/project_api'
 import ValidationComponent from '@/components/project/analysis/validation/ValidationComponent'
@@ -8,6 +8,7 @@ import UserResearchComponent from '@/components/project/analysis/user_research/U
 import CustomerJourneyMapComponent from '@/components/project/analysis/customer_journey_map/CustomerJourneyMapComponent'
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
 import { useRouter, useSearchParams } from 'next/navigation';
+import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 
 export default function EditProjectComponent({ project: initialProject }) {
     const router = useRouter();
@@ -73,6 +74,15 @@ export default function EditProjectComponent({ project: initialProject }) {
             scroll: false
         });
     };
+
+    useEffect(() => {
+        const unsubscribe = eventEmitter.subscribe(eventItemVisible, (item) => {
+            handleItemChange(item);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
 
     return (
         <div>
