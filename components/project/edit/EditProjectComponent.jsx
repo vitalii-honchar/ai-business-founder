@@ -7,14 +7,20 @@ import ValidationComponent from '@/components/project/analysis/validation/Valida
 import UserResearchComponent from '@/components/project/analysis/user_research/UserResearchComponent'
 import CustomerJourneyMapComponent from '@/components/project/analysis/customer_journey_map/CustomerJourneyMapComponent'
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function EditProjectComponent({ project: initialProject }) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    
     const [loading, setLoading] = useState(false)
     const [project, setProject] = useState(initialProject)
     const [name, setName] = useState(initialProject.name)
     const [error, setError] = useState(null)
     const [nameLoading, setNameLoading] = useState(false)
-    const [activeStep, setActiveStep] = useState('Validation')
+    const [activeStep, setActiveStep] = useState(
+        searchParams.get('step') || 'Validation'
+    );
 
     const withLoading = (fn) => {
         return (...args) => {
@@ -55,6 +61,15 @@ export default function EditProjectComponent({ project: initialProject }) {
         debouncedUpdateProjectName.flush()
     }
 
+    const handleStepChange = (step) => {
+        setActiveStep(step);
+        const params = new URLSearchParams(searchParams);
+        params.set('step', step);
+        router.push(`/project/${project.id}?${params.toString()}`, { 
+            scroll: false 
+        });
+    };
+
     return (
         <div>
             {/* Header with name */}
@@ -80,7 +95,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 <div className="w-80 flex-shrink-0 border-r border-gray-200 bg-white p-6">
                     <NavigationPanel
                         activeStep={activeStep}
-                        onStepChange={setActiveStep}
+                        onStepChange={handleStepChange}
                     />
                 </div>
 
