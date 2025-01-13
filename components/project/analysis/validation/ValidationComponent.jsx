@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
 import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
@@ -13,8 +13,13 @@ export default function ValidationComponent({ project, loading, onSubmit, active
     const userInputRef = useRef(null);
     const hwwRef = useRef(null);
     const tamSamSomRef = useRef(null);
+    const [isManualNavigation, setIsManualNavigation] = useState(false);
 
     useEffect(() => {
+        if (!activeItemId) return;
+        
+        setIsManualNavigation(true);
+        
         if (activeItemId === userInputId) {
             userInputRef.current?.scrollIntoView({ behavior: 'smooth' });
         } else if (activeItemId === hwwId) {
@@ -22,6 +27,13 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         } else if (activeItemId === tamSamSomId) {
             tamSamSomRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
+
+        // Reset flag after scroll animation completes
+        const timer = setTimeout(() => {
+            setIsManualNavigation(false);
+        }, 1000); // Adjust timing based on scroll animation duration
+
+        return () => clearTimeout(timer);
     }, [activeItemId]);
 
     useEffect(() => {
@@ -30,9 +42,10 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         };
 
         const handleIntersection = (entries) => {
+            if (isManualNavigation) return; // Skip if manual navigation
+
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-
                     const item = {
                         itemId: validationId,
                         subItemId: null,
@@ -60,7 +73,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         if (tamSamSomRef.current) observer.observe(tamSamSomRef.current);
 
         return () => observer.disconnect();
-    }, []);
+    }, [isManualNavigation]); // Add dependency
 
     return (
         <>
