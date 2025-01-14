@@ -1,70 +1,136 @@
-export default function HwwComponent({ hww }) {
+function HwwComponent({ hww }) {
     return (
-        <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
-            <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">How big a problem is this?</h2>
-                <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex-1 bg-blue-50 rounded-lg p-4">
-                        <h3 className="text-lg font-semibold text-blue-800 mb-2">Overview</h3>
-                        <p className="text-gray-600">{hww.problem_size.description}</p>
+        <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+            {/* Problem Size Section */}
+            <section className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">How big is this problem?</h2>
+
+                {/* Overview Card */}
+                <div className="bg-blue-50 rounded-lg p-5 mb-6">
+                    <p className="text-gray-700">{hww.how_big_a_problem_is.overview.description}</p>
+                    <div className="mt-4 flex items-center space-x-2 text-blue-600">
+                        <span className="text-2xl font-bold">{hww.how_big_a_problem_is.overview.size}</span>
+                        <span className="text-sm uppercase">{hww.how_big_a_problem_is.overview.dimension}</span>
                     </div>
-                    <div className="flex-1 bg-blue-50 rounded-lg p-4">
-                        <h3 className="text-lg font-semibold text-blue-800 mb-2">Impact</h3>
-                        <p className="text-gray-700">{hww.problem_size.data}</p>
+                </div>
+
+                {/* Frequency Cards */}
+                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    {hww.how_big_a_problem_is.frequency.map((item, index) => (
+                        <div key={index} className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-700 mb-2">{item.name}</h3>
+                            <p className="text-gray-600 text-sm">{item.explanation}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Readiness to Pay */}
+                <div className="bg-green-50 rounded-lg p-5">
+                    <h3 className="font-semibold text-gray-800 mb-3">Readiness to Pay</h3>
+                    <p className="text-gray-700 mb-4">{hww.how_big_a_problem_is.readiness_to_pay.summary}</p>
+                    <div className="text-green-600 font-bold text-xl mb-4">
+                        ${hww.how_big_a_problem_is.readiness_to_pay.pricing}
+                    </div>
+                    <div className="space-y-2">
+                        {hww.how_big_a_problem_is.readiness_to_pay.researches.map((research, index) => (
+                            <div key={index} className="bg-white rounded p-3 text-sm">
+                                <span className="font-medium">{research.research}</span>
+                                <p className="text-gray-600 mt-1">{research.explanation}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why does this problem exist?</h2>
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                    <p className="text-gray-700">{hww.root_cause}</p>
-                </div>
-            </section>
-
-            {/* Market Challenges & Competitors */}
-            <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why is nobody solving it?</h2>
-                <div className="bg-red-50 rounded-lg p-4 mb-6">
-                    <p className="text-gray-700">{hww.challenges.description}</p>
-                </div>
-
-                <h3 className="text-xl font-semibold text-gray-700 mb-4">Competitors</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {hww.challenges.competitors.map((competitor, index) => (
-                        <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                            <div className="flex items-center mb-3">
-                                <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                    <span className="text-indigo-600 font-semibold">{index + 1}</span>
-                                </div>
-                                <h4 className="text-lg font-semibold text-gray-800">{competitor.name}</h4>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="flex items-center">
-                                    <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span className="text-gray-600">{competitor.revenue}</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <svg className="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                    <span className="text-gray-600">{competitor.user_base}</span>
-                                </div>
-                            </div>
+            {/* Why Does This Problem Exist Section */}
+            <section className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Why does this problem exist?</h2>
+                <p className="text-gray-700 mb-6">{hww.why_does_this_problem_exist.summary}</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                    {hww.why_does_this_problem_exist.reasons.map((reason, index) => (
+                        <div key={index} className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-700 mb-2">{reason.name}</h3>
+                            <p className="text-gray-600 text-sm">{reason.explanation}</p>
                         </div>
                     ))}
                 </div>
             </section>
 
-            {/* Target Demographics */}
-            <section className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Who faces this problem?</h2>
-                <div className="bg-green-50 rounded-lg p-6">
-                    <p className="mt-4 text-gray-700">{hww.affected_demographics}</p>
+            {/* Why Nobody Solving It Section */}
+            <section className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Why is nobody solving it?</h2>
+                <p className="text-gray-700 mb-6">{hww.why_nobody_solving_it.summary}</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                    {hww.why_nobody_solving_it.reasons.map((reason, index) => (
+                        <div key={index} className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-700 mb-2">{reason.name}</h3>
+                            <p className="text-gray-600 text-sm">{reason.explanation}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Who Faces This Problem Section */}
+            <section className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Who faces this problem?</h2>
+                <p className="text-gray-700 mb-6">{hww.who_faces_this_problem.summary}</p>
+                
+                <div className="space-y-6">
+                    {/* Characteristics */}
+                    <MetricsSection 
+                        title="Characteristics" 
+                        items={hww.who_faces_this_problem.metrics.characteristics} 
+                    />
+
+                    {/* Geography */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <h3 className="font-semibold text-gray-700 mb-2">Geography</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {hww.who_faces_this_problem.metrics.geography.map((item, index) => (
+                                <span key={index} className="bg-white px-3 py-1 rounded-full text-sm text-gray-600">
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Other Metrics Sections */}
+                    <MetricsSection 
+                        title="Psychology Patterns" 
+                        items={hww.who_faces_this_problem.metrics.psychology_patterns} 
+                    />
+                    <MetricsSection 
+                        title="Habitual Behaviour" 
+                        items={hww.who_faces_this_problem.metrics.habitual_behaviour} 
+                    />
+                    <MetricsSection 
+                        title="Trust Issues" 
+                        items={hww.who_faces_this_problem.metrics.trust_issues} 
+                    />
+                    <MetricsSection 
+                        title="Where to Find Them" 
+                        items={hww.who_faces_this_problem.metrics.where_to_find_them} 
+                    />
                 </div>
             </section>
         </div>
     );
 }
+
+function MetricsSection({ title, items }) {
+    return (
+        <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-700 mb-2">{title}</h3>
+            <div className="space-y-2">
+                {items.map((item, index) => (
+                    <div key={index} className="bg-white rounded p-3 flex justify-between items-center">
+                        <span className="text-gray-700">{item.name}</span>
+                        <span className="text-gray-600 font-medium">{item.value}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default HwwComponent;

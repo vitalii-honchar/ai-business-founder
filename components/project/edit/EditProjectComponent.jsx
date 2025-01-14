@@ -40,6 +40,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     }
 
     const handleValidationSubmit = withLoading((formData) => {
+        console.log('handleValidationSubmit:', JSON.stringify(project));
         return projecApi.generateProjectValidation(project.id, formData)
             .then(newProject => setProject(newProject));
     })
