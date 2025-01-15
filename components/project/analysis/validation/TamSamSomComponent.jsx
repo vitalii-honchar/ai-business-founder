@@ -58,43 +58,85 @@ const MarketCard = ({ title, data, color, definition }) => (
 
 const MarketLandscape = ({ data }) => {
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
-            <h2 className="text-xl font-bold text-gray-800">Market Landscape</h2>
+        <div className="bg-white rounded-lg shadow-lg p-6 mt-8 transition-all hover:shadow-xl">
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">Market Landscape</h2>
+                <div className="text-sm text-gray-500">
+                    {data.updated_at && `Last updated: ${new Date(data.updated_at).toLocaleDateString()}`}
+                </div>
+            </div>
 
-            <div className="mt-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h3 className="text-lg font-semibold mb-3">Demographics</h3>
-                        {data.demographics.map((item, index) => (
-                            <div key={index} className="flex justify-between py-2">
-                                <span className="text-gray-600">{item.name}</span>
-                                <span className="font-medium">{item.value}</span>
+            <div className="mt-6 space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Demographics Section */}
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center">
+                            <span>Demographics</span>
+                            <span className="ml-2 text-sm text-gray-500">{data.demographics?.length} segments</span>
+                        </h3>
+                        <div className="space-y-3">
+                            {data.demographics?.map((item, index) => (
+                                <div key={index} 
+                                     className="flex justify-between py-2 px-3 hover:bg-white rounded transition-colors">
+                                    <span className="text-gray-600">{item.name}</span>
+                                    <span className="font-medium">{item.value}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Market Size Section */}
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                        <h3 className="text-lg font-semibold mb-4">Market Size</h3>
+                        <div className="flex flex-col space-y-2">
+                            <p className="text-3xl font-bold text-green-600">
+                                {formatMoney(data.market_size)}
+                            </p>
+                            <div className="flex items-center text-gray-600">
+                                <span>Growth Rate: </span>
+                                <span className={`ml-2 font-semibold ${
+                                    data.growth_rate > 0 ? 'text-green-600' : 'text-red-600'
+                                }`}>
+                                    {data.growth_rate > 0 ? '+' : ''}{data.growth_rate}%
+                                </span>
                             </div>
-                        ))}
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold mb-3">Market Size</h3>
-                        <p className="text-2xl font-bold">{formatMoney(data.market_size)}</p>
-                        <p className="text-gray-600 mt-2">Growth Rate: {data.growth_rate}%</p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Opportunities</h3>
-                    <ul className="list-disc pl-5 space-y-2">
-                        {data.opportunities.map((item, index) => (
-                            <li key={index} className="text-gray-600">{item}</li>
-                        ))}
-                    </ul>
-                </div>
+                {/* Opportunities and Risks Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center">
+                            <span>Opportunities</span>
+                            <span className="ml-2 px-2 py-1 text-sm bg-green-100 text-green-700 rounded">
+                                {data.opportunities?.length}
+                            </span>
+                        </h3>
+                        <ul className="list-disc pl-5 space-y-3">
+                            {data.opportunities?.map((item, index) => (
+                                <li key={index} className="text-gray-600 hover:text-gray-900 transition-colors">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Risks</h3>
-                    <ul className="list-disc pl-5 space-y-2">
-                        {data.risks.map((item, index) => (
-                            <li key={index} className="text-gray-600">{item}</li>
-                        ))}
-                    </ul>
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold flex items-center">
+                            <span>Risks</span>
+                            <span className="ml-2 px-2 py-1 text-sm bg-red-100 text-red-700 rounded">
+                                {data.risks?.length}
+                            </span>
+                        </h3>
+                        <ul className="list-disc pl-5 space-y-3">
+                            {data.risks?.map((item, index) => (
+                                <li key={index} className="text-gray-600 hover:text-gray-900 transition-colors">
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
