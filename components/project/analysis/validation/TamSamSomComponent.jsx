@@ -43,10 +43,10 @@ const MarketCard = ({ title, data, color, definition }) => (
                 <p className="text-sm text-gray-500">Revenue Potential</p>
                 <p className="text-2xl font-bold text-gray-800">{formatMoney(data.amount_of_money)}</p>
             </div>
-            <div>
+            {data.price_per_user && (<div>
                 <p className="text-sm text-gray-500">Price per User</p>
                 <p className="text-lg font-semibold text-gray-800">{formatMoney(data.price_per_user)}</p>
-            </div>
+            </div>)}
             {data.main_restrictions && (
                 <div className="mt-4 p-3 bg-gray-50 rounded-md">
                     <p className="text-sm text-gray-600">{data.main_restrictions}</p>
@@ -57,56 +57,46 @@ const MarketCard = ({ title, data, color, definition }) => (
 );
 
 const MarketLandscape = ({ data }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full flex justify-between items-center"
-            >
-                <h2 className="text-xl font-bold text-gray-800">Market Landscape</h2>
-                {isExpanded ? <HiChevronUp className="h-6 w-6" /> : <HiChevronDown className="h-6 w-6" />}
-            </button>
+            <h2 className="text-xl font-bold text-gray-800">Market Landscape</h2>
 
-            {isExpanded && (
-                <div className="mt-6 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 className="text-lg font-semibold mb-3">Demographics</h3>
-                            {data.demographics.map((item, index) => (
-                                <div key={index} className="flex justify-between py-2">
-                                    <span className="text-gray-600">{item.name}</span>
-                                    <span className="font-medium">{item.value}</span>
-                                </div>
-                            ))}
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold mb-3">Market Size</h3>
-                            <p className="text-2xl font-bold">{formatMoney(data.market_size)}</p>
-                            <p className="text-gray-600 mt-2">Growth Rate: {data.growth_rate}%</p>
-                        </div>
+            <div className="mt-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 className="text-lg font-semibold mb-3">Demographics</h3>
+                        {data.demographics.map((item, index) => (
+                            <div key={index} className="flex justify-between py-2">
+                                <span className="text-gray-600">{item.name}</span>
+                                <span className="font-medium">{item.value}</span>
+                            </div>
+                        ))}
                     </div>
-
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Opportunities</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            {data.opportunities.map((item, index) => (
-                                <li key={index} className="text-gray-600">{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Risks</h3>
-                        <ul className="list-disc pl-5 space-y-2">
-                            {data.risks.map((item, index) => (
-                                <li key={index} className="text-gray-600">{item}</li>
-                            ))}
-                        </ul>
+                    <div>
+                        <h3 className="text-lg font-semibold mb-3">Market Size</h3>
+                        <p className="text-2xl font-bold">{formatMoney(data.market_size)}</p>
+                        <p className="text-gray-600 mt-2">Growth Rate: {data.growth_rate}%</p>
                     </div>
                 </div>
-            )}
+
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Opportunities</h3>
+                    <ul className="list-disc pl-5 space-y-2">
+                        {data.opportunities.map((item, index) => (
+                            <li key={index} className="text-gray-600">{item}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Risks</h3>
+                    <ul className="list-disc pl-5 space-y-2">
+                        {data.risks.map((item, index) => (
+                            <li key={index} className="text-gray-600">{item}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };
@@ -118,7 +108,7 @@ export default function TamSamSomComponent({ tamSamSom }) {
                 <MarketCard
                     title={"Total Addressable Market"}
                     data={tamSamSom.total_addressable_market}
-                    color={'blue'}
+                    color={'green'}
                     definition={"Total available market if 100% market share was achieved"}
                 />
                 <MarketCard
