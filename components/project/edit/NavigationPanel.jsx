@@ -20,10 +20,6 @@ const navigationItems = [
                 id: 'competitor-analysis'
             },
             {
-                title: '🔄 SWOT Analysis',
-                id: 'swot-analysis'
-            },
-            {
                 title: '📋 Summary',
                 id: 'summary'
             },
