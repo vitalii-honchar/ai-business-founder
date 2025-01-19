@@ -1,0 +1,19 @@
+
+services:
+  ai_business_founder:
+    image: weaxme/pet-project:ai-business-founder-latest
+    container_name: ai-business-founder
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=https://cumoxanvysxjeqkrzwiq.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1bW94YW52eXN4amVxa3J6d2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0OTU2MzUsImV4cCI6MjA1MjA3MTYzNX0.F3SAWfhY3FxhHDjGO321V7UvbFMDAxBWvZifSm4Mn9A
+      - ANTHROPIC_API_KEY=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
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s

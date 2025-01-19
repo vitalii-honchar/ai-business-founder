@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "docker-build": "docker build -t weaxme/pet-project:ai-business-founder-latest .",
+    "release": "ssh -i ~/.ssh/digitalocean root@192.34.62.190 \"cd env && docker compose stop ai-business-founder && docker compose pull && docker compose up -d\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.33.1",
