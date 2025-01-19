@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useScroll, useScrolling } from 'react-use';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
 import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
@@ -21,57 +22,66 @@ export default function ValidationComponent({ project, loading, onSubmit, active
     const summaryRef = useRef(null);
     const [isManualNavigation, setIsManualNavigation] = useState(false);
 
+    // Add useScroll hooks for all refs
+    useScroll(userInputRef);
+    useScroll(hwwRef);
+    useScroll(tamSamSomRef);
+    useScroll(competitorAnalysisRef);
+    useScroll(summaryRef);
+
+    // Add useScrolling hooks for all refs
+    useScrolling(userInputRef);
+    useScrolling(hwwRef);
+    useScrolling(tamSamSomRef);
+    useScrolling(competitorAnalysisRef);
+    useScrolling(summaryRef);
+
     useEffect(() => {
         if (!activeItemId) return;
 
         setIsManualNavigation(true);
 
-        if (activeItemId === userInputId) {
-            userInputRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === hwwId) {
-            hwwRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === tamSamSomId) {
-            tamSamSomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === competitorAnalysisId) {
-            competitorAnalysisRef.current?.scrollIntoView({ behavior: 'smooth' });
-        } else if (activeItemId === summaryId) {
-            summaryRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
+        const refs = {
+            [userInputId]: userInputRef,
+            [hwwId]: hwwRef,
+            [tamSamSomId]: tamSamSomRef,
+            [competitorAnalysisId]: competitorAnalysisRef,
+            [summaryId]: summaryRef
+        };
 
-        // Reset flag after scroll animation completes
+        refs[activeItemId]?.current?.scrollIntoView({ behavior: 'smooth' });
+
         const timer = setTimeout(() => {
             setIsManualNavigation(false);
-        }, 1000); // Adjust timing based on scroll animation duration
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [activeItemId]);
 
     useEffect(() => {
         const options = {
-            threshold: 0.3
+            threshold: 0.3,
+            root: null,
+            rootMargin: '0px'
         };
 
         const handleIntersection = (entries) => {
-            if (isManualNavigation) return; // Skip if manual navigation
+            if (isManualNavigation) return;
 
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
+                    const refToId = new Map([
+                        [userInputRef.current, userInputId],
+                        [hwwRef.current, hwwId],
+                        [tamSamSomRef.current, tamSamSomId],
+                        [competitorAnalysisRef.current, competitorAnalysisId],
+                        [summaryRef.current, summaryId]
+                    ]);
+
                     const item = {
                         itemId: validationId,
-                        subItemId: null,
-                    }
-
-                    if (entry.target === userInputRef.current) {
-                        item.subItemId = userInputId;
-                    } else if (entry.target === hwwRef.current) {
-                        item.subItemId = hwwId;
-                    } else if (entry.target === tamSamSomRef.current) {
-                        item.subItemId = tamSamSomId;
-                    } else if (entry.target === competitorAnalysisRef.current) {
-                        item.subItemId = competitorAnalysisId;
-                    } else if (entry.target === summaryRef.current) {
-                        item.subItemId = summaryId;
-                    }
+                        subItemId: refToId.get(entry.target)
+                    };
 
                     eventEmitter.emit(eventItemVisible, item);
                 }
@@ -80,12 +90,11 @@ export default function ValidationComponent({ project, loading, onSubmit, active
 
         const observer = new IntersectionObserver(handleIntersection, options);
 
-        if (userInputRef.current) observer.observe(userInputRef.current);
-        if (hwwRef.current) observer.observe(hwwRef.current);
-        if (tamSamSomRef.current) observer.observe(tamSamSomRef.current);
+        [userInputRef, hwwRef, tamSamSomRef, competitorAnalysisRef, summaryRef]
+            .forEach(ref => ref.current && observer.observe(ref.current));
 
         return () => observer.disconnect();
-    }, [isManualNavigation]); // Add dependency
+    }, [isManualNavigation]);
 
     return (
         <>
@@ -100,9 +109,9 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             </div>
 
             {/* Analysis Results - Stacked Layout */}
-            <div className="space-y-6" ref={hwwRef}>
+            <div className="space-y-6">
                 {/* HWW Analysis */}
-                <div className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
+                <div ref={hwwRef} className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
                     <h2 className="text-xl font-bold mb-4">🤔 HWWW</h2>
                     {loading ? (
                         <div className="h-32 bg-gray-200 rounded"></div>
@@ -135,7 +144,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                     )}
                 </div>
                 <div ref={summaryRef} className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
-                    <h2 className="text-xl font-bold mb-4">🎯 Competitor Analysis</h2>
+                    <h2 className="text-xl font-bold mb-4">📋 Summary</h2>
                     {loading ? (
                         <div className="h-32 bg-gray-200 rounded"></div>
                     ) : project?.data?.analysis?.validation?.summary ? (
