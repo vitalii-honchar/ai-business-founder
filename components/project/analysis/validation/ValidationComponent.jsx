@@ -3,6 +3,7 @@ import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
 import TamSamSomComponent from '@/components/project/analysis/validation/TamSamSomComponent'
 import CompetitorAnalysisComponent from '@/components/project/analysis/validation/CompetitorAnalysisComponent';
+import SummaryComponent from '@/components/project/analysis/validation/SummaryComponent';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 
 const userInputId = 'user-input';
@@ -10,12 +11,14 @@ const hwwId = 'hww';
 const tamSamSomId = 'tam-sam-som';
 const validationId = 'validation';
 const competitorAnalysisId = 'competitor-analysis';
+const summaryId = 'summary';
 
 export default function ValidationComponent({ project, loading, onSubmit, activeItemId }) {
     const userInputRef = useRef(null);
     const hwwRef = useRef(null);
     const tamSamSomRef = useRef(null);
     const competitorAnalysisRef = useRef(null);
+    const summaryRef = useRef(null);
     const [isManualNavigation, setIsManualNavigation] = useState(false);
 
     useEffect(() => {
@@ -31,6 +34,8 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             tamSamSomRef.current?.scrollIntoView({ behavior: 'smooth' });
         } else if (activeItemId === competitorAnalysisId) {
             competitorAnalysisRef.current?.scrollIntoView({ behavior: 'smooth' });
+        } else if (activeItemId === summaryId) {
+            summaryRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
 
         // Reset flag after scroll animation completes
@@ -64,6 +69,8 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         item.subItemId = tamSamSomId;
                     } else if (entry.target === competitorAnalysisRef.current) {
                         item.subItemId = competitorAnalysisId;
+                    } else if (entry.target === summaryRef.current) {
+                        item.subItemId = summaryId;
                     }
 
                     eventEmitter.emit(eventItemVisible, item);
@@ -123,6 +130,16 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         <div className="h-32 bg-gray-200 rounded"></div>
                     ) : project?.data?.analysis?.validation?.competitorAnalysis ? (
                         <CompetitorAnalysisComponent competitorAnalysis={project.data.analysis.validation.competitorAnalysis} />
+                    ) : (
+                        <p className="text-gray-500">Not analyzed yet</p>
+                    )}
+                </div>
+                <div ref={summaryRef} className={`bg-white p-6 rounded-lg shadow ${loading ? 'animate-pulse' : ''}`}>
+                    <h2 className="text-xl font-bold mb-4">🎯 Competitor Analysis</h2>
+                    {loading ? (
+                        <div className="h-32 bg-gray-200 rounded"></div>
+                    ) : project?.data?.analysis?.validation?.summary ? (
+                        <SummaryComponent summary={project.data.analysis.validation.summary} />
                     ) : (
                         <p className="text-gray-500">Not analyzed yet</p>
                     )}
