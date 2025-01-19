@@ -22,6 +22,8 @@ RUN npm ci --omit=dev
 # Stage 2: Create a lightweight production image
 FROM node:20-alpine AS runner
 
+RUN apk --no-cache add ca-certificates curl
+
 # Set environment variables for production
 ENV NODE_ENV=production
 ENV PORT=3000

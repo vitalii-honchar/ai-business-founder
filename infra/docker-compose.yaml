@@ -1,8 +1,8 @@
 
 services:
-  ai_business_founder:
+  aifounder:
     image: weaxme/pet-project:ai-business-founder-latest
-    container_name: ai-business-founder
+    container_name: aifounder
     environment:
       - NEXT_PUBLIC_SUPABASE_URL=https://cumoxanvysxjeqkrzwiq.supabase.co
       - NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1bW94YW52eXN4amVxa3J6d2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0OTU2MzUsImV4cCI6MjA1MjA3MTYzNX0.F3SAWfhY3FxhHDjGO321V7UvbFMDAxBWvZifSm4Mn9A
