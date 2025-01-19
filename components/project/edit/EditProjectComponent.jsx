@@ -42,7 +42,10 @@ export default function EditProjectComponent({ project: initialProject }) {
     const handleValidationSubmit = withLoading((formData) => {
         console.log('handleValidationSubmit:', JSON.stringify(project));
         return projecApi.generateProjectValidation(project.id, formData)
-            .then(newProject => setProject(newProject));
+            .then(newProject => {
+                setProject(newProject);
+                setName(newProject.name);
+            });
     })
 
     const debouncedUpdateProjectName = useCallback(

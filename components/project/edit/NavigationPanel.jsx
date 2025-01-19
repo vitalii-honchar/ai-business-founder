@@ -25,34 +25,6 @@ const navigationItems = [
             },
         ]
     },
-    {
-        title: '🔍 User Research',
-        id: 'user-research',
-        subItems: [
-            {
-                title: '🎤 Interviews',
-                id: 'interviews'
-            },
-            {
-                title: '📝 Surveys',
-                id: 'surveys'
-            }
-        ]
-    },
-    {
-        title: '🗺️ Customer Journey Map',
-        id: 'journey-map',
-        subItems: [
-            {
-                title: '📍 Touchpoints',
-                id: 'touchpoints'
-            },
-            {
-                title: '❗ Pain Points',
-                id: 'pain-points'
-            }
-        ]
-    }
 ];
 
 const NavigationPanel = ({ onNavigate, activeItem }) => {
