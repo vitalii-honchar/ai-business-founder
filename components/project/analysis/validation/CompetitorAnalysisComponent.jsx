@@ -85,39 +85,48 @@ function SwotTable({ swotAnalysis }) {
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
             <h2 className="text-xl font-bold text-gray-800 mb-6">SWOT Analysis</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-green-700">Strengths</h3>
-                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        {swotAnalysis[0].strengths.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-red-700">Weaknesses</h3>
-                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        {swotAnalysis[0].weaknesses.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-blue-700">Opportunities</h3>
-                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        {swotAnalysis[0].opportunities.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-yellow-700">Threats</h3>
-                    <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        {swotAnalysis[0].threats.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
+            <div className="space-y-8">
+                {swotAnalysis.map((analysis, index) => (
+                    <div key={index} className={`${index > 0 ? 'pt-8 border-t border-gray-200' : ''}`}>
+                        <h3 className="text-lg font-bold text-gray-700 mb-4">
+                            {analysis.competitor || 'Competitor Analysis'}
+                        </h3>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="bg-green-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <h4 className="text-base font-semibold text-green-700 mb-3">Strengths</h4>
+                                <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
+                                    {analysis.strengths.map((item, i) => (
+                                        <li key={i} className="leading-relaxed">{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="bg-red-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <h4 className="text-base font-semibold text-red-700 mb-3">Weaknesses</h4>
+                                <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
+                                    {analysis.weaknesses.map((item, i) => (
+                                        <li key={i} className="leading-relaxed">{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="bg-blue-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <h4 className="text-base font-semibold text-blue-700 mb-3">Opportunities</h4>
+                                <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
+                                    {analysis.opportunities.map((item, i) => (
+                                        <li key={i} className="leading-relaxed">{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="bg-yellow-50 p-4 rounded-lg hover:shadow-md transition-shadow">
+                                <h4 className="text-base font-semibold text-yellow-700 mb-3">Threats</h4>
+                                <ul className="list-disc list-inside text-sm text-gray-600 space-y-2">
+                                    {analysis.threats.map((item, i) => (
+                                        <li key={i} className="leading-relaxed">{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

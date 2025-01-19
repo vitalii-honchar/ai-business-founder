@@ -131,7 +131,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </div>
 
                 {/* Main scrollable content */}
-                <div className="flex-1 overflow-y-auto px-6 py-6">
+                <div className="flex-1 overflow-x-hidden overflow-y-auto px-6 py-6">
                     {activeItem.itemId === 'validation' && (
                         <ValidationComponent
                             activeItemId={activeItem.subItemId}
