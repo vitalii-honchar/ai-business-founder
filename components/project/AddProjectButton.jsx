@@ -26,7 +26,7 @@ const AddProjectButton = () => {
         const newProject = await createProject();
         console.log('newProject', newProject);
         if (newProject) {
-            router.push(`/project/${newProject.id}`);
+            router.push(`/app/project/${newProject.id}`);
         }
     };
 
