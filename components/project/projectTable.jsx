@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const ProjectTable = ({ projects }) => {
     return (
         <div className="overflow-x-auto shadow-lg rounded-lg">
@@ -17,17 +19,15 @@ const ProjectTable = ({ projects }) => {
                         >
                             <td className="py-3 px-6">{project.name}</td>
                             <td className="py-3 px-6">
-                                <a href={`/project/${project.id}`}>
-                                    <button className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200">
-                                        Open
-                                    </button>
-                                </a>
+                                <Link href={`/app/project/${project.id}`} className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200">
+                                    Open
+                                </Link>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div >
     );
 };
 
