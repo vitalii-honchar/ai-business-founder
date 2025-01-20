@@ -33,12 +33,17 @@ export async function signup(formData) {
         password: formData.get('password'),
     }
 
+    if (data.email === "" || data.password === "") {
+        const errorMessage = encodeURIComponent('Email and password are required');
+        redirect(`/login?error=${errorMessage}`);
+    }
+
     const { error } = await supabase.auth.signUp(data)
 
     if (error) {
         redirect('/error')
     }
 
-    revalidatePath('/', 'layout')
-    redirect('/')
+    const infoMessage = encodeURIComponent('Account created. Please confirm your email and sign in.');
+    redirect(`/login?info=${infoMessage}`);
 }

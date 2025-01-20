@@ -2,8 +2,8 @@ import { login, signup } from "./actions";
 
 const LoginPage = async ({ searchParams }) => {
   const params = await searchParams;
-  console.log("params", params)
   const errorMessage = params.error;
+  const infoMessage = params.info;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -12,6 +12,11 @@ const LoginPage = async ({ searchParams }) => {
         {errorMessage && (
           <div className="text-red-700 bg-red-100 border border-red-400 p-4 rounded mt-4 font-bold">
             {decodeURIComponent(errorMessage)}
+          </div>
+        )}
+        {infoMessage && (
+          <div className="text-blue-700 bg-blue-100 border border-blue-400 p-4 rounded mt-4 font-bold">
+            {decodeURIComponent(infoMessage)}
           </div>
         )}
         <form className="space-y-6">
@@ -47,15 +52,15 @@ const LoginPage = async ({ searchParams }) => {
               Login
             </button>
           </div>
+          <div>
+            <button
+              formAction={signup}
+              className="w-full px-4 py-2 mt-4 text-white bg-gray-500 rounded hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-200"
+            >
+              Register
+            </button>
+          </div>
         </form>
-        <div>
-          <button
-            formAction={signup}
-            className="w-full px-4 py-2 mt-4 text-white bg-gray-500 rounded hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-200"
-          >
-            Register
-          </button>
-        </div>
       </div>
     </div>
   );
