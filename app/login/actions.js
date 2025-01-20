@@ -31,6 +31,9 @@ export async function signup(formData) {
     const data = {
         email: formData.get('email'),
         password: formData.get('password'),
+        options: {
+            emailRedirectTo: `${process.env.BASE_URL}/login?info=${encodeURIComponent('Account confirmed. Please sign in.')}`,
+        },
     }
 
     if (data.email === "" || data.password === "") {
