@@ -16,6 +16,8 @@ COPY . .
 # Build the Next.js application
 RUN npm run build
 
+RUN npm prune --production
+
 # Stage 2: Create a lightweight production image
 FROM node:20-alpine AS runner
 
