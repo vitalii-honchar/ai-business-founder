@@ -8,20 +8,18 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile
+RUN npm ci
 
-# Copy the entire project to the container
+# Copy the rest of the project files to the container
 COPY . .
 
 # Build the Next.js application
 RUN npm run build
 
-# Install only production dependencies
-RUN npm ci --omit=dev
-
 # Stage 2: Create a lightweight production image
 FROM node:20-alpine AS runner
 
+# Install essential tools for production
 RUN apk --no-cache add ca-certificates curl
 
 # Set environment variables for production
@@ -31,11 +29,11 @@ ENV PORT=3000
 # Set the working directory
 WORKDIR /app
 
-# Copy the production build and dependencies from the builder stage
-COPY --from=builder /app/.next /app/.next
+# Copy necessary files from the builder stage
 COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/public /app/public
+COPY --from=builder /app/node_modules /app/node_modules
 
 # Expose the port
 EXPOSE 3000
