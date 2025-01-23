@@ -133,7 +133,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                         value={name || ''}
                         onChange={handleNameChange}
                         onBlur={handleBlur}
-                        className="text-xl sm:text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight w-full bg-transparent border-0 focus:ring-0 focus:outline-none"
+                        className="text-lg sm:text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight w-full bg-transparent border-0 focus:ring-0 focus:outline-none truncate"
                         placeholder="Enter project name"
                     />
                     {nameLoading && (
