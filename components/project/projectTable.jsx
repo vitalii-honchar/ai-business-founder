@@ -6,8 +6,8 @@ const ProjectTable = ({ projects }) => {
             <table className="min-w-full bg-white rounded-lg">
                 <thead className="bg-gray-100">
                     <tr className="text-gray-700">
-                        <th className="py-3 px-6 text-left">Project Name</th>
-                        <th className="py-3 px-6 text-left">Action</th>
+                        <th className="py-3 px-4 sm:px-6 text-left">Project Name</th>
+                        <th className="py-3 px-4 sm:px-6 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,9 +17,9 @@ const ProjectTable = ({ projects }) => {
                             className={`hover:bg-gray-100 ${index % 2 === 0 ? "bg-white" : "bg-white"
                                 }`}
                         >
-                            <td className="py-3 px-6">{project.name}</td>
-                            <td className="py-3 px-6">
-                                <Link href={`/application/project/${project.id}`} className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200">
+                            <td className="py-3 px-4 sm:px-6">{project.name}</td>
+                            <td className="py-3 px-4 sm:px-6">
+                                <Link href={`/application/project/${project.id}`} className="bg-blue-500 text-white font-semibold px-3 py-2 sm:px-4 sm:py-2 rounded-lg shadow hover:bg-blue-600 transition-all duration-200">
                                     Open
                                 </Link>
                             </td>
