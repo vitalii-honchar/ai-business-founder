@@ -1,3 +1,12 @@
+function formatNumber(num) {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
+}
+
 function HwwComponent({ hww }) {
     return (
          <div className="max-w-full mx-auto sm:px-2 sm:py-2 space-y-4">
@@ -9,7 +18,7 @@ function HwwComponent({ hww }) {
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
                     <p className="text-gray-700">{hww.how_big_a_problem_is.overview.description}</p>
                     <div className="mt-2 flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 text-blue-600">
-                        <span className="text-2xl font-bold">{hww.how_big_a_problem_is.overview.size}</span>
+                        <span className="text-2xl font-bold">{formatNumber(hww.how_big_a_problem_is.overview.size)}</span>
                         <span className="text-sm uppercase">{hww.how_big_a_problem_is.overview.dimension}</span>
                     </div>
                 </div>
