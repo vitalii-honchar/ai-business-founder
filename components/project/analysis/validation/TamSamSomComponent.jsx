@@ -18,38 +18,38 @@ const formatMoney = (num) => {
 };
 
 const MarketCard = ({ title, data, color, definition }) => (
-    <div className={`bg-white rounded-lg shadow-lg p-6 border-l-4 border-${color}-500`}>
-        <div className="flex items-center mb-4">
-            <div className={`h-12 w-12 rounded-full flex items-center justify-center mr-4 bg-${color}-100 text-${color}-600`}>
+    <div className={`bg-white rounded-lg shadow-lg p-4 sm:p-6 border-l-4 border-${color}-500`}>
+        <div className="flex items-center mb-2 sm:mb-4">
+            <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center mr-3 sm:mr-4 bg-${color}-100 text-${color}-600`}>
                 {title.split(' ').map(word => word[0]).join('')}
             </div>
             <div className="flex items-center">
-                <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-                <div className="group relative ml-2">
-                    <HiInformationCircle className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    <div className="invisible group-hover:visible absolute left-0 z-10 w-64 p-2 mt-1 text-sm text-white bg-gray-900 rounded-md shadow-lg">
+                <h3 className="text-md sm:text-lg font-semibold text-gray-800">{title}</h3>
+                <div className="group relative ml-1 sm:ml-2">
+                    <HiInformationCircle className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 hover:text-gray-600" />
+                    <div className="invisible group-hover:visible absolute left-0 z-10 w-48 sm:w-64 p-2 mt-1 text-xs sm:text-sm text-white bg-gray-900 rounded-md shadow-lg">
                         {definition}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-2 sm:space-y-4">
             <div>
-                <p className="text-sm text-gray-500">Users</p>
-                <p className="text-2xl font-bold text-gray-800">{formatNumber(data.number_of_users)}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Users</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{formatNumber(data.number_of_users)}</p>
             </div>
             <div>
-                <p className="text-sm text-gray-500">Revenue Potential</p>
-                <p className="text-2xl font-bold text-gray-800">{formatMoney(data.amount_of_money)}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Revenue Potential</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-800">{formatMoney(data.amount_of_money)}</p>
             </div>
             {data.price_per_user && (<div>
-                <p className="text-sm text-gray-500">Price per User</p>
-                <p className="text-lg font-semibold text-gray-800">{formatMoney(data.price_per_user)}</p>
+                <p className="text-xs sm:text-sm text-gray-500">Price per User</p>
+                <p className="text-md sm:text-lg font-semibold text-gray-800">{formatMoney(data.price_per_user)}</p>
             </div>)}
             {data.main_restrictions && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                    <p className="text-sm text-gray-600">{data.main_restrictions}</p>
+                <div className="mt-2 sm:mt-4 p-2 sm:p-3 bg-gray-50 rounded-md">
+                    <p className="text-xs sm:text-sm text-gray-600">{data.main_restrictions}</p>
                 </div>
             )}
         </div>
@@ -145,8 +145,8 @@ const MarketLandscape = ({ data }) => {
 
 export default function TamSamSomComponent({ tamSamSom }) {
     return (
-        <div className="w-full max-w-7xl mx-auto p-6 space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-full max-w-7xl mx-auto sm:p-6 sm:space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <MarketCard
                     title={"Total Addressable Market"}
                     data={tamSamSom.total_addressable_market}
