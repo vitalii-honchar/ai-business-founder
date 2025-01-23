@@ -74,9 +74,8 @@ export default function EditProjectComponent({ project: initialProject }) {
         const params = new URLSearchParams(searchParams);
         params.set('itemId', item.itemId);
         params.set('subItemId', item.subItemId);
-        router.push(`/application/project/${project.id}?${params.toString()}`, {
-            scroll: false
-        });
+        const newUrl = `/application/project/${project.id}?${params.toString()}`;
+        window.history.pushState(null, '', newUrl);
     };
 
     useEffect(() => {
