@@ -29,7 +29,7 @@ const navigationItems = [
 
 const NavigationPanel = ({ onNavigate, activeItem }) => {
     return (
-        <nav className="p-4">
+        <nav className="p-2 sm:p-4">
             {navigationItems.map((item) => (
                 <div key={item.id} className="mb-2">
                     <div
@@ -43,13 +43,13 @@ const NavigationPanel = ({ onNavigate, activeItem }) => {
                         {item.title}
                     </div>
                     {item.subItems && activeItem.itemId === item.id && (
-                        <div className="pl-6 mt-1">
+                        <div className="pl-4 sm:pl-6 mt-1">
                             {item.subItems.map((subItem) => (
                                 <div
                                     key={subItem.id}
                                     className={`
                     py-1.5 px-3 rounded-md cursor-pointer
-                    text-sm text-gray-600
+                    text-sm sm:text-base text-gray-600
                     hover:bg-gray-50 hover:text-gray-900
                     transition-colors
                     ${activeItem.subItemId === subItem.id ? 'bg-blue-50 text-blue-600' : ''}

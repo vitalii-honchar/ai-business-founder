@@ -25,6 +25,15 @@ export default function EditProjectComponent({ project: initialProject }) {
             subItemId: searchParams.get('subItemId') || 'user-input'
         }
     );
+    const [isNavOpen, setIsNavOpen] = useState(false);
+
+    const toggleNav = () => {
+        setIsNavOpen(!isNavOpen);
+    };
+
+    const closeNav = () => {
+        setIsNavOpen(false);
+    };
 
     const withLoading = (fn) => {
         return (...args) => {
@@ -76,6 +85,7 @@ export default function EditProjectComponent({ project: initialProject }) {
         params.set('subItemId', item.subItemId);
         const newUrl = `/application/project/${project.id}?${params.toString()}`;
         window.history.pushState(null, '', newUrl);
+        closeNav();
     };
 
     useEffect(() => {
@@ -89,7 +99,7 @@ export default function EditProjectComponent({ project: initialProject }) {
 
     return (
         // Make container full width and min-height on mobile
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full relative">
             {/* Error alert - make it stack on mobile */}
             {error && (
                 <div className="mx-4 my-2 sm:mx-0 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -108,28 +118,42 @@ export default function EditProjectComponent({ project: initialProject }) {
             )}
 
             {/* Header - adjust padding and text size for mobile */}
-            <div className="border-b border-gray-200 bg-white px-4 py-3 sm:px-6 sm:py-5">
-                <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                        <input
-                            type="text"
-                            value={name || ''}
-                            onChange={handleNameChange}
-                            onBlur={handleBlur}
-                            className="text-xl sm:text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight w-full bg-transparent border-0 focus:ring-0 focus:outline-none"
-                            placeholder="Enter project name"
-                        />
-                        {nameLoading && (
-                            <span className="text-xs sm:text-sm text-gray-500">Saving...</span>
-                        )}
-                    </div>
+            <div className="border-b border-gray-200 bg-white px-4 py-3 sm:px-6 sm:py-5 flex items-center justify-between">
+                <button
+                    className="sm:hidden mr-4"
+                    onClick={toggleNav}
+                >
+                    <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <div className="flex-1 min-w-0">
+                    <input
+                        type="text"
+                        value={name || ''}
+                        onChange={handleNameChange}
+                        onBlur={handleBlur}
+                        className="text-xl sm:text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight w-full bg-transparent border-0 focus:ring-0 focus:outline-none"
+                        placeholder="Enter project name"
+                    />
+                    {nameLoading && (
+                        <span className="text-xs sm:text-sm text-gray-500">Saving...</span>
+                    )}
                 </div>
             </div>
 
             {/* Content layout - stack on mobile, side-by-side on desktop */}
             <div className="flex flex-col sm:flex-row h-[calc(100vh-88px)]">
                 {/* Navigation panel - full width on mobile, fixed width on desktop */}
-                <div className="w-full sm:w-80 flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200 bg-white p-4 sm:p-6">
+                <div className={`fixed inset-0 z-50 bg-white p-4 sm:p-6 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:relative sm:translate-x-0 sm:w-80 sm:flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200`}>
+                    <button
+                        className="sm:hidden mb-4"
+                        onClick={toggleNav}
+                    >
+                        <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                     <NavigationPanel
                         activeItem={activeItem}
                         onNavigate={handleItemChange}
