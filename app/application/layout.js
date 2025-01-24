@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { HiLogout } from 'react-icons/hi';
 
 export default function AppLayout({ children }) {
@@ -6,7 +7,14 @@ export default function AppLayout({ children }) {
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
             <header className="bg-white shadow">
                 <div className="w-full p-4 flex justify-between items-center">
-                    <Link href="/" className="text-xl sm:text-2xl font-bold">
+                    <Link href="/" className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                        <Image
+                            src="/favicon.ico"
+                            alt="AI Founder Logo"
+                            width={48}
+                            height={48}
+                            className="w-8 h-8"
+                        />
                         AI Founder
                     </Link>
                     <Link href="/logout" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
