@@ -1,17 +1,17 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import debounce from 'lodash/debounce'
 import projecApi from '@/lib/client/api/project_api'
 import ValidationComponent from '@/components/project/analysis/validation/ValidationComponent'
 import UserResearchComponent from '@/components/project/analysis/user_research/UserResearchComponent'
 import CustomerJourneyMapComponent from '@/components/project/analysis/customer_journey_map/CustomerJourneyMapComponent'
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 
 export default function EditProjectComponent({ project: initialProject }) {
-    const router = useRouter();
+    const nameInputRef = useRef(null);
     const searchParams = useSearchParams();
 
     const [loading, setLoading] = useState(false)
@@ -96,7 +96,6 @@ export default function EditProjectComponent({ project: initialProject }) {
         return () => unsubscribe();
     }, []);
 
-
     return (
         <div className="min-h-screen w-full relative">
             {/* Error alert */}
@@ -128,6 +127,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </button>
                 <div className="flex-1 min-w-0">
                     <input
+                        ref={nameInputRef}
                         type="text"
                         value={name || ''}
                         onChange={handleNameChange}
