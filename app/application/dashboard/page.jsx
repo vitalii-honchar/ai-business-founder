@@ -13,7 +13,9 @@ const DashboardPage = async () => {
 
   return (
     <div className="container mx-auto sm:p-4 lg:p-8">
-      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6">Projects</h1>
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6">
+        🚀 Projects
+      </h1>
 
       {projects.length === 0 ? (
         <EmptyState />
