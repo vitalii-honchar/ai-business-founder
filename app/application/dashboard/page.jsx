@@ -1,4 +1,4 @@
-import ProjectTable from '@/components/project/ProjectTable';
+import ProjectCards from '@/components/project/ProjectCards';
 import AddProjectButton from '@/components/project/AddProjectButton';
 import projectRepo from '@/lib/db/repository/project_repo';
 
@@ -12,11 +12,11 @@ const DashboardPage = async () => {
 
   return (
     <div className="container mx-auto sm:p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4">Projects</h1>
         <AddProjectButton />
       </div>
-      <ProjectTable projects={projects} />
+      <ProjectCards projects={projects} />
     </div>
   );
 };
