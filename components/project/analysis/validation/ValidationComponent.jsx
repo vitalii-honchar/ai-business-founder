@@ -9,7 +9,7 @@ import SummaryComponent from '@/components/project/analysis/validation/SummaryCo
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 
 const sections = [
-    { id: 'user-input', label: 'User Input', icon: '✅' },
+    { id: 'user-input', label: 'User Input', icon: '👤' },
     { id: 'hww', label: 'HWW', icon: '🤔' },
     { id: 'tam-sam-som', label: 'TAM-SAM-SOM', icon: '📊' },
     { id: 'competitor-analysis', label: 'Competitor Analysis', icon: '🎯' },
@@ -52,7 +52,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         switch (activeItemId) {
             case 'user-input':
                 return (
-                    <ComponentCard title="Idea Validation" icon={currentSection.icon} loading={loading}>
+                    <ComponentCard title="User Input" icon={currentSection.icon} loading={loading}>
                         <ValidationUserInputComponent
                             onSubmit={onSubmit}
                             loading={loading}
@@ -113,6 +113,8 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 onNext={handleNext}
                 prevLabel={currentSectionIndex > 0 ? sections[currentSectionIndex - 1].label : ''}
                 nextLabel={currentSectionIndex < sections.length - 1 ? sections[currentSectionIndex + 1].label : ''}
+                prevIcon={currentSectionIndex > 0 ? sections[currentSectionIndex - 1].icon : null}
+                nextIcon={currentSectionIndex < sections.length - 1 ? sections[currentSectionIndex + 1].icon : null}
             />
         </div>
     );
