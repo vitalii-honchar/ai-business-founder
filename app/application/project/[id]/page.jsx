@@ -2,7 +2,7 @@ import EditProjectComponent from "@/components/project/edit/EditProjectComponent
 import { createClient } from "@/lib/db/dbServer";
 
 export async function generateMetadata({ params }) {
-    const { id } = params;
+    const { id } = await params;
     const supabase = await createClient();
     const { data: project } = await supabase
         .from('projects')
