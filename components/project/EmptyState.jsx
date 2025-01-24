@@ -1,4 +1,11 @@
-const EmptyState = ({ onCreateProject }) => {
+'use client';
+
+import createProject from '@/components/project/createProject';
+import { useRouter } from 'next/navigation';
+
+const EmptyState = () => {
+    const router = useRouter();
+
     return (
         <div className="text-center py-12 px-4 rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
             <svg
@@ -18,7 +25,7 @@ const EmptyState = ({ onCreateProject }) => {
             <h3 className="mt-4 text-lg font-medium text-gray-900">No projects yet</h3>
             <p className="mt-2 text-sm text-gray-500">Get started by creating your first AI business project.</p>
             <button
-                onClick={onCreateProject}
+                onClick={() => createProject(router)}
                 className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
