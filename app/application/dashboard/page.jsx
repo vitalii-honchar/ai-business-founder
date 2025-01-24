@@ -1,10 +1,11 @@
 import ProjectCards from '@/components/project/ProjectCards';
+import EmptyState from '@/components/project/EmptyState';
 import AddProjectButton from '@/components/project/AddProjectButton';
 import projectRepo from '@/lib/db/repository/project_repo';
 
 export const metadata = {
-    title: 'Dashboard',
-    description: 'Manage your AI-powered business projects and track their progress'
+  title: 'Dashboard',
+  description: 'Manage your AI-powered business projects and track their progress'
 };
 
 const DashboardPage = async () => {
@@ -12,11 +13,16 @@ const DashboardPage = async () => {
 
   return (
     <div className="container mx-auto sm:p-4 lg:p-8">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4">Projects</h1>
-        <AddProjectButton />
-      </div>
-      <ProjectCards projects={projects} />
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6">Projects</h1>
+
+      {projects.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <>
+          <ProjectCards projects={projects} />
+          <AddProjectButton />
+        </>
+      )}
     </div>
   );
 };
