@@ -9,7 +9,7 @@ function formatNumber(num) {
 
 function HwwComponent({ hww }) {
     return (
-         <div className="max-w-full mx-auto sm:px-2 sm:py-2 space-y-4">
+         <>
             {/* Problem Size Section */}
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">How big is this problem?</h2>
@@ -122,7 +122,7 @@ function HwwComponent({ hww }) {
                     />
                 </div>
             </section>
-        </div>
+        </>
     );
 }
 

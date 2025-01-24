@@ -134,17 +134,7 @@ function SwotTable({ swotAnalysis }) {
 
 export default function CompetitorAnalysisComponent({ competitorAnalysis }) {
     return (
-        <div className="w-full max-w-7xl mx-auto sm:p-4 space-y-6 sm:space-y-8">
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-800">Competitor Analysis</h2>
-                <div className="group relative">
-                    <HiInformationCircle className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                    <div className="invisible group-hover:visible absolute right-0 w-40 sm:w-48 p-2 mt-1 text-xs sm:text-sm text-white bg-gray-900 rounded-md shadow-lg">
-                        Analysis of top competitors in the market
-                    </div>
-                </div>
-            </div>
-
+        <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {competitorAnalysis.competitors.map((competitor, index) => (
                     <CompetitorCard key={index} competitor={competitor} />
@@ -152,6 +142,6 @@ export default function CompetitorAnalysisComponent({ competitorAnalysis }) {
             </div>
 
             <SwotTable swotAnalysis={competitorAnalysis.swot_analysis} />
-        </div>
+        </>
     );
 }
