@@ -13,18 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "AI Business Founder",
-  description: "Found your business with AI",
+  title: {
+    default: "AI Business Founder",
+    template: "%s | AI Business Founder"
+  },
+  description: "Launch and grow your business with AI-powered insights and strategies",
+  keywords: ["AI business", "startup", "business planning", "artificial intelligence"],
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {children}
-        </body>
-      </html>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
