@@ -14,7 +14,7 @@ export default function SummaryComponent({ summary }) {
     };
     
     return (
-        <div className="space-y-4 md:space-y-6 md:p-4">
+        <div className="">
             {/* Recommendation Card */}
             <div className="bg-white rounded-lg shadow p-4 md:p-6">
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-2 md:mb-4">
@@ -84,7 +84,7 @@ export default function SummaryComponent({ summary }) {
             </div>
 
             {/* Similar Problems */}
-            <div className="bg-white rounded-lg shadow p-4 md:p-6">
+            <div className="bg-white rounded-lg shadow p-4 md:p-6 mt-8">
                 <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-4">Similar Problems</h2>
                 <div className="space-y-2 md:space-y-4">
                     {similar_problems.map((problem, index) => (

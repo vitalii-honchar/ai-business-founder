@@ -141,10 +141,10 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </div>
             </div>
 
-            {/* Content layout - modified for single component view */}
+            {/* Content layout - modified for better space utilization */}
             <div className="flex flex-col sm:flex-row h-[calc(100vh-88px)]">
-                {/* Navigation panel */}
-                <div className={`fixed inset-0 z-50 bg-white p-2 sm:p-6 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:relative sm:translate-x-0 sm:w-80 sm:flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200`}>
+                {/* Navigation panel - make it narrower */}
+                <div className={`fixed inset-0 z-50 bg-white p-2 sm:p-4 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:relative sm:translate-x-0 sm:w-64 sm:flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200`}>
                     <button
                         className="sm:hidden mb-4"
                         onClick={toggleNav}
@@ -159,9 +159,9 @@ export default function EditProjectComponent({ project: initialProject }) {
                     />
                 </div>
 
-                {/* Main content - now shows one component at a time */}
-                <div className="flex-1 overflow-x-hidden overflow-y-auto">
-                    <div className="max-w-3xl mx-auto px-4 py-6">
+                {/* Main content - maximize width and adjust padding */}
+                <div className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+                    <div className="h-full mx-auto px-2 sm:px-4 py-4">
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}

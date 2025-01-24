@@ -63,7 +63,7 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
     }
 
     return (
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="w-full max-w-7xl mx-auto" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 {orderedFields.map(key => (
                     <div key={key}>
