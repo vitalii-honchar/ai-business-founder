@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import NavigationButtons from '@/components/common/NavigationButtons';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
@@ -16,7 +17,14 @@ const sections = [
 ];
 
 export default function ValidationComponent({ project, loading, onSubmit, activeItemId }) {
+    const contentRef = useRef(null);
     const currentSectionIndex = sections.findIndex(section => section.id === activeItemId);
+
+    const scrollToTop = () => {
+        if (contentRef.current) {
+            contentRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     const handlePrevious = () => {
         if (currentSectionIndex > 0) {
@@ -24,6 +32,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 itemId: 'validation',
                 subItemId: sections[currentSectionIndex - 1].id
             });
+            scrollToTop();
         }
     };
 
@@ -33,6 +42,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 itemId: 'validation',
                 subItemId: sections[currentSectionIndex + 1].id
             });
+            scrollToTop();
         }
     };
 
@@ -97,7 +107,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
 
     return (
         <div className="pb-20">
-            {renderContent()}
+            <div ref={contentRef}>{renderContent()}</div>
             <NavigationButtons
                 onPrevious={handlePrevious}
                 onNext={handleNext}
