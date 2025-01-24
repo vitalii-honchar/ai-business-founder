@@ -2,6 +2,11 @@ import ProjectTable from '@/components/project/ProjectTable';
 import AddProjectButton from '@/components/project/AddProjectButton';
 import projectRepo from '@/lib/db/repository/project_repo';
 
+export const metadata = {
+    title: 'Dashboard',
+    description: 'Manage your AI-powered business projects and track their progress'
+};
+
 const DashboardPage = async () => {
   const projects = await projectRepo.getProjectsIdAndNames();
 
