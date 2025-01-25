@@ -32,7 +32,7 @@ export async function signup(formData) {
         email: formData.get('email'),
         password: formData.get('password'),
         options: {
-            emailRedirectTo: `${process.env.BASE_URL}/login?info=${encodeURIComponent('Account confirmed. Please sign in.')}`,
+            emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?info=${encodeURIComponent('Account confirmed. Please sign in.')}`,
         },
     }
 
