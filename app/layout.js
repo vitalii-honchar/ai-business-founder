@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_API_URL),
   title: {
     default: "AI Business Founder",
     template: "%s | AI Business Founder"
