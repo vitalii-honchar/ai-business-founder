@@ -40,7 +40,7 @@ export async function POST(request, { params }) {
         }
 
         logger.info('Executing handler');
-        const res = await handler(id, data);
+        const res = await handler(userId, id, data);
         logger.info('Handler executed successfully');
 
         return NextResponse.json(res);
