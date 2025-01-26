@@ -9,13 +9,14 @@ import CustomerJourneyMapComponent from '@/components/project/analysis/customer_
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
 import { useSearchParams } from 'next/navigation';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
+import useProjectPolling from '@/lib/client/hooks/useProjectPolling'
 
 export default function EditProjectComponent({ project: initialProject }) {
     const nameInputRef = useRef(null);
     const searchParams = useSearchParams();
 
     const [loading, setLoading] = useState(false)
-    const [project, setProject] = useState(initialProject)
+    const { project, startPolling } = useProjectPolling(initialProject)
     const [name, setName] = useState(initialProject.name)
     const [error, setError] = useState(null)
     const [nameLoading, setNameLoading] = useState(false)
@@ -52,8 +53,8 @@ export default function EditProjectComponent({ project: initialProject }) {
         console.log('handleValidationSubmit:', JSON.stringify(project));
         return projecApi.generateProjectValidation(project.id, formData)
             .then(newProject => {
-                setProject(newProject);
                 setName(newProject.name);
+                startPolling(); // Start polling after validation begins
             });
     })
 
