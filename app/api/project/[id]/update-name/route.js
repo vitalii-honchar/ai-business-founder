@@ -1,18 +1,21 @@
 import { NextResponse } from 'next/server';
 import projectService from "@/lib/service/project_service";
+import log from '@/lib/logger';
+import { getUserId } from '@/lib/db/dbServer';
 
 export async function POST(request, { params }) {
-    try {
-        const { id } = await params;
-        console.log('Update project name: projectId =', id);
+    const { id } = await params;
+    const userId = await getUserId();
+    let logger = log.child({ userId, projectId: id });
 
+    try {
         const body = await request.json();
-        console.log('Update project name: body =', body);
+        logger.info({ body }, 'Update project name');
 
         const name = await projectService.updateName(id, body);
         return NextResponse.json({ name });
     } catch (error) {
-        console.error('Error updating name:', error); // Add error logging
+        logger.error({ error: error.message, stack: error.stack }, 'Error processing request');
         return NextResponse.json({
             success: false,
             error: error.message
