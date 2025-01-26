@@ -1,21 +1,29 @@
 import { NextResponse } from 'next/server';
 import projectService from "@/lib/service/project_service";
+import { getUserId } from '@/lib/db/dbServer';
+import log from '@/lib/logger';
 
 const handlers = {
     'validation': projectService.generateProjectValidation,
 };
 
 export async function POST(request, { params }) {
+    const { id } = await params;
+    const userId = await getUserId();
+    let logger = log.child({ userId, projectId: id });
+
     try {
-        const { id } = await params;
-        console.log('Project ID:', id);
+        logger.info('Starting project generation request');
 
         const body = await request.json();
-        console.log('Request body:', body); // Add logging for request body
+        logger.info({ body }, 'Request body received');
 
         const { type, data } = body;
 
+        logger = logger.child({ type });
+
         if (!type || !data) {
+            logger.warn('Missing required fields in request');
             return NextResponse.json({
                 success: false,
                 error: 'Missing required fields'
@@ -24,16 +32,20 @@ export async function POST(request, { params }) {
 
         const handler = handlers[type];
         if (!handler) {
+            logger.warn('Invalid request type');
             return NextResponse.json({
                 success: false,
                 error: 'Invalid request type'
             }, { status: 400 });
         }
 
+        logger.info('Executing handler');
         const res = await handler(id, data);
+        logger.info('Handler executed successfully');
+
         return NextResponse.json(res);
     } catch (error) {
-        console.error('Error processing request:', error); // Add error logging
+        logger.error({ error: error.message, stack: error.stack }, 'Error processing request');
         return NextResponse.json({
             success: false,
             error: error.message
