@@ -54,7 +54,7 @@ export default function EditProjectComponent({ project: initialProject }) {
         return projecApi.generateProjectValidation(project.id, formData)
             .then(newProject => {
                 setName(newProject.name);
-                startPolling(); // Start polling after validation begins
+                startPolling(newProject); // Start polling after validation begins
             });
     })
 
