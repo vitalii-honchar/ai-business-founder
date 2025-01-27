@@ -45,7 +45,7 @@ export async function POST(request, { params }) {
 
         return NextResponse.json(res);
     } catch (error) {
-        logger.error({ error: error.message, stack: error.stack }, 'Error processing request');
+        logger.error({ error: error.message, stack: error.stack }, 'Error generate analysis for a project');
         return NextResponse.json({
             success: false,
             error: error.message
