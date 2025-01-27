@@ -15,7 +15,7 @@ export async function POST(request, { params }) {
         const name = await projectService.updateName(userId, id, body);
         return NextResponse.json({ name });
     } catch (error) {
-        logger.error({ error: error.message, stack: error.stack }, 'Error processing request');
+        logger.error({ error: error.message, stack: error.stack }, 'Error updating project name');
         return NextResponse.json({
             success: false,
             error: error.message
