@@ -132,6 +132,18 @@ export default function EditProjectComponent({ project: initialProject }) {
         return null;
     };
 
+    const getScoreColor = (score) => {
+        if (score >= 8) return 'bg-green-600';
+        if (score >= 5) return 'bg-blue-600';
+        return 'bg-red-600';
+    };
+
+    const getScoreTextColor = (score) => {
+        if (score >= 8) return 'text-green-600';
+        if (score >= 5) return 'text-blue-600';
+        return 'text-red-600';
+    };
+
     return (
         <div className="flex flex-col">
             {/* Error alert */}
@@ -152,33 +164,57 @@ export default function EditProjectComponent({ project: initialProject }) {
             )}
 
             {/* Project Header */}
-            <div className="flex-none border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5 flex items-center">
-                <button
-                    className="sm:hidden mr-4"
-                    onClick={toggleNav}
-                >
-                    <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <div className="flex-1 min-w-0 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        {/* Mobile title */}
-                        <h1 className="sm:hidden text-lg font-semibold leading-6 text-gray-900">
-                            {project.name}
-                        </h1>
-                        {/* Desktop title */}
-                        <h1 className="hidden sm:block text-2xl font-semibold leading-6 text-gray-900 tracking-tight">
-                            {project.name}
-                        </h1>
-                        {/* Mobile analyzing indicator */}
-                        <div className="sm:hidden">
-                            {renderAnalysisStatus(true)}
+            <div className="flex-none border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5">
+                <div className="flex items-center">
+                    <button
+                        className="sm:hidden mr-4"
+                        onClick={toggleNav}
+                    >
+                        <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    
+                    <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2 sm:gap-4">
+                        {/* Title */}
+                        <div className="flex-shrink-0">
+                            <h1 className="sm:hidden text-lg font-semibold leading-6 text-gray-900">
+                                {project.name}
+                            </h1>
+                            <h1 className="hidden sm:block text-2xl font-semibold leading-6 text-gray-900 tracking-tight">
+                                {project.name}
+                            </h1>
                         </div>
-                    </div>
-                    {/* Desktop analyzing indicator */}
-                    <div className="hidden sm:block">
-                        {renderAnalysisStatus(false)}
+                        
+                        {/* Validation Score - Modified Layout */}
+                        {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
+                            <div className="flex-1 flex justify-center items-center">
+                                <div className="flex flex-row items-center gap-3">
+                                    <span className="text-base text-gray-600 whitespace-nowrap">Validation Score:</span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                            <div
+                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2.5 transition-all duration-300`}
+                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                            />
+                                        </div>
+                                        <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                            {project.data.analysis.validation.summary.recommendation.worth_solving}/10
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Analysis Status */}
+                        <div className="flex-shrink-0">
+                            <div className="sm:hidden">
+                                {renderAnalysisStatus(true)}
+                            </div>
+                            <div className="hidden sm:block">
+                                {renderAnalysisStatus(false)}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
