@@ -92,7 +92,6 @@ const NavigationPanel = ({ onNavigate, activeItem, project, closeNav }) => {
                 return (
                     <div className="flex items-center">
                         <span className="text-green-600 mr-2">✓</span>
-                        <span className="text-xs text-green-600 font-medium">Ready</span>
                     </div>
                 );
             default:
