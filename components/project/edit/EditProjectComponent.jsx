@@ -148,21 +148,12 @@ export default function EditProjectComponent({ project: initialProject }) {
 
                 {/* Navigation panel - make sticky on desktop */}
                 <div className={`fixed sm:sticky sm:top-0 sm:h-[calc(100vh-280px)] inset-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
-                    <div className="absolute top-0 right-0 p-4 sm:hidden">
-                        <button
-                            onClick={closeNav}
-                            className="text-gray-500 hover:text-gray-700"
-                        >
-                            <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
                     <div className="h-full overflow-y-auto">
                         <NavigationPanel
                             activeItem={activeItem}
                             onNavigate={handleItemChange}
                             project={project}
+                            closeNav={closeNav}
                         />
                     </div>
                 </div>
