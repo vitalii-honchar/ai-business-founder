@@ -134,8 +134,8 @@ export default function EditProjectComponent({ project: initialProject }) {
                     />
                 )}
 
-                {/* Navigation panel - updated for better mobile experience */}
-                <div className={`fixed sm:static inset-0 pt-16 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 sm:pt-0 border-r border-gray-200`}>
+                {/* Navigation panel - make sticky on desktop */}
+                <div className={`fixed sm:sticky sm:top-0 sm:h-[calc(100vh-280px)] inset-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
                     <div className="absolute top-0 right-0 p-4 sm:hidden">
                         <button
                             onClick={closeNav}
@@ -154,9 +154,9 @@ export default function EditProjectComponent({ project: initialProject }) {
                     </div>
                 </div>
 
-                {/* Content area */}
+                {/* Content area - adjust padding bottom for navigation buttons */}
                 <div className="w-full sm:flex-1 overflow-auto bg-gray-50">
-                    <div className="px-2 sm:px-4 py-4">
+                    <div className="px-2 sm:px-4 py-4 pb-24">
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}
