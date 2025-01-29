@@ -18,7 +18,7 @@ const formatMoney = (num) => {
 };
 
 const MarketCard = ({ title, data, color, definition }) => (
-    <div className={`bg-white rounded-lg shadow-lg p-4 sm:p-6 border-l-4 border-${color}-500`}>
+    <div className={`bg-white rounded-lg shadow-lg p-4 sm:p-6 border-l-4 border-${color}-500 w-full overflow-hidden`}>
         <div className="flex items-center mb-2 sm:mb-4">
             <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full flex items-center justify-center mr-3 sm:mr-4 bg-${color}-100 text-${color}-600`}>
                 {title.split(' ').map(word => word[0]).join('')}
@@ -58,18 +58,18 @@ const MarketCard = ({ title, data, color, definition }) => (
 
 const MarketLandscape = ({ data }) => {
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6 mt-8 transition-all hover:shadow-xl">
-            <div className="flex items-center justify-between mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6 sm:mt-8 transition-all hover:shadow-xl w-full overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-800">Market Landscape</h2>
                 <div className="text-sm text-gray-500">
                     {data.updated_at && `Last updated: ${new Date(data.updated_at).toLocaleDateString()}`}
                 </div>
             </div>
 
-            <div className="mt-6 space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mt-4 sm:mt-6 space-y-6 sm:space-y-8">
+                <div className="grid grid-cols-1 gap-4 sm:gap-8 max-w-full">
                     {/* Demographics Section */}
-                    <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="bg-gray-50 p-4 rounded-lg w-full overflow-hidden">
                         <h3 className="text-lg font-semibold mb-4 flex items-center">
                             <span>Demographics</span>
                             <span className="ml-2 text-sm text-gray-500">{data.demographics?.length} segments</span>
@@ -86,7 +86,7 @@ const MarketLandscape = ({ data }) => {
                     </div>
 
                     {/* Market Size Section */}
-                    <div className="bg-gray-50 p-4 rounded-lg">
+                    <div className="bg-gray-50 p-4 rounded-lg w-full overflow-hidden">
                         <h3 className="text-lg font-semibold mb-4">Market Size</h3>
                         <div className="flex flex-col space-y-2">
                             <p className="text-3xl font-bold text-green-600">
@@ -105,7 +105,7 @@ const MarketLandscape = ({ data }) => {
                 </div>
 
                 {/* Opportunities and Risks Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-4 sm:gap-8 max-w-full overflow-hidden">
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold flex items-center">
                             <span>Opportunities</span>
@@ -145,8 +145,8 @@ const MarketLandscape = ({ data }) => {
 
 export default function TamSamSomComponent({ tamSamSom }) {
     return (
-        <div className="w-full max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="w-full max-w-full overflow-hidden space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
                 <MarketCard
                     title={"Total Addressable Market"}
                     data={tamSamSom.total_addressable_market}
