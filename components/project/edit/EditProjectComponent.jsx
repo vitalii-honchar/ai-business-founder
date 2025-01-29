@@ -9,6 +9,7 @@ import NavigationPanel from '@/components/project/edit/NavigationPanel'
 import { useSearchParams } from 'next/navigation';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 import useProjectPolling from '@/lib/client/hooks/useProjectPolling'
+import get from 'lodash/get';
 
 export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
@@ -83,8 +84,48 @@ export default function EditProjectComponent({ project: initialProject }) {
         };
     }, [isNavOpen]);
 
-    const isAnyTaskInProgress = () => {
-        return project?.data?.tasks?.validation?.length > 0 ?? false;
+    const getTasksStatus = () => {
+        const totalTasks = ['hww', 'tamSamSom', 'competitorAnalysis', 'summary'];
+        const pendingTasks = project?.data?.tasks?.validation?.length ?? 0;
+        const completedTasks = totalTasks.filter(section =>
+            get(project?.data?.analysis?.validation, section)
+        ).length;
+
+        return {
+            pending: pendingTasks,
+            completed: completedTasks,
+            total: totalTasks.length
+        };
+    };
+
+    const renderAnalysisStatus = (isMobile = false) => {
+        const { pending, completed, total } = getTasksStatus();
+
+        if (pending > 0) {
+            return (
+                <div className={`flex ${isMobile ? 'flex-col items-center gap-1' : 'items-center gap-2'} text-blue-500`}>
+                    <svg className={`animate-spin ${isMobile ? 'h-7 w-7' : 'h-5 w-5'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className={`${isMobile ? 'text-xs' : 'text-sm'} text-blue-400`}>
+                        {completed}/{total} Complete
+                    </span>
+                </div>
+            );
+        } else if (completed > 0) {
+            return (
+                <div className={`flex ${isMobile ? 'flex-col items-center gap-1' : 'items-center gap-2'} text-green-600`}>
+                    <svg className={`${isMobile ? 'h-7 w-7' : 'h-5 w-5'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className={`${isMobile ? 'text-xs' : 'text-sm'} font-medium`}>
+                        {completed}/{total} Complete
+                    </span>
+                </div>
+            );
+        }
+        return null;
     };
 
     return (
@@ -128,28 +169,12 @@ export default function EditProjectComponent({ project: initialProject }) {
                         </h1>
                         {/* Mobile analyzing indicator */}
                         <div className="sm:hidden">
-                            {isAnyTaskInProgress() && (
-                                <div className="flex flex-col items-center gap-1 text-blue-500">
-                                    <svg className="animate-spin h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    <span className="text-xs font-medium">Analyzing...</span>
-                                </div>
-                            )}
+                            {renderAnalysisStatus(true)}
                         </div>
                     </div>
                     {/* Desktop analyzing indicator */}
                     <div className="hidden sm:block">
-                        {isAnyTaskInProgress() && (
-                            <div className="flex items-center gap-2 text-blue-500">
-                                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                <span className="text-sm font-medium">Analyzing...</span>
-                            </div>
-                        )}
+                        {renderAnalysisStatus(false)}
                     </div>
                 </div>
             </div>
@@ -158,7 +183,7 @@ export default function EditProjectComponent({ project: initialProject }) {
             <div className="flex sm:flex-row relative min-h-[calc(100vh-280px)]">
                 {/* Overlay for mobile */}
                 {isNavOpen && (
-                    <div 
+                    <div
                         className="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 sm:hidden"
                         onClick={closeNav}
                     />
