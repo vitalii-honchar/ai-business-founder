@@ -10,6 +10,7 @@ const defaultFormData = {
     platform: "",
     currency: "",
     auditory: "", // Add new field
+    personalConstraints: "",
 }
 
 const placeholders = {
@@ -19,11 +20,13 @@ const placeholders = {
     language: "Primary language for your service/product (e.g., 'English', 'Spanish')",
     platform: "Delivery platform or channel (e.g., 'Mobile App', 'Web Platform', 'Physical Store')",
     currency: "Primary currency for transactions (e.g., 'USD', 'EUR', 'GBP')",
-    auditory: "Define your target audience (e.g., 'Small business owners', 'College students', 'Working professionals')"
+    auditory: "Define your target audience (e.g., 'Small business owners', 'College students', 'Working professionals')",
+    personalConstraints: "Describe your personal constraints for implementing this solution (e.g., 'Software engineer with limited business knowledge, 20 hours/week availability due to full-time job')"
 }
 
 const orderedFields = [
     'problem',
+    'personalConstraints',
     'auditory',
     'industry',
     'location',
@@ -64,54 +67,81 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
 
     return (
         <form className="w-full max-w-7xl mx-auto" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {orderedFields.map(key => (
-                    <div key={key}>
-                        <label className="block text-sm font-medium text-gray-700 capitalize">
-                            {key} <span className="text-red-500">*</span>
-                        </label>
-                        {key === 'problem' || key === 'auditory' ? (
-                            <div className="mt-1">
-                                <textarea
-                                    name={key}
-                                    value={formData[key] || ''}
-                                    onChange={(e) => handleInputChange(key, e.target.value)}
-                                    rows={4}
-                                    className={`w-full rounded-md border ${
-                                        errors[key] ? 'border-red-500' : 'border-gray-300'
-                                    } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                                    placeholder={placeholders[key]}
-                                    disabled={loading}
-                                />
-                            </div>
-                        ) : (
-                            <div className="mt-1">
-                                <input
-                                    type="text"
-                                    name={key}
-                                    value={formData[key] || ''}
-                                    onChange={(e) => handleInputChange(key, e.target.value)}
-                                    className={`w-full rounded-md border ${
-                                        errors[key] ? 'border-red-500' : 'border-gray-300'
-                                    } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                                    placeholder={placeholders[key]}
-                                    disabled={loading}
-                                />
-                            </div>
-                        )}
-                        {errors[key] && (
-                            <p className="mt-1 text-sm text-red-500">{errors[key]}</p>
-                        )}
-                        <p className="mt-1 text-sm text-gray-500">{placeholders[key]}</p>
+            <div className="grid grid-cols-1 gap-6">
+                {/* Problem field - full width */}
+                <div className="col-span-full">
+                    <label className="block text-sm font-medium text-gray-700 capitalize">
+                        problem <span className="text-red-500">*</span>
+                    </label>
+                    <div className="mt-1">
+                        <textarea
+                            name="problem"
+                            value={formData.problem || ''}
+                            onChange={(e) => handleInputChange('problem', e.target.value)}
+                            rows={6}
+                            className={`w-full rounded-md border ${
+                                errors.problem ? 'border-red-500' : 'border-gray-300'
+                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                            placeholder={placeholders.problem}
+                            disabled={loading}
+                        />
                     </div>
-                ))}
+                    {errors.problem && (
+                        <p className="mt-1 text-sm text-red-500">{errors.problem}</p>
+                    )}
+                    <p className="mt-1 text-sm text-gray-500">{placeholders.problem}</p>
+                </div>
+
+                {/* Other fields - 2 columns grid */}
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    {orderedFields.slice(1).map(key => (
+                        <div key={key}>
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                {key.replace(/([A-Z])/g, ' $1').toLowerCase()} <span className="text-red-500">*</span>
+                            </label>
+                            {key === 'auditory' || key === 'personalConstraints' ? (
+                                <div className="mt-1">
+                                    <textarea
+                                        name={key}
+                                        value={formData[key] || ''}
+                                        onChange={(e) => handleInputChange(key, e.target.value)}
+                                        rows={4}
+                                        className={`w-full rounded-md border ${
+                                            errors[key] ? 'border-red-500' : 'border-gray-300'
+                                        } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                        placeholder={placeholders[key]}
+                                        disabled={loading}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="mt-1">
+                                    <input
+                                        type="text"
+                                        name={key}
+                                        value={formData[key] || ''}
+                                        onChange={(e) => handleInputChange(key, e.target.value)}
+                                        className={`w-full rounded-md border ${
+                                            errors[key] ? 'border-red-500' : 'border-gray-300'
+                                        } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                        placeholder={placeholders[key]}
+                                        disabled={loading}
+                                    />
+                                </div>
+                            )}
+                            {errors[key] && (
+                                <p className="mt-1 text-sm text-red-500">{errors[key]}</p>
+                            )}
+                            <p className="mt-1 text-sm text-gray-500">{placeholders[key]}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            <div className="col-span-full mt-4">
+            <div className="col-span-full mt-4 flex justify-center">
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {loading ? (
                         <>
