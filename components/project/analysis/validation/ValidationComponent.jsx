@@ -62,7 +62,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         switch (activeItemId) {
             case 'user-input':
                 return (
-                    <ComponentCard title="User Input" icon={currentSection.icon} loading={loading}>
+                    <ComponentCard title="User Input" icon={currentSection.icon}>
                         <ValidationUserInputComponent
                             onSubmit={onSubmit}
                             loading={loading}
@@ -80,7 +80,12 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {!isTaskPending(project, tasks.hww) && project?.data?.analysis?.validation?.hww ? (
                             <HwwComponent hww={project.data.analysis.validation.hww} />
                         ) : (
-                            <p className="text-gray-500">Analysis in progress...</p>
+                            <div className="flex items-center justify-center p-4">
+                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
+                                    ⏳
+                                </div>
+                                <span className="text-gray-500">Analysis in progress...</span>
+                            </div>
                         )}
                     </ComponentCard>
                 );
@@ -94,7 +99,12 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {!isTaskPending(project, tasks['tam-sam-som']) && project?.data?.analysis?.validation?.tamSamSom ? (
                             <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} />
                         ) : (
-                            <p className="text-gray-500">Analysis in progress...</p>
+                            <div className="flex items-center justify-center p-4">
+                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
+                                    ⏳
+                                </div>
+                                <span className="text-gray-500">Analysis in progress...</span>
+                            </div>
                         )}
                     </ComponentCard>
                 );
@@ -108,7 +118,12 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {!isTaskPending(project, tasks['competitor-analysis']) && project?.data?.analysis?.validation?.competitorAnalysis ? (
                             <CompetitorAnalysisComponent competitorAnalysis={project.data.analysis.validation.competitorAnalysis} />
                         ) : (
-                            <p className="text-gray-500">Analysis in progress...</p>
+                            <div className="flex items-center justify-center p-4">
+                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
+                                    ⏳
+                                </div>
+                                <span className="text-gray-500">Analysis in progress...</span>
+                            </div>
                         )}
                     </ComponentCard>
                 );
@@ -122,7 +137,12 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {!isTaskPending(project, tasks.summary) && project?.data?.analysis?.validation?.summary ? (
                             <SummaryComponent summary={project.data.analysis.validation.summary} />
                         ) : (
-                            <p className="text-gray-500">Analysis in progress...</p>
+                            <div className="flex items-center justify-center p-4">
+                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
+                                    ⏳
+                                </div>
+                                <span className="text-gray-500">Analysis in progress...</span>
+                            </div>
                         )}
                     </ComponentCard>
                 );
