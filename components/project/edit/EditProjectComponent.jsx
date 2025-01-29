@@ -90,8 +90,8 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </div>
             )}
 
-            {/* Header */}
-            <div className="border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5 flex items-center justify-between">
+            {/* Header - non-sticky on mobile */}
+            <div className="border-b border-gray-200 bg-white px-2 py-2 sm:sticky sm:top-0 flex items-center justify-between">
                 <button
                     className="sm:hidden mr-4"
                     onClick={toggleNav}
@@ -101,15 +101,20 @@ export default function EditProjectComponent({ project: initialProject }) {
                     </svg>
                 </button>
                 <div className="flex-1 min-w-0">
-                    <h1 className="text-lg sm:text-2xl font-semibold leading-6 text-gray-900 sm:text-3xl sm:tracking-tight">
+                    {/* Mobile title - truncated */}
+                    <h1 className="sm:hidden text-lg font-semibold leading-6 text-gray-900">
+                        {project.name}
+                    </h1>
+                    {/* Desktop title - full */}
+                    <h1 className="hidden sm:block text-2xl font-semibold leading-6 text-gray-900 tracking-tight">
                         {project.name}
                     </h1>
                 </div>
             </div>
 
-            {/* Content layout - modified for better space utilization */}
-            <div className="flex flex-col sm:flex-row h-[calc(100vh-88px)]">
-                {/* Navigation panel - make it narrower */}
+            {/* Content layout - single scroll */}
+            <div className="flex flex-col sm:flex-row sm:h-[calc(100vh-88px)]">
+                {/* Navigation panel */}
                 <div className={`fixed inset-0 z-50 bg-white p-2 sm:p-4 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:relative sm:translate-x-0 sm:w-64 sm:flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200`}>
                     <button
                         className="sm:hidden mb-4"
@@ -125,9 +130,9 @@ export default function EditProjectComponent({ project: initialProject }) {
                     />
                 </div>
 
-                {/* Main content - maximize width and adjust padding */}
-                <div className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-                    <div className="h-full mx-auto px-2 sm:px-4 py-4">
+                {/* Main content - full height scrolling */}
+                <div className="flex-1 bg-gray-50">
+                    <div className="mx-auto px-2 sm:px-4 py-4">
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}
