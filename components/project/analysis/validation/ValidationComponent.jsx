@@ -7,7 +7,6 @@ import CompetitorAnalysisComponent from '@/components/project/analysis/validatio
 import ComponentCard from '@/components/project/analysis/ComponentCard';
 import SummaryComponent from '@/components/project/analysis/validation/SummaryComponent';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
-import { Toast } from '@/components/common/Toast';
 
 const sections = [
     { id: 'user-input', label: 'User Input', icon: '👤' },
@@ -51,24 +50,6 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         }
     };
 
-    // Add completion notification
-    useEffect(() => {
-        if (project?.data?.analysis?.validation?.hww && activeItemId === 'user-input') {
-            Toast.success({
-                title: "Analysis Complete!",
-                message: "Your HWW analysis is ready to view. Click 'View Results' to see the insights.",
-                action: {
-                    label: "View Results",
-                    onClick: () => eventEmitter.emit(eventItemVisible, {
-                        itemId: 'validation',
-                        subItemId: 'hww'
-                    })
-                },
-                duration: 10000, // 10 seconds
-            });
-        }
-    }, [project?.data?.analysis?.validation?.hww, activeItemId]);
-
     const renderLoadingState = (message) => (
         <div className="flex flex-col items-center justify-center p-8 text-center">
             <div className="animate-spin h-8 w-8 text-blue-500 mb-4">⏳</div>
@@ -100,9 +81,9 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 );
             case 'hww':
                 return (
-                    <ComponentCard 
-                        title="HWW" 
-                        icon={currentSection.icon} 
+                    <ComponentCard
+                        title="HWW"
+                        icon={currentSection.icon}
                         loading={isTaskPending(project, tasks.hww)}
                     >
                         {isTaskPending(project, tasks.hww) ? (
@@ -114,9 +95,9 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 );
             case 'tam-sam-som':
                 return (
-                    <ComponentCard 
-                        title="TAM-SAM-SOM" 
-                        icon={currentSection.icon} 
+                    <ComponentCard
+                        title="TAM-SAM-SOM"
+                        icon={currentSection.icon}
                         loading={isTaskPending(project, tasks['tam-sam-som'])}
                     >
                         {isTaskPending(project, tasks['tam-sam-som']) ? (
@@ -128,9 +109,9 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 );
             case 'competitor-analysis':
                 return (
-                    <ComponentCard 
-                        title="Competitor Analysis" 
-                        icon={currentSection.icon} 
+                    <ComponentCard
+                        title="Competitor Analysis"
+                        icon={currentSection.icon}
                         loading={isTaskPending(project, tasks['competitor-analysis'])}
                     >
                         {isTaskPending(project, tasks['competitor-analysis']) ? (
@@ -142,9 +123,9 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                 );
             case 'summary':
                 return (
-                    <ComponentCard 
-                        title="Summary" 
-                        icon={currentSection.icon} 
+                    <ComponentCard
+                        title="Summary"
+                        icon={currentSection.icon}
                         loading={isTaskPending(project, tasks.summary)}
                     >
                         {isTaskPending(project, tasks.summary) ? (
