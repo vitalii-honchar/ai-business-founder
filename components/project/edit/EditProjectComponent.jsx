@@ -71,6 +71,18 @@ export default function EditProjectComponent({ project: initialProject }) {
         return () => unsubscribe();
     }, []);
 
+    // Add useEffect to handle body scrolling
+    useEffect(() => {
+        if (isNavOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isNavOpen]);
+
     return (
         <div className="flex flex-col">
             {/* Error alert */}
@@ -114,20 +126,32 @@ export default function EditProjectComponent({ project: initialProject }) {
 
             {/* Main content area */}
             <div className="flex sm:flex-row relative min-h-[calc(100vh-280px)]">
-                {/* Navigation panel */}
-                <div className={`fixed sm:static inset-x-0 top-auto bottom-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
-                    <button
-                        className="sm:hidden mb-4"
-                        onClick={toggleNav}
-                    >
-                        <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                    <NavigationPanel
-                        activeItem={activeItem}
-                        onNavigate={handleItemChange}
+                {/* Overlay for mobile */}
+                {isNavOpen && (
+                    <div 
+                        className="fixed inset-0 bg-gray-600 bg-opacity-75 z-40 sm:hidden"
+                        onClick={closeNav}
                     />
+                )}
+
+                {/* Navigation panel - updated for better mobile experience */}
+                <div className={`fixed sm:static inset-0 pt-16 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 sm:pt-0 border-r border-gray-200`}>
+                    <div className="absolute top-0 right-0 p-4 sm:hidden">
+                        <button
+                            onClick={closeNav}
+                            className="text-gray-500 hover:text-gray-700"
+                        >
+                            <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="h-full overflow-y-auto">
+                        <NavigationPanel
+                            activeItem={activeItem}
+                            onNavigate={handleItemChange}
+                        />
+                    </div>
                 </div>
 
                 {/* Content area */}
