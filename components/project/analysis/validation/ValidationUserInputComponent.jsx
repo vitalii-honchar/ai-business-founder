@@ -14,14 +14,14 @@ const defaultFormData = {
 }
 
 const placeholders = {
-    problem: "Describe the specific problem your business idea solves (e.g., 'Difficulty finding pet sitters on short notice')",
-    industry: "Enter the main industry sector (e.g., 'Technology', 'Healthcare', 'Retail')",
-    location: "Target market location (e.g., 'Global', 'United States', 'European Union')",
-    language: "Primary language for your service/product (e.g., 'English', 'Spanish')",
-    platform: "Delivery platform or channel (e.g., 'Mobile App', 'Web Platform', 'Physical Store')",
-    currency: "Primary currency for transactions (e.g., 'USD', 'EUR', 'GBP')",
-    auditory: "Define your target audience (e.g., 'Small business owners', 'College students', 'Working professionals')",
-    personalConstraints: "Describe your personal constraints for implementing this solution (e.g., 'Software engineer with limited business knowledge, 20 hours/week availability due to full-time job')"
+    problem: "Think like a founder! Example: 'Small business owners waste 10+ hours weekly on manual bookkeeping, leading to cash flow issues and tax compliance problems. Current solutions are either too complex or too expensive for businesses making under $1M/year.'",
+    personalConstraints: "Be strategic about your resources! Example: 'First-time founder with MBA, currently employed as Product Manager. Can invest $10k savings and 20h/week. Strong in product and strategy, need technical co-founder. Have network in fintech industry.'",
+    auditory: "Define your ideal customer profile! Example: 'Small business owners and freelancers, $200k-$1M annual revenue, primarily in service industries, tech-savvy but not technical, willing to pay $50-100/month for automation.'",
+    industry: "What's your market sector? Example: 'B2B SaaS', 'Direct-to-Consumer E-commerce', 'Enterprise Software', 'Marketing Technology', 'Financial Services'",
+    location: "Define your go-to-market region. Example: 'Starting with NYC & SF tech hubs, expanding to top 10 US startup ecosystems', 'Major European business centers', 'English-speaking markets globally'",
+    language: "Business communication languages. Example: 'English primary, support docs in Spanish & French', 'English + Mandarin for Asian market expansion', 'German - focusing on DACH region'",
+    platform: "Delivery strategy. Example: 'Cloud-based SaaS with admin dashboard', 'Mobile-first platform with web portal', 'API-first service with white-label options'",
+    currency: "Revenue currencies. Example: 'USD primary + major European currencies', 'USD globally with local payment options', 'Multi-currency: focusing on USD, EUR, GBP for enterprise clients'"
 }
 
 const orderedFields = [
