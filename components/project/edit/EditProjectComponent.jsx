@@ -150,6 +150,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                         <NavigationPanel
                             activeItem={activeItem}
                             onNavigate={handleItemChange}
+                            project={project}
                         />
                     </div>
                 </div>
