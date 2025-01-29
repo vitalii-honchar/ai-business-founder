@@ -107,7 +107,7 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                 ))}
             </div>
 
-            <div className="col-span-full">
+            <div className="col-span-full mt-4">
                 <button
                     type="submit"
                     disabled={loading}
