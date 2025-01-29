@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import NavigationButtons from '@/components/common/NavigationButtons';
 import HwwComponent from '@/components/project/analysis/validation/HwwComponent'
 import ValidationUserInputComponent from '@/components/project/analysis/validation/ValidationUserInputComponent'
@@ -7,6 +7,7 @@ import CompetitorAnalysisComponent from '@/components/project/analysis/validatio
 import ComponentCard from '@/components/project/analysis/ComponentCard';
 import SummaryComponent from '@/components/project/analysis/validation/SummaryComponent';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
+import { Toast } from '@/components/common/Toast';
 
 const sections = [
     { id: 'user-input', label: 'User Input', icon: '👤' },
@@ -50,6 +51,33 @@ export default function ValidationComponent({ project, loading, onSubmit, active
         }
     };
 
+    // Add completion notification
+    useEffect(() => {
+        if (project?.data?.analysis?.validation?.hww && activeItemId === 'user-input') {
+            Toast.success({
+                title: "Analysis Complete!",
+                message: "Your HWW analysis is ready to view. Click 'View Results' to see the insights.",
+                action: {
+                    label: "View Results",
+                    onClick: () => eventEmitter.emit(eventItemVisible, {
+                        itemId: 'validation',
+                        subItemId: 'hww'
+                    })
+                },
+                duration: 10000, // 10 seconds
+            });
+        }
+    }, [project?.data?.analysis?.validation?.hww, activeItemId]);
+
+    const renderLoadingState = (message) => (
+        <div className="flex flex-col items-center justify-center p-8 text-center">
+            <div className="animate-spin h-8 w-8 text-blue-500 mb-4">⏳</div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Analysis in Progress</h3>
+            <p className="text-gray-500">{message}</p>
+            <p className="text-sm text-gray-400 mt-2">This might take a few minutes...</p>
+        </div>
+    );
+
     const renderContent = () => {
         const currentSection = sections.find(section => section.id === activeItemId);
         const tasks = {
@@ -77,16 +105,11 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         icon={currentSection.icon} 
                         loading={isTaskPending(project, tasks.hww)}
                     >
-                        {!isTaskPending(project, tasks.hww) && project?.data?.analysis?.validation?.hww ? (
+                        {isTaskPending(project, tasks.hww) ? (
+                            renderLoadingState("We're analyzing your business idea using the How-Why-What framework...")
+                        ) : project?.data?.analysis?.validation?.hww ? (
                             <HwwComponent hww={project.data.analysis.validation.hww} />
-                        ) : (
-                            <div className="flex items-center justify-center p-4">
-                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
-                                    ⏳
-                                </div>
-                                <span className="text-gray-500">Analysis in progress...</span>
-                            </div>
-                        )}
+                        ) : null}
                     </ComponentCard>
                 );
             case 'tam-sam-som':
@@ -96,16 +119,11 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         icon={currentSection.icon} 
                         loading={isTaskPending(project, tasks['tam-sam-som'])}
                     >
-                        {!isTaskPending(project, tasks['tam-sam-som']) && project?.data?.analysis?.validation?.tamSamSom ? (
+                        {isTaskPending(project, tasks['tam-sam-som']) ? (
+                            renderLoadingState("We're analyzing the Total Addressable Market, Serviceable Available Market, and Serviceable Obtainable Market for your business...")
+                        ) : project?.data?.analysis?.validation?.tamSamSom ? (
                             <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} />
-                        ) : (
-                            <div className="flex items-center justify-center p-4">
-                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
-                                    ⏳
-                                </div>
-                                <span className="text-gray-500">Analysis in progress...</span>
-                            </div>
-                        )}
+                        ) : null}
                     </ComponentCard>
                 );
             case 'competitor-analysis':
@@ -115,16 +133,11 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         icon={currentSection.icon} 
                         loading={isTaskPending(project, tasks['competitor-analysis'])}
                     >
-                        {!isTaskPending(project, tasks['competitor-analysis']) && project?.data?.analysis?.validation?.competitorAnalysis ? (
+                        {isTaskPending(project, tasks['competitor-analysis']) ? (
+                            renderLoadingState("We're analyzing your competitors to provide you with valuable insights...")
+                        ) : project?.data?.analysis?.validation?.competitorAnalysis ? (
                             <CompetitorAnalysisComponent competitorAnalysis={project.data.analysis.validation.competitorAnalysis} />
-                        ) : (
-                            <div className="flex items-center justify-center p-4">
-                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
-                                    ⏳
-                                </div>
-                                <span className="text-gray-500">Analysis in progress...</span>
-                            </div>
-                        )}
+                        ) : null}
                     </ComponentCard>
                 );
             case 'summary':
@@ -134,16 +147,11 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         icon={currentSection.icon} 
                         loading={isTaskPending(project, tasks.summary)}
                     >
-                        {!isTaskPending(project, tasks.summary) && project?.data?.analysis?.validation?.summary ? (
+                        {isTaskPending(project, tasks.summary) ? (
+                            renderLoadingState("We're generating a summary of your analysis results...")
+                        ) : project?.data?.analysis?.validation?.summary ? (
                             <SummaryComponent summary={project.data.analysis.validation.summary} />
-                        ) : (
-                            <div className="flex items-center justify-center p-4">
-                                <div className="animate-spin h-6 w-6 text-gray-500 mr-2" viewBox="0 0 24 24">
-                                    ⏳
-                                </div>
-                                <span className="text-gray-500">Analysis in progress...</span>
-                            </div>
-                        )}
+                        ) : null}
                     </ComponentCard>
                 );
             default:
