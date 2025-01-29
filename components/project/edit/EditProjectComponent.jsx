@@ -144,6 +144,13 @@ export default function EditProjectComponent({ project: initialProject }) {
         return 'text-red-600';
     };
 
+    const handleScoreClick = () => {
+        handleItemChange({
+            itemId: 'validation',
+            subItemId: 'summary'
+        });
+    };
+
     return (
         <div className="flex flex-col">
             {/* Error alert */}
@@ -188,22 +195,32 @@ export default function EditProjectComponent({ project: initialProject }) {
                         </h1>
 
                         {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                            <div className="flex items-center gap-3">
-                                <span className="text-base text-gray-600 whitespace-nowrap">
+                            <button 
+                                onClick={handleScoreClick}
+                                className="group relative flex items-center gap-3 hover:opacity-90 transition-all"
+                                aria-label="View validation summary"
+                            >
+                                <span className="text-base text-gray-600 whitespace-nowrap group-hover:text-gray-900">
                                     Validation Score:
                                 </span>
                                 <div className="flex items-center gap-2">
                                     <div className="w-24 bg-gray-200 rounded-full h-2">
                                         <div
-                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
+                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:brightness-110 rounded-full h-2 transition-all duration-300`}
                                             style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
                                         />
                                     </div>
-                                    <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                    <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:opacity-80`}>
                                         {project.data.analysis.validation.summary.recommendation.worth_solving}/10
                                     </span>
                                 </div>
-                            </div>
+                                <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 whitespace-nowrap">
+                                    Click to view validation summary
+                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2">
+                                        <div className="border-solid border-t-gray-900 border-t-8 border-x-transparent border-x-8 border-b-0"></div>
+                                    </div>
+                                </div>
+                            </button>
                         )}
 
                         <div>
@@ -214,22 +231,24 @@ export default function EditProjectComponent({ project: initialProject }) {
                     {/* Mobile Status Row */}
                     <div className="sm:hidden flex items-center justify-between gap-4">
                         {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                            <div className="flex-1 max-w-[70%]">
-                                <div className="flex flex-col gap-1">
-                                    <span className="text-sm text-gray-600">Validation Score:</span>
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                                            <div
-                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
-                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
-                                            />
-                                        </div>
-                                        <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
-                                            {project.data.analysis.validation.summary.recommendation.worth_solving}/10
-                                        </span>
+                            <button 
+                                onClick={handleScoreClick}
+                                className="flex-1 max-w-[70%] flex items-center gap-2 hover:opacity-90 transition-all"
+                                aria-label="View validation summary"
+                            >
+                                <span className="text-sm text-gray-600 whitespace-nowrap">Validation Score:</span>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-16 bg-gray-200 rounded-full h-2">
+                                        <div
+                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
+                                            style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                        />
                                     </div>
+                                    <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                        {project.data.analysis.validation.summary.recommendation.worth_solving}/10
+                                    </span>
                                 </div>
-                            </div>
+                            </button>
                         )}
 
                         <div className="flex-shrink-0">
