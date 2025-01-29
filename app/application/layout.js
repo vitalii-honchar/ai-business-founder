@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { HiLogout } from 'react-icons/hi';
-import { ToastContainer } from '@/components/common/Toast';
 
 export default function AppLayout({ children }) {
     return (
@@ -33,7 +32,6 @@ export default function AppLayout({ children }) {
                     <p className="text-xs sm:text-sm">&copy; 2025 AI Founder. All rights reserved.</p>
                 </div>
             </footer>
-            <ToastContainer />
         </div>
     );
 }
