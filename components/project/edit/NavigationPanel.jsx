@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 const navigationItems = [
     {
         title: '✅ Validation',
@@ -32,18 +34,70 @@ const NavigationPanel = ({ onNavigate, activeItem, project, closeNav }) => {
         return project?.data?.tasks?.validation?.includes(taskName) ?? false;
     };
 
-    const getSubItemLoadingState = (subItemId) => {
+    const isTaskCompleted = (analysisPath) => {
+        return get(project?.data?.analysis, analysisPath) !== undefined;
+    };
+
+    const getSubItemStatus = (subItemId) => {
         const taskMap = {
-            'hww': 'analyze_hww',
-            'tam-sam-som': 'analyze_tam_sam_som',
-            'competitor-analysis': 'analyze_competitors',
-            'summary': 'generate_summary'
+            'hww': {
+                taskName: 'analyze_hww',
+                analysisPath: 'validation.hww'
+            },
+            'tam-sam-som': {
+                taskName: 'analyze_tam_sam_som',
+                analysisPath: 'validation.tamSamSom'
+            },
+            'competitor-analysis': {
+                taskName: 'analyze_competitors',
+                analysisPath: 'validation.competitorAnalysis'
+            },
+            'summary': {
+                taskName: 'generate_summary',
+                analysisPath: 'validation.summary'
+            }
         };
-        return taskMap[subItemId] ? isTaskPending(taskMap[subItemId]) : false;
+
+        const config = taskMap[subItemId];
+        if (!config) return { status: 'none' };
+
+        if (isTaskPending(config.taskName)) {
+            return { status: 'loading' };
+        }
+        
+        if (isTaskCompleted(config.analysisPath)) {
+            return { status: 'completed' };
+        }
+
+        return { status: 'pending' };
     };
 
     const isAnySubItemLoading = (subItems) => {
-        return subItems.some(subItem => getSubItemLoadingState(subItem.id));
+        return subItems.some(subItem => {
+            const status = getSubItemStatus(subItem.id);
+            return status.status === 'loading';
+        });
+    };
+
+    const renderStatusIcon = (status) => {
+        switch (status) {
+            case 'loading':
+                return (
+                    <svg className="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                );
+            case 'completed':
+                return (
+                    <div className="flex items-center">
+                        <span className="text-green-600 mr-2">✓</span>
+                        <span className="text-xs text-green-600 font-medium">Ready</span>
+                    </div>
+                );
+            default:
+                return null;
+        }
     };
 
     return (
@@ -86,7 +140,10 @@ const NavigationPanel = ({ onNavigate, activeItem, project, closeNav }) => {
                         {item.subItems && activeItem.itemId === item.id && (
                             <div className="pl-4 sm:pl-6 mt-1">
                                 {item.subItems.map((subItem) => {
-                                    const isLoading = getSubItemLoadingState(subItem.id);
+                                    const status = getSubItemStatus(subItem.id);
+                                    const isCompleted = status.status === 'completed';
+                                    const isLoading = status.status === 'loading';
+
                                     return (
                                         <div
                                             key={subItem.id}
@@ -96,20 +153,17 @@ const NavigationPanel = ({ onNavigate, activeItem, project, closeNav }) => {
                                                 transition-colors flex items-center justify-between
                                                 ${activeItem.subItemId === subItem.id 
                                                     ? 'bg-blue-50 text-blue-600' 
-                                                    : isLoading
-                                                        ? 'bg-blue-50/50 text-blue-500'
-                                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                                    : isCompleted
+                                                        ? 'bg-green-50/50 text-green-700 hover:bg-green-50'
+                                                        : isLoading
+                                                            ? 'bg-blue-50/50 text-blue-500'
+                                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                                 }
                                             `}
                                             onClick={() => onNavigate({ itemId: item.id, subItemId: subItem.id })}
                                         >
                                             <span>{subItem.title}</span>
-                                            {isLoading && (
-                                                <svg className="animate-spin h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                            )}
+                                            {renderStatusIcon(status.status)}
                                         </div>
                                     );
                                 })}
