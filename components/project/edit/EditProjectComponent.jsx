@@ -100,7 +100,7 @@ export default function EditProjectComponent({ project: initialProject }) {
 
     const renderAnalysisStatus = (isMobile = false) => {
         const { pending, completed, total } = getTasksStatus();
-        
+
         if (pending > 0) {
             return (
                 <div className={`flex ${isMobile ? 'flex-col items-center gap-1' : 'items-center gap-2'} text-blue-500`}>
@@ -165,55 +165,75 @@ export default function EditProjectComponent({ project: initialProject }) {
 
             {/* Project Header */}
             <div className="flex-none border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5">
-                <div className="flex items-center">
-                    <button
-                        className="sm:hidden mr-4"
-                        onClick={toggleNav}
-                    >
-                        <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                    
-                    <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2 sm:gap-4">
-                        {/* Title */}
-                        <div className="flex-shrink-0">
-                            <h1 className="sm:hidden text-lg font-semibold leading-6 text-gray-900">
-                                {project.name}
-                            </h1>
-                            <h1 className="hidden sm:block text-2xl font-semibold leading-6 text-gray-900 tracking-tight">
-                                {project.name}
-                            </h1>
-                        </div>
-                        
-                        {/* Validation Score - Modified Layout */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    {/* Mobile Title Row */}
+                    <div className="flex items-center gap-4 sm:hidden">
+                        <button
+                            className="flex-shrink-0"
+                            onClick={toggleNav}
+                        >
+                            <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                        <h1 className="text-md font-semibold text-gray-900 flex-1">
+                            {project.name}
+                        </h1>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex flex-1 items-center justify-between">
+                        <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
+                            {project.name}
+                        </h1>
+
                         {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                            <div className="flex-1 flex justify-center items-center">
-                                <div className="flex flex-row items-center gap-3">
-                                    <span className="text-base text-gray-600 whitespace-nowrap">Validation Score:</span>
+                            <div className="flex items-center gap-3">
+                                <span className="text-base text-gray-600 whitespace-nowrap">
+                                    Validation Score:
+                                </span>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-24 bg-gray-200 rounded-full h-2">
+                                        <div
+                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
+                                            style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                        />
+                                    </div>
+                                    <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                        {project.data.analysis.validation.summary.recommendation.worth_solving}/10
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+
+                        <div>
+                            {renderAnalysisStatus(false)}
+                        </div>
+                    </div>
+
+                    {/* Mobile Status Row */}
+                    <div className="sm:hidden flex items-center justify-between gap-4">
+                        {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
+                            <div className="flex-1 max-w-[70%]">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-sm text-gray-600">Validation Score:</span>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-24 bg-gray-200 rounded-full h-2.5">
+                                        <div className="flex-1 bg-gray-200 rounded-full h-2">
                                             <div
-                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2.5 transition-all duration-300`}
+                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
                                                 style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
                                             />
                                         </div>
-                                        <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                        <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
                                             {project.data.analysis.validation.summary.recommendation.worth_solving}/10
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         )}
-                        
-                        {/* Analysis Status */}
+
                         <div className="flex-shrink-0">
-                            <div className="sm:hidden">
-                                {renderAnalysisStatus(true)}
-                            </div>
-                            <div className="hidden sm:block">
-                                {renderAnalysisStatus(false)}
-                            </div>
+                            {renderAnalysisStatus(true)}
                         </div>
                     </div>
                 </div>
