@@ -72,10 +72,10 @@ export default function EditProjectComponent({ project: initialProject }) {
     }, []);
 
     return (
-        <div className="min-h-screen w-full relative">
+        <div className="flex flex-col">
             {/* Error alert */}
             {error && (
-                <div className="mx-2 my-2 sm:mx-0 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div className="absolute top-0 left-0 right-0 z-50 mx-2 my-2 sm:mx-0 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
                     <strong className="font-bold block sm:inline">Error: </strong>
                     <span className="block sm:inline">{error}</span>
                     <button
@@ -90,8 +90,8 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </div>
             )}
 
-            {/* Header - non-sticky on mobile */}
-            <div className="border-b border-gray-200 bg-white px-2 py-2 sm:sticky sm:top-0 flex items-center justify-between">
+            {/* Project Header */}
+            <div className="flex-none border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5 flex items-center justify-between">
                 <button
                     className="sm:hidden mr-4"
                     onClick={toggleNav}
@@ -112,10 +112,10 @@ export default function EditProjectComponent({ project: initialProject }) {
                 </div>
             </div>
 
-            {/* Content layout - single scroll */}
-            <div className="flex flex-col sm:flex-row sm:h-[calc(100vh-88px)]">
+            {/* Main content area */}
+            <div className="flex sm:flex-row relative min-h-[calc(100vh-280px)]">
                 {/* Navigation panel */}
-                <div className={`fixed inset-0 z-50 bg-white p-2 sm:p-4 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:relative sm:translate-x-0 sm:w-64 sm:flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-200`}>
+                <div className={`fixed sm:static inset-x-0 top-auto bottom-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
                     <button
                         className="sm:hidden mb-4"
                         onClick={toggleNav}
@@ -130,9 +130,9 @@ export default function EditProjectComponent({ project: initialProject }) {
                     />
                 </div>
 
-                {/* Main content - full height scrolling */}
-                <div className="flex-1 bg-gray-50">
-                    <div className="mx-auto px-2 sm:px-4 py-4">
+                {/* Content area */}
+                <div className="w-full sm:flex-1 overflow-auto bg-gray-50">
+                    <div className="px-2 sm:px-4 py-4">
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}
