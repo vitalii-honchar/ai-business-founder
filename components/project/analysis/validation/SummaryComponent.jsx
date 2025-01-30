@@ -14,8 +14,7 @@ export default function SummaryComponent({ summary }) {
             setLoading(true);
             setError(null);
             const newProject = await projecApi.createProject(userInput);
-            // Open in new tab
-            window.open(`/application/project/${newProject.id}`, '_blank');
+            router.push(`/application/project/${newProject.id}`);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -47,8 +46,8 @@ export default function SummaryComponent({ summary }) {
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-2 md:mb-4">
                     <h2 className="text-lg md:text-xl font-semibold">Validation Summary</h2>
                     <span className={`mt-2 md:mt-0 px-2 py-1 md:px-3 md:py-1 rounded-full text-sm ${recommendation.valid
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
                         }`}>
                         {recommendation.valid ? 'Valid' : 'Invalid'}
                     </span>
@@ -161,7 +160,7 @@ export default function SummaryComponent({ summary }) {
                                     <p className="text-sm text-gray-600 group-hover:text-gray-700 line-clamp-3 md:line-clamp-none">
                                         {problem.explanation}
                                     </p>
-                                    
+
                                     {/* Mobile action hint */}
                                     <div className="flex items-center justify-center md:hidden py-2 mt-2 border-t border-gray-100">
                                         <span className="text-xs text-blue-500 flex items-center gap-1">
