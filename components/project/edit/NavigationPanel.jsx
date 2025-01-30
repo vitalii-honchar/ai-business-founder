@@ -10,11 +10,11 @@ const navigationItems = [
                 id: 'user-input',
             },
             {
-                title: '🤔 HWW',
+                title: '🤔 Problem Research',
                 id: 'hww'
             },
             {
-                title: '📊 TAM-SAM-SOM',
+                title: '📊 Market Size',
                 id: 'tam-sam-som'
             },
             {

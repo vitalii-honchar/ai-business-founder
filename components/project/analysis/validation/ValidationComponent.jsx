@@ -10,8 +10,8 @@ import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 
 const sections = [
     { id: 'user-input', label: 'User Input', icon: '👤' },
-    { id: 'hww', label: 'HWW', icon: '🤔' },
-    { id: 'tam-sam-som', label: 'TAM-SAM-SOM', icon: '📊' },
+    { id: 'hww', label: 'Problem Research', icon: '🤔' },
+    { id: 'tam-sam-som', label: 'Market Size', icon: '📊' },
     { id: 'competitor-analysis', label: 'Competitor Analysis', icon: '🎯' },
     { id: 'summary', label: 'Summary', icon: '📋' }
 ];
@@ -82,7 +82,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             case 'hww':
                 return (
                     <ComponentCard
-                        title="HWW"
+                        title="Problem Research"
                         icon={currentSection.icon}
                         loading={isTaskPending(project, tasks.hww)}
                     >
@@ -96,7 +96,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             case 'tam-sam-som':
                 return (
                     <ComponentCard
-                        title="TAM-SAM-SOM"
+                        title="Market Size"
                         icon={currentSection.icon}
                         loading={isTaskPending(project, tasks['tam-sam-som'])}
                     >
