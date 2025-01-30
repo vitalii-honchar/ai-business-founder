@@ -15,7 +15,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
 
     const [loading, setLoading] = useState(false)
-    const { project, startPolling } = useProjectPolling(initialProject)
+    const { project, startPolling, setProject } = useProjectPolling(initialProject)
     const [error, setError] = useState(null)
     const [activeItem, setActiveItem] = useState(
         {
@@ -151,6 +151,15 @@ export default function EditProjectComponent({ project: initialProject }) {
         });
     };
 
+    const handleAccessToggle = withLoading(async () => {
+        const currentAccess = project?.data?.access ?? {};
+        currentAccess.accessByLink = !currentAccess.accessByLink;
+        await projecApi.updateProjectAccess(project.id, { accessByLink: currentAccess.accessByLink });
+
+        project.data.access = currentAccess;
+        setProject(project);
+    });
+
     return (
         <div className="flex flex-col">
             {/* Error alert */}
@@ -194,64 +203,102 @@ export default function EditProjectComponent({ project: initialProject }) {
                             {project.name}
                         </h1>
 
-                        {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                            <button 
-                                onClick={handleScoreClick}
-                                className="group relative flex items-center gap-3 hover:opacity-90 transition-all"
-                                aria-label="View validation summary"
-                            >
-                                <span className="text-base text-gray-600 whitespace-nowrap group-hover:text-gray-900">
-                                    Validation Score:
-                                </span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-24 bg-gray-200 rounded-full h-2">
-                                        <div
-                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:brightness-110 rounded-full h-2 transition-all duration-300`}
-                                            style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
-                                        />
-                                    </div>
-                                    <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:opacity-80`}>
-                                        {project.data.analysis.validation.summary.recommendation.worth_solving}/10
-                                    </span>
-                                </div>
-                                <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 whitespace-nowrap">
-                                    Click to view validation summary
-                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2">
-                                        <div className="border-solid border-t-gray-900 border-t-8 border-x-transparent border-x-8 border-b-0"></div>
-                                    </div>
-                                </div>
-                            </button>
-                        )}
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <span className="text-sm text-gray-600">Access By Link</span>
+                                <button
+                                    type="button"
+                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    role="switch"
+                                    aria-checked={project?.data?.access?.accessByLink ?? false}
+                                    disabled={loading || project?.data?.access === null}
+                                    onClick={handleAccessToggle}
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-5' : 'translate-x-0'}`}
+                                    />
+                                </button>
+                            </div>
 
-                        <div>
-                            {renderAnalysisStatus(false)}
+                            {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
+                                <button
+                                    onClick={handleScoreClick}
+                                    className="group relative flex items-center gap-3 hover:opacity-90 transition-all"
+                                    aria-label="View validation summary"
+                                >
+                                    <span className="text-base text-gray-600 whitespace-nowrap group-hover:text-gray-900">
+                                        Validation Score:
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                                            <div
+                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:brightness-110 rounded-full h-2 transition-all duration-300`}
+                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                            />
+                                        </div>
+                                        <span className={`text-base font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)} group-hover:opacity-80`}>
+                                            {project.data.analysis.validation.summary.recommendation.worth_solving}/10
+                                        </span>
+                                    </div>
+                                    <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 whitespace-nowrap">
+                                        Click to view validation summary
+                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-2">
+                                            <div className="border-solid border-t-gray-900 border-t-8 border-x-transparent border-x-8 border-b-0"></div>
+                                        </div>
+                                    </div>
+                                </button>
+                            )}
+
+                            <div>
+                                {renderAnalysisStatus(false)}
+                            </div>
                         </div>
                     </div>
 
                     {/* Mobile Status Row */}
                     <div className="sm:hidden flex items-center justify-between gap-4">
-                        {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                            <button 
-                                onClick={handleScoreClick}
-                                className="flex-1 max-w-[70%] flex items-center gap-2 hover:opacity-90 transition-all"
-                                aria-label="View validation summary"
-                            >
-                                <span className="text-sm text-gray-600 whitespace-nowrap">Validation Score:</span>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-16 bg-gray-200 rounded-full h-2">
-                                        <div
-                                            className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
-                                            style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
-                                        />
+                        <div className="flex-1 flex items-center justify-between">
+                            {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
+                                <button
+                                    onClick={handleScoreClick}
+                                    className="flex items-center gap-2 hover:opacity-90 transition-all"
+                                    aria-label="View validation summary"
+                                >
+                                    <span className="text-sm text-gray-600 whitespace-nowrap">Score:</span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-16 bg-gray-200 rounded-full h-2">
+                                            <div
+                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
+                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                            />
+                                        </div>
+                                        <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                            {project.data.analysis.validation.summary.recommendation.worth_solving}/10
+                                        </span>
                                     </div>
-                                    <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
-                                        {project.data.analysis.validation.summary.recommendation.worth_solving}/10
-                                    </span>
-                                </div>
-                            </button>
-                        )}
+                                </button>
+                            )}
 
-                        <div className="flex-shrink-0">
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    role="switch"
+                                    aria-checked={project?.data?.access?.accessByLink ?? false}
+                                    disabled={loading || project?.data?.access === null}
+                                    onClick={handleAccessToggle}
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-5' : 'translate-x-0'}`}
+                                    />
+                                </button>
+                                <span className="text-sm text-gray-600">Share</span>
+                            </div>
+                        </div>
+
+                        <div className="flex-shrink-0 ml-2">
                             {renderAnalysisStatus(true)}
                         </div>
                     </div>
