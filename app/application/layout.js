@@ -23,6 +23,13 @@ export default function AppLayout({ children }) {
                 </div>
             </header>
             <main className="flex-grow w-full px-2 sm:px-4 py-4">
+                <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                    <p className="font-medium">🔔 Open Beta Testing</p>
+                    <p className="mt-1">This is an open beta version of AI Founder. Please be aware that you may encounter bugs or incomplete features. All data created during the beta period may be deleted after the testing phase. Your feedback is valuable to us!</p>
+                    <p className="mt-2">
+                        <a href="#" className="underline hover:text-blue-800">Send us your feedback</a>
+                    </p>
+                </div>
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6">
                     {children}
                 </div>
