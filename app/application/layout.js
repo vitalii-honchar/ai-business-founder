@@ -7,8 +7,7 @@ export default function AppLayout({ children }) {
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
             <header className="bg-white shadow">
                 <div className="w-full p-4 flex justify-between items-center">
-                    {/* Left section */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 flex-grow sm:flex-grow-0">
                         <Link href="/" className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                             <Image
                                 src="/favicon.ico"
@@ -27,23 +26,22 @@ export default function AppLayout({ children }) {
                         </nav>
                     </div>
 
-                    {/* Center section */}
-                    <div className="hidden sm:block">
-                        <Link
-                            href="https://forms.gle/8ENaz7dhUGqUSN688"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
-                        >
-                            <span className="text-xl">💬</span>
-                            Send Feedback
+                    <Link
+                        href="https://forms.gle/8ENaz7dhUGqUSN688"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                    >
+                        <span className="text-xl">💬</span>
+                        <span className="inline">Send Feedback</span>
+                    </Link>
+
+                    {/* Feedback button - visible on both mobile and desktop */}
+                    <div className="ml-2 flex items-center gap-4">
+                        <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                            <HiLogout className="w-5 h-5" />
                         </Link>
                     </div>
-
-                    {/* Right section */}
-                    <Link href="/logout" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
-                        <HiLogout className="w-5 h-5" />
-                    </Link>
                 </div>
             </header>
             <main className="flex-grow w-full px-2 sm:px-4 py-4">

@@ -1,6 +1,7 @@
 'use client';
 import { login, signup } from "./actions";
 import { useState, use } from "react";
+import Link from 'next/link';
 
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
@@ -99,6 +100,16 @@ const LoginPage = ({ searchParams }) => {
             "Already have an account? Click Login above."
           )}
         </p>
+        
+        <div className="text-center text-sm">
+          <Link 
+            href="https://forms.gle/8ENaz7dhUGqUSN688" 
+            target="_blank"
+            className="text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            Send feedback
+          </Link>
+        </div>
       </div>
     </div>
   );
