@@ -117,65 +117,76 @@ export default function SummaryComponent({ summary }) {
                         <p className="text-red-600 text-sm">{error}</p>
                     </div>
                 )}
-                <div className="space-y-2 md:space-y-4">
+                <div className="space-y-3 md:space-y-4"> {/* Increased spacing on mobile */}
                     {similar_problems.map((problem, index) => (
                         <div key={index} className="group relative">
                             {/* Button */}
                             <button
                                 onClick={() => handleProblemClick(problem.user_input)}
                                 disabled={loading}
-                                className="w-full text-left border border-transparent pb-2 md:pb-4 transition-all duration-200 
-                                    hover:border-blue-100 hover:bg-blue-50/50 rounded-lg p-3 
+                                className="w-full text-left border border-transparent transition-all duration-200 
+                                    hover:border-blue-100 hover:bg-blue-50/50 rounded-lg p-3 md:p-3
                                     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent
-                                    group-hover:shadow-md group-hover:scale-[1.01] transform
+                                    group-hover:shadow-md group-hover:scale-[1.01] active:scale-[0.99] transform
                                     relative flex flex-col
                                     before:absolute before:inset-0 before:rounded-lg before:border-2 before:border-dashed before:border-gray-200
-                                    hover:before:border-blue-400 before:transition-colors"
+                                    hover:before:border-blue-400 before:transition-colors
+                                    touch-manipulation" // Improved touch response
                             >
-                                {/* Add "Click to use" indicator */}
-                                <div className="absolute top-3 right-3 text-xs text-gray-400 flex items-center gap-1 group-hover:text-blue-500 transition-colors">
+                                {/* Mobile-friendly click indicator */}
+                                <div className="flex items-center justify-between mb-2 md:mb-0">
+                                    <h3 className="font-medium group-hover:text-blue-700 transition-colors duration-200 pr-2">
+                                        {problem.name}
+                                    </h3>
+                                    {/* Score and action indicator combined for mobile */}
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex items-center">
+                                            <span className="text-xs md:text-sm text-gray-600 mr-1 md:mr-2 group-hover:text-gray-700">
+                                                Score:
+                                            </span>
+                                            <span className={`text-xs md:text-sm font-medium ${getScoreTextColor(problem.worth_solving)} group-hover:opacity-90`}>
+                                                {problem.worth_solving}/10
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center text-blue-500 md:hidden">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Content with better mobile spacing */}
+                                <div className="space-y-2">
+                                    <p className="text-sm text-gray-600 group-hover:text-gray-700 line-clamp-3 md:line-clamp-none">
+                                        {problem.explanation}
+                                    </p>
+                                    
+                                    {/* Mobile action hint */}
+                                    <div className="flex items-center justify-center md:hidden py-2 mt-2 border-t border-gray-100">
+                                        <span className="text-xs text-blue-500 flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                            </svg>
+                                            Tap to use this idea
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Desktop-only "Click to use" indicator */}
+                                <div className="absolute top-3 right-3 hidden md:flex text-xs text-gray-400 items-center gap-1 group-hover:text-blue-500 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                     <span>Click to use</span>
                                 </div>
-
-                                {/* Existing content with adjusted padding for the indicator */}
-                                <div className="pr-24">
-                                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb-2">
-                                        <h3 className="font-medium group-hover:text-blue-700 transition-colors duration-200">
-                                            {problem.name}
-                                        </h3>
-                                        <div className="flex items-center mt-2 md:mt-0">
-                                            {loading ? (
-                                                <div className="flex items-center">
-                                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
-                                                    <span className="text-sm text-blue-600">Creating project...</span>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <span className="text-sm text-gray-600 mr-2 group-hover:text-gray-700">
-                                                        Worth solving:
-                                                    </span>
-                                                    <span className={`text-sm font-medium ${getScoreTextColor(problem.worth_solving)} group-hover:opacity-90`}>
-                                                        {problem.worth_solving}/10
-                                                    </span>
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <p className="text-sm text-gray-600 group-hover:text-gray-700">
-                                        {problem.explanation}
-                                    </p>
-                                </div>
                             </button>
+
+                            {/* Desktop-only tooltip */}
                             <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 
                                 top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 
                                 text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 
-                                whitespace-nowrap z-10">
+                                whitespace-nowrap z-10 hidden md:block">
                                 Click to create a new project based on this recommendation
                                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mt-2">
                                     <div className="border-solid border-b-gray-900 border-b-8 border-x-transparent border-x-8 border-t-0"></div>
