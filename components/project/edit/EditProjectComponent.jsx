@@ -181,20 +181,23 @@ export default function EditProjectComponent({ project: initialProject }) {
 
             {/* Project Header */}
             <div className="flex-none border-b border-gray-200 bg-white px-2 py-2 sm:px-6 sm:py-5">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                     {/* Mobile Title Row */}
-                    <div className="flex items-center gap-4 sm:hidden">
+                    <div className="flex items-center gap-3 sm:hidden">
                         <button
-                            className="flex-shrink-0"
+                            className="flex-shrink-0 -ml-1 p-1"
                             onClick={toggleNav}
                         >
-                            <svg className="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg className="h-5 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
                         </button>
-                        <h1 className="text-md font-semibold text-gray-900 flex-1">
-                            {project.name}
-                        </h1>
+                        <div className="flex-1 flex items-center justify-between min-w-0">
+                            <h1 className="text-base font-medium text-gray-900 truncate pr-2">
+                                {project.name}
+                            </h1>
+                            {renderAnalysisStatus(true)}
+                        </div>
                     </div>
 
                     {/* Desktop Layout */}
@@ -256,34 +259,13 @@ export default function EditProjectComponent({ project: initialProject }) {
                         </div>
                     </div>
 
-                    {/* Mobile Status Row */}
-                    <div className="sm:hidden flex items-center justify-between gap-4">
-                        <div className="flex-1 flex items-center justify-between">
-                            {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
-                                <button
-                                    onClick={handleScoreClick}
-                                    className="flex items-center gap-2 hover:opacity-90 transition-all"
-                                    aria-label="View validation summary"
-                                >
-                                    <span className="text-sm text-gray-600 whitespace-nowrap">Score:</span>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-16 bg-gray-200 rounded-full h-2">
-                                            <div
-                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-2 transition-all duration-300`}
-                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
-                                            />
-                                        </div>
-                                        <span className={`text-sm font-medium whitespace-nowrap ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
-                                            {project.data.analysis.validation.summary.recommendation.worth_solving}/10
-                                        </span>
-                                    </div>
-                                </button>
-                            )}
-
+                    {/* Mobile Controls Row */}
+                    <div className="sm:hidden flex items-center border-t border-gray-100 pt-2 mt-1">
+                        <div className="flex-1 flex items-center justify-between gap-4">
                             <div className="flex items-center gap-2">
                                 <button
                                     type="button"
-                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     role="switch"
                                     aria-checked={project?.data?.access?.accessByLink ?? false}
                                     disabled={loading || project?.data?.access === null}
@@ -291,15 +273,32 @@ export default function EditProjectComponent({ project: initialProject }) {
                                 >
                                     <span
                                         aria-hidden="true"
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-5' : 'translate-x-0'}`}
+                                        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-4' : 'translate-x-0'}`}
                                     />
                                 </button>
-                                <span className="text-sm text-gray-600">Share</span>
+                                <span className="text-xs text-gray-600">Access By Link</span>
                             </div>
-                        </div>
 
-                        <div className="flex-shrink-0 ml-2">
-                            {renderAnalysisStatus(true)}
+                            {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
+                                <button
+                                    onClick={handleScoreClick}
+                                    className="flex items-center gap-2"
+                                    aria-label="View validation summary"
+                                >
+                                    <span className="text-xs text-gray-600">Score:</span>
+                                    <div className="flex items-center gap-1.5">
+                                        <div className="w-12 bg-gray-200 rounded-full h-1.5">
+                                            <div
+                                                className={`${getScoreColor(project.data.analysis.validation.summary.recommendation.worth_solving)} rounded-full h-1.5 transition-all duration-300`}
+                                                style={{ width: `${project.data.analysis.validation.summary.recommendation.worth_solving * 10}%` }}
+                                            />
+                                        </div>
+                                        <span className={`text-xs font-medium ${getScoreTextColor(project.data.analysis.validation.summary.recommendation.worth_solving)}`}>
+                                            {project.data.analysis.validation.summary.recommendation.worth_solving}
+                                        </span>
+                                    </div>
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
