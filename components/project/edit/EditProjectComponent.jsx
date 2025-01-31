@@ -8,14 +8,16 @@ import CustomerJourneyMapComponent from '@/components/project/analysis/customer_
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
 import { useSearchParams } from 'next/navigation';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
-import useProjectPolling from '@/lib/client/hooks/useProjectPolling'
+import useProjectPolling from '@/lib/client/hooks/useProjectPolling';
+import useUserId from '@/lib/client/hooks/useUserId';
 import get from 'lodash/get';
 
 export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
 
     const [loading, setLoading] = useState(false)
-    const { project, startPolling, setProject } = useProjectPolling(initialProject)
+    const { project, startPolling, setProject } = useProjectPolling(initialProject);
+    const { userId } = useUserId();
     const [error, setError] = useState(null)
     const [activeItem, setActiveItem] = useState(
         {
@@ -25,6 +27,8 @@ export default function EditProjectComponent({ project: initialProject }) {
     );
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [showCopied, setShowCopied] = useState(false);
+
+    const isReadOnly = () => userId !== project?.user_id;
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
@@ -219,45 +223,47 @@ export default function EditProjectComponent({ project: initialProject }) {
                         </h1>
 
                         <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-600">Access By Link</span>
-                                <button
-                                    type="button"
-                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    role="switch"
-                                    aria-checked={project?.data?.access?.accessByLink ?? false}
-                                    disabled={loading || project?.data?.access === null}
-                                    onClick={handleAccessToggle}
-                                >
-                                    <span
-                                        aria-hidden="true"
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-5' : 'translate-x-0'}`}
-                                    />
-                                </button>
-                                {project?.data?.access?.accessByLink && (
+                            {!isReadOnly() && (
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm text-gray-600">Access By Link</span>
                                     <button
                                         type="button"
-                                        onClick={handleCopyUrl}
-                                        className="inline-flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        role="switch"
+                                        aria-checked={project?.data?.access?.accessByLink ?? false}
+                                        disabled={loading || project?.data?.access === null}
+                                        onClick={handleAccessToggle}
                                     >
-                                        {showCopied ? (
-                                            <>
-                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span>Copied!</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                </svg>
-                                                <span>Copy URL</span>
-                                            </>
-                                        )}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-5' : 'translate-x-0'}`}
+                                        />
                                     </button>
-                                )}
-                            </div>
+                                    {project?.data?.access?.accessByLink && (
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyUrl}
+                                            className="inline-flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                                        >
+                                            {showCopied ? (
+                                                <>
+                                                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span>Copied!</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span>Copy URL</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
+                            )}
 
                             {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
                                 <button
@@ -297,39 +303,41 @@ export default function EditProjectComponent({ project: initialProject }) {
                     {/* Mobile Controls Row */}
                     <div className="sm:hidden flex items-center border-t border-gray-100 pt-2 mt-1">
                         <div className="flex-1 flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs text-gray-600">Share</span>
-                                <button
-                                    type="button"
-                                    className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    role="switch"
-                                    aria-checked={project?.data?.access?.accessByLink ?? false}
-                                    disabled={loading || project?.data?.access === null}
-                                    onClick={handleAccessToggle}
-                                >
-                                    <span
-                                        aria-hidden="true"
-                                        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-4' : 'translate-x-0'}`}
-                                    />
-                                </button>
-                                {project?.data?.access?.accessByLink && (
+                            {!isReadOnly() && (
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs text-gray-600">Share</span>
                                     <button
                                         type="button"
-                                        onClick={handleCopyUrl}
-                                        className="inline-flex items-center p-1 text-xs text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                                        className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${project?.data?.access?.accessByLink ? 'bg-blue-600' : 'bg-gray-200'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        role="switch"
+                                        aria-checked={project?.data?.access?.accessByLink ?? false}
+                                        disabled={loading || project?.data?.access === null}
+                                        onClick={handleAccessToggle}
                                     >
-                                        {showCopied ? (
-                                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        ) : (
-                                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                            </svg>
-                                        )}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${project?.data?.access?.accessByLink ? 'translate-x-4' : 'translate-x-0'}`}
+                                        />
                                     </button>
-                                )}
-                            </div>
+                                    {project?.data?.access?.accessByLink && (
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyUrl}
+                                            className="inline-flex items-center p-1 text-xs text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                                        >
+                                            {showCopied ? (
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            ) : (
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                </svg>
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
+                            )}
 
                             {project?.data?.analysis?.validation?.summary?.recommendation?.worth_solving && (
                                 <button
@@ -386,6 +394,7 @@ export default function EditProjectComponent({ project: initialProject }) {
                                 activeItemId={activeItem.subItemId}
                                 project={project}
                                 onSubmit={handleValidationSubmit}
+                                readOnly={isReadOnly()}
                                 loading={loading}
                             />
                         )}
