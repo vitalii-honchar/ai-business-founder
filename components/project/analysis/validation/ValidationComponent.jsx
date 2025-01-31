@@ -132,7 +132,10 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {isTaskPending(project, tasks.summary) ? (
                             renderLoadingState("We're generating a summary of your analysis results...")
                         ) : project?.data?.analysis?.validation?.summary ? (
-                            <SummaryComponent summary={project.data.analysis.validation.summary} />
+                            <SummaryComponent 
+                                summary={project.data.analysis.validation.summary} 
+                                readOnly={readOnly}
+                            />
                         ) : null}
                     </ComponentCard>
                 );

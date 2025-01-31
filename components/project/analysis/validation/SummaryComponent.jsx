@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import projecApi from '@/lib/client/api/project_api';
 
-export default function SummaryComponent({ summary }) {
+export default function SummaryComponent({ summary, readOnly }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -121,20 +121,21 @@ export default function SummaryComponent({ summary }) {
                         <div key={index} className="group relative">
                             {/* Button */}
                             <button
-                                onClick={() => handleProblemClick(problem.user_input)}
-                                disabled={loading}
-                                className="w-full text-left border border-transparent transition-all duration-200 
-                                    hover:border-blue-100 hover:bg-blue-50/50 rounded-lg p-3 md:p-3
-                                    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent
-                                    group-hover:shadow-md group-hover:scale-[1.01] active:scale-[0.99] transform
+                                onClick={() => !readOnly && handleProblemClick(problem.user_input)}
+                                disabled={loading || readOnly}
+                                className={`w-full text-left border border-transparent transition-all duration-200 
+                                    ${readOnly ? 'cursor-default' : 'hover:border-blue-100 hover:bg-blue-50/50 group-hover:shadow-md group-hover:scale-[1.01]'} 
+                                    rounded-lg p-3 md:p-3
+                                    disabled:opacity-100 disabled:hover:bg-transparent disabled:hover:border-transparent
+                                    ${!readOnly && 'active:scale-[0.99]'} transform
                                     relative flex flex-col
                                     before:absolute before:inset-0 before:rounded-lg before:border-2 before:border-dashed before:border-gray-200
-                                    hover:before:border-blue-400 before:transition-colors
-                                    touch-manipulation" // Improved touch response
+                                    ${!readOnly && 'hover:before:border-blue-400'} before:transition-colors
+                                    touch-manipulation`}
                             >
                                 {/* Mobile-friendly click indicator */}
                                 <div className="flex items-center justify-between mb-2 md:mb-0">
-                                    <h3 className="font-medium group-hover:text-blue-700 transition-colors duration-200 pr-2">
+                                    <h3 className={`font-medium ${!readOnly ? 'group-hover:text-blue-700' : ''} transition-colors duration-200 pr-2`}>
                                         {problem.name}
                                     </h3>
                                     {/* Score and action indicator combined for mobile */}
@@ -147,11 +148,13 @@ export default function SummaryComponent({ summary }) {
                                                 {problem.worth_solving}/10
                                             </span>
                                         </div>
-                                        <div className="flex items-center text-blue-500 md:hidden">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </div>
+                                        {!readOnly && (
+                                            <div className="flex items-center text-blue-500 md:hidden">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
@@ -162,35 +165,41 @@ export default function SummaryComponent({ summary }) {
                                     </p>
 
                                     {/* Mobile action hint */}
-                                    <div className="flex items-center justify-center md:hidden py-2 mt-2 border-t border-gray-100">
-                                        <span className="text-xs text-blue-500 flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                            </svg>
-                                            Tap to use this idea
-                                        </span>
-                                    </div>
+                                    {!readOnly && (
+                                        <div className="flex items-center justify-center md:hidden py-2 mt-2 border-t border-gray-100">
+                                            <span className="text-xs text-blue-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                </svg>
+                                                Tap to use this idea
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Desktop-only "Click to use" indicator */}
-                                <div className="absolute top-3 right-3 hidden md:flex text-xs text-gray-400 items-center gap-1 group-hover:text-blue-500 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                    <span>Click to use</span>
-                                </div>
+                                {!readOnly && (
+                                    <div className="absolute top-3 right-3 hidden md:flex text-xs text-gray-400 items-center gap-1 group-hover:text-blue-500 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                        </svg>
+                                        <span>Click to use</span>
+                                    </div>
+                                )}
                             </button>
 
                             {/* Desktop-only tooltip */}
-                            <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 
-                                top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 
-                                text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 
-                                whitespace-nowrap z-10 hidden md:block">
-                                Click to create a new project based on this recommendation
-                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mt-2">
-                                    <div className="border-solid border-b-gray-900 border-b-8 border-x-transparent border-x-8 border-t-0"></div>
+                            {!readOnly && (
+                                <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 
+                                    top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 
+                                    text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 
+                                    whitespace-nowrap z-10 hidden md:block">
+                                    Click to create a new project based on this recommendation
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mt-2">
+                                        <div className="border-solid border-b-gray-900 border-b-8 border-x-transparent border-x-8 border-t-0"></div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     ))}
                 </div>
