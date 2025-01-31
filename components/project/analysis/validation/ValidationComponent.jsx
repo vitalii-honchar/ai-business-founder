@@ -21,7 +21,7 @@ const isTaskPending = (project, taskName) => {
     return project?.data?.tasks?.validation?.includes(taskName) ?? false;
 };
 
-export default function ValidationComponent({ project, loading, onSubmit, activeItemId }) {
+export default function ValidationComponent({ project, loading, onSubmit, activeItemId, readOnly }) {
     const contentRef = useRef(null);
     const currentSectionIndex = sections.findIndex(section => section.id === activeItemId);
 
@@ -76,6 +76,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                             onSubmit={onSubmit}
                             loading={loading}
                             initialFormData={project?.data?.input?.validation || null}
+                            readOnly={readOnly}
                         />
                     </ComponentCard>
                 );
