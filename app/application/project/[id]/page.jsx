@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }) {
             </div>
         );
     } catch (error) {
-        if (!userId) {
+        if (!userId || error.status === 403) {
             redirect('/login');
         }
         logger.error({ error, projectId: id }, 'Error loading project page');
