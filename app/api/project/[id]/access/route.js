@@ -5,6 +5,10 @@ import { loggerWithProjectId } from '@/lib/logger';
 
 export async function POST(request, { params }) {
     const userId = await getUserId();
+    if (!userId) {
+        return NextResponse.error({ status: 401 });
+    }
+
     const { id } = await params;
     const log = loggerWithProjectId(userId, id);
 
