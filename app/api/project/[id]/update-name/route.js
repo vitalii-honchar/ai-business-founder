@@ -8,10 +8,6 @@ export async function POST(request, { params }) {
     const userId = await getUserId();
     let logger = log.child({ userId, projectId: id });
 
-    if (!userId) {
-        return NextResponse.error({ status: 401 });
-    }
-
     try {
         const body = await request.json();
         logger.info({ body }, 'Update project name');

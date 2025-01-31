@@ -6,9 +6,6 @@ import { loggerWithUserId } from '@/lib/logger';
 export async function POST(request) {
     const userId = await getUserId();
     const log = loggerWithUserId(userId);
-    if (!userId) {
-        return NextResponse.error({ status: 401 });
-    }
 
     try {
         log.info('Starting project creation and validation');
