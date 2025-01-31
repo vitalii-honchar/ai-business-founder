@@ -1,10 +1,13 @@
 import EditProjectComponent from "@/components/project/edit/EditProjectComponent";
-import projectRepo from "@/lib/db/repository/project_repo";
+import projectService from "@/lib/service/project_service";
+import { getUserId } from "@/lib/db/dbServer";
+import { redirect } from 'next/navigation'
 import logger from "@/lib/logger";
 
 export async function generateMetadata({ params }) {
     const { id } = await params;
-    const project = await projectRepo.get(id);
+    const userId = await getUserId();
+    const project = await projectService.getProject(userId, id);
 
     return {
         title: project?.name || 'Project Details',
@@ -14,14 +17,20 @@ export async function generateMetadata({ params }) {
 
 export default async function ProjectPage({ params }) {
     const { id } = await params;
+    const userId = await getUserId();
+
     try {
-        const project = await projectRepo.get(id);
+        const project = await projectService.getProject(userId, id);
+
         return (
             <div>
                 <EditProjectComponent project={project} />
             </div>
         );
     } catch (error) {
+        if (!userId) {
+            redirect('/login');
+        }
         logger.error({ error, projectId: id }, 'Error loading project page');
         return <div>Error loading project</div>;
     }

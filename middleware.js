@@ -42,7 +42,8 @@ export async function middleware(request) {
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/auth') &&
-    !request.nextUrl.pathname.startsWith('/api/health')
+    !request.nextUrl.pathname.startsWith('/api/health') &&
+    !request.nextUrl.pathname.startsWith('/application/project')
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()

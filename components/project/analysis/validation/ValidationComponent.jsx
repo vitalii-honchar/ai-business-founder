@@ -7,6 +7,7 @@ import CompetitorAnalysisComponent from '@/components/project/analysis/validatio
 import ComponentCard from '@/components/project/analysis/ComponentCard';
 import SummaryComponent from '@/components/project/analysis/validation/SummaryComponent';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
+import { getUserId } from '@/lib/db/dbClient';
 
 const sections = [
     { id: 'user-input', label: 'User Input', icon: '👤' },
@@ -67,7 +68,6 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             'competitor-analysis': 'analyze_competitors',
             'summary': 'generate_summary'
         };
-
         switch (activeItemId) {
             case 'user-input':
                 return (
