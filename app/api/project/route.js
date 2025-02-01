@@ -3,6 +3,15 @@ import projectService from '@/lib/service/project_service';
 import { getUserId } from '@/lib/db/dbServer';
 import { loggerWithUserId } from '@/lib/logger';
 
+const getBody = async (request) => {
+    try {
+        const body = await request.json();
+        return body;
+    } catch (error) {
+        return null;
+    }
+}
+
 export async function POST(request) {
     const userId = await getUserId();
     const log = loggerWithUserId(userId);
@@ -10,23 +19,18 @@ export async function POST(request) {
     try {
         log.info('Starting project creation and validation');
 
-        const body = await request.json();
-        if (!body) {
-            log.warn('Missing request body');
-            return NextResponse.json({
-                success: false,
-                error: 'Missing request body'
-            }, { status: 400 });
-        }
-
+        const body = await getBody(request);
         const project = await projectService.createProject();
-        const projectWithValidation = await projectService.generateProjectValidation(userId, project.id, body);
+        if (body) {
+            const projectWithValidation = await projectService.generateProjectValidation(userId, project.id, body);
+            log.info({ projectId: project.id }, 'Project created and validation generated');
 
-        log.info({ projectId: project.id }, 'Project created and validation generated');
-
-        return NextResponse.json(projectWithValidation);
+            return NextResponse.json(projectWithValidation);
+        }
+        log.info({ projectId: project.id }, 'Project created');
+        return NextResponse.json(project);
     } catch (error) {
-        log.error({ error: error.message, stack: error.stack }, 'Error creating project and generating validation');
+        log.error({ error: error.message, stack: error.stack }, 'Error creating project');
         return NextResponse.json({
             success: false,
             error: error.message
