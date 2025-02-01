@@ -7,8 +7,6 @@ export default async function AppLayout({ children }) {
     const userId = await getUserId();
     const isLogedIn = userId !== null;
 
-    console.dir({ userId, isLogedIn });
-
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
             <header className="bg-white shadow">
@@ -48,6 +46,7 @@ export default async function AppLayout({ children }) {
                     <div className="ml-2 flex items-center gap-4">
                         {isLogedIn ? (
                             <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                                <span className="hidden sm:inline">Sign Out</span>
                                 <HiLogout className="w-5 h-5" />
                             </Link>
                         ) : (
