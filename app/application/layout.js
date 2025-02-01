@@ -1,8 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { HiLogout } from 'react-icons/hi';
+import { getUserId } from '@/lib/db/dbServer';
 
-export default function AppLayout({ children }) {
+export default async function AppLayout({ children }) {
+    const userId = await getUserId();
+    const isLogedIn = userId !== null;
+
+    console.dir({ userId, isLogedIn });
+
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
             <header className="bg-white shadow">
@@ -18,12 +24,14 @@ export default function AppLayout({ children }) {
                             />
                             AI Founder
                         </Link>
-                        <nav className="hidden sm:flex items-center">
-                            <Link href="/" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
-                                <span className="text-xl">🚀</span>
-                                Projects
-                            </Link>
-                        </nav>
+                        {isLogedIn && (
+                            <nav className="hidden sm:flex items-center">
+                                <Link href="/" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
+                                    <span className="text-xl">🚀</span>
+                                    Projects
+                                </Link>
+                            </nav>
+                        )}
                     </div>
 
                     <Link
@@ -38,9 +46,15 @@ export default function AppLayout({ children }) {
 
                     {/* Feedback button - visible on both mobile and desktop */}
                     <div className="ml-2 flex items-center gap-4">
-                        <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
-                            <HiLogout className="w-5 h-5" />
-                        </Link>
+                        {isLogedIn ? (
+                            <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                                <HiLogout className="w-5 h-5" />
+                            </Link>
+                        ) : (
+                            <Link href="/login" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                                Sign In / Sign Up
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>
