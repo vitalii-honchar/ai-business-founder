@@ -50,8 +50,9 @@ export default async function AppLayout({ children }) {
                                 <HiLogout className="w-5 h-5" />
                             </Link>
                         ) : (
-                            <Link href="/login" className="flex text-gray-600 hover:text-gray-900 items-center gap-2 text-sm sm:text-base px-2 sm:px-3">
-                                Sign In / Sign Up
+                            <Link href="/login" className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm sm:text-base transition-colors">
+                                <span className="text-xl">👤</span>
+                                <span>Sign In / Sign Up</span>
                             </Link>
                         )}
                     </div>
@@ -71,6 +72,12 @@ export default async function AppLayout({ children }) {
             </main>
             <footer className="bg-white shadow mt-4">
                 <div className="w-full px-2 sm:px-4 py-4 text-center flex flex-col items-center gap-4">
+                    {!isLogedIn && (
+                        <Link href="/login" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-base transition-colors">
+                            <span className="text-xl">👤</span>
+                            <span>Sign In / Sign Up</span>
+                        </Link>
+                    )}
                     <Link
                         href="https://forms.gle/8ENaz7dhUGqUSN688"
                         target="_blank"
