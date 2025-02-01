@@ -59,13 +59,36 @@ export default async function AppLayout({ children }) {
                 </div>
             </header>
             <main className="flex-grow w-full px-2 sm:px-4 py-4">
-                <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
-                    <p className="font-medium">🔔 Open Beta Testing</p>
-                    <p className="mt-1">This is an open beta version of AI Founder. Please be aware that you may encounter bugs or incomplete features. All data created during the beta period may be deleted after the testing phase. Your feedback is valuable to us!</p>
-                    <p className="mt-2">
-                        <Link href="https://forms.gle/8ENaz7dhUGqUSN688" className="underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">Send us your feedback</Link>
-                    </p>
-                </div>
+                {isLogedIn ? (
+                    <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+                        <p className="font-medium">🔔 Open Beta Testing</p>
+                        <p className="mt-1">This is an open beta version of AI Founder. Please be aware that you may encounter bugs or incomplete features. All data created during the beta period may be deleted after the testing phase. Your feedback is valuable to us!</p>
+                        <p className="mt-2">
+                            <Link href="https://forms.gle/8ENaz7dhUGqUSN688" className="underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">Send us your feedback</Link>
+                        </p>
+                    </div>
+                ) : (
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <p className="font-bold text-lg text-blue-900">🎯 Validate Your Business Idea in Minutes!</p>
+                        <p className="mt-2 text-blue-800">
+                            {`Don't waste months on ideas that won't succeed. AI Founder analyzes your business concept using advanced AI to:`}
+                        </p>
+                        <ul className="mt-2 space-y-1 text-blue-800">
+                            <li>✨ Identify hidden market opportunities</li>
+                            <li>🎲 Calculate success probability</li>
+                            <li>⚡ Suggest immediate improvements</li>
+                        </ul>
+                        <p className="mt-3">
+                            <Link 
+                                href="/login" 
+                                className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+                            >
+                                <span className="text-xl">🚀</span>
+                                Validate Your Idea Now
+                            </Link>
+                        </p>
+                    </div>
+                )}
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6">
                     {children}
                 </div>
