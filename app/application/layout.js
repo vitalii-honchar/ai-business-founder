@@ -36,7 +36,7 @@ export default async function AppLayout({ children }) {
                         href="https://forms.gle/8ENaz7dhUGqUSN688"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                        className="hidden sm:flex bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg items-center gap-2 transition-colors"
                     >
                         <span className="text-xl">💬</span>
                         <span className="inline">Send Feedback</span>
@@ -46,11 +46,11 @@ export default async function AppLayout({ children }) {
                     <div className="ml-2 flex items-center gap-4">
                         {isLogedIn ? (
                             <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
-                                <span className="hidden sm:inline">Sign Out</span>
+                                Sign Out
                                 <HiLogout className="w-5 h-5" />
                             </Link>
                         ) : (
-                            <Link href="/login" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                            <Link href="/login" className="flex text-gray-600 hover:text-gray-900 items-center gap-2 text-sm sm:text-base px-2 sm:px-3">
                                 Sign In / Sign Up
                             </Link>
                         )}
