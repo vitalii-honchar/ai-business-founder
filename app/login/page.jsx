@@ -15,10 +15,7 @@ const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
   const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
 
-  console.log('activeTab:', activeTab);
-
   const errorMessage = params?.error_description;
-  const infoMessage = params?.info;
   const operation = params?.operation;
   const code = params?.code;
 
@@ -32,8 +29,7 @@ const LoginPage = ({ searchParams }) => {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Reset Password</h2>
-        <ErrorMessageComponent message={errorMessage} />
-        <ResetPasswordComponent code={code} />
+        <ResetPasswordComponent code={code} errorMessage={errorMessage} />
         <SendFeedbackComponent />
       </CenterCardComponent>
     );
@@ -44,8 +40,6 @@ const LoginPage = ({ searchParams }) => {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Forgot Password</h2>
-        <ErrorMessageComponent message={errorMessage} />
-        <InfoMessageComponent message={infoMessage} />
         <ForgotPasswordComponent />
         <SendFeedbackComponent />
       </CenterCardComponent>
