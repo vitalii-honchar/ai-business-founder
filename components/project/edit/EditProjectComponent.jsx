@@ -372,15 +372,6 @@ export default function EditProjectComponent({ project: initialProject }) {
                             )}
                         </div>
                     </div>
-
-                    {/* Add Delete Button */}
-                    <button
-                        onClick={() => setShowDeleteModal(true)}
-                        className="text-red-600 hover:text-red-800"
-                        disabled={loading}
-                    >
-                        🗑️ Delete Project
-                    </button>
                 </div>
             </div>
 
@@ -396,13 +387,27 @@ export default function EditProjectComponent({ project: initialProject }) {
 
                 {/* Navigation panel - make sticky on desktop */}
                 <div className={`fixed sm:sticky sm:top-0 sm:h-[calc(100vh-280px)] inset-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
-                    <div className="h-full overflow-y-auto">
-                        <NavigationPanel
-                            activeItem={activeItem}
-                            onNavigate={handleItemChange}
-                            project={project}
-                            closeNav={closeNav}
-                        />
+                    <div className="flex flex-col h-full">
+                        <div className="flex-1 overflow-y-auto">
+                            <NavigationPanel
+                                activeItem={activeItem}
+                                onNavigate={handleItemChange}
+                                project={project}
+                                closeNav={closeNav}
+                            />
+                        </div>
+                        {!isReadOnly() && (
+                            <div className="p-4 border-t border-gray-200">
+                                <button
+                                    onClick={() => setShowDeleteModal(true)}
+                                    className="w-full px-4 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors duration-200 flex items-center justify-center gap-2"
+                                    disabled={loading}
+                                >
+                                    <span>🗑️</span>
+                                    <span>Delete Project</span>
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 
