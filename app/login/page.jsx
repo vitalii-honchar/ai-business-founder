@@ -14,6 +14,8 @@ import { useState } from 'react';
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
   const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
+  const [showResetForm, setShowResetForm] = useState(true);
+  const [resetSuccessMessage, setResetSuccessMessage] = useState('');
 
   const errorMessage = params?.error_description;
   const operation = params?.operation;
@@ -25,11 +27,18 @@ const LoginPage = ({ searchParams }) => {
   ];
 
   // Handle reset password view
-  if (operation === 'reset') {
+  if (operation === 'reset' && showResetForm) {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Reset Password</h2>
-        <ResetPasswordComponent code={code} errorMessage={errorMessage} />
+        <ResetPasswordComponent 
+          code={code} 
+          errorMessage={errorMessage}
+          onResetSuccess={(message) => {
+            setShowResetForm(false);
+            setResetSuccessMessage(message);
+          }}
+        />
         <SendFeedbackComponent />
       </CenterCardComponent>
     );
@@ -54,7 +63,7 @@ const LoginPage = ({ searchParams }) => {
         tabs={tabs}
         onTabChange={setActiveTab}
       >
-        <LoginComponent tabKey="login" />
+        <LoginComponent tabKey="login" initialMessage={resetSuccessMessage} />
         <RegisterComponent tabKey="register" />
       </TabComponent>
 
