@@ -8,19 +8,12 @@ import { useAuthMessage } from '@/lib/client/hooks/useAuthMessage';
 import useLoading from '@/lib/client/hooks/useLoading';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 
-const LoginComponent = ({ tabKey, initialMessage }) => {
+const LoginComponent = ({ tabKey, initialMessage, errorMessage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const supabase = createClient();
-    const { error, setError, info, setInfo, clearMessages } = useAuthMessage();
+    const { error, setError, info, setInfo, clearMessages } = useAuthMessage({ errorMessage, infoMessage: initialMessage });
     const { loading, setLoading } = useLoading();
-
-    // Set initial message when component mounts
-    useEffect(() => {
-        if (initialMessage) {
-            setInfo(initialMessage);
-        }
-    }, [initialMessage]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
