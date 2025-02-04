@@ -33,7 +33,7 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                 email: formData.get('email'),
                 password,
                 options: {
-                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email}`,
+                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email`,
                 },
             });
 
