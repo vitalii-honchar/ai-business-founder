@@ -33,7 +33,7 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                 email: formData.get('email'),
                 password,
                 options: {
-                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?info=Account confirmed. Please sign in.`,
+                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email}`,
                 },
             });
 
@@ -53,7 +53,7 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
     return (
         <div className="space-y-6 relative" role="tabpanel" hidden={tabKey !== 'register'}>
             <LoadingOverlay isLoading={loading} message="Creating your account..." />
-            
+
             <ErrorMessageComponent className={"mb-4"} message={error} />
             <InfoMessageComponent className={"mb-4"} message={info} />
 

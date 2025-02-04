@@ -12,14 +12,22 @@ import { useState } from 'react';
 const getOperation = (params) => {
   const error = params?.error;
   return error == 'access_denied' ? 'login' : params?.operation;
-}
+};
+
+const getLoginMessage = (params) => {
+  const operation = getOperation(params);
+  if (operation === 'confirm_email') {
+    return 'Account confirmed. Please login.';
+  }
+  return '';
+};
 
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
 
   const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
   const [showResetForm, setShowResetForm] = useState(true);
-  const [resetSuccessMessage, setResetSuccessMessage] = useState('');
+  const [loginMessage, setLoginMessage] = useState(getLoginMessage(params));
   const errorMessage = params?.error_description;
   const operation = getOperation(params);
   const code = params?.code;
@@ -33,12 +41,12 @@ const LoginPage = ({ searchParams }) => {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Reset Password</h2>
-        <ResetPasswordComponent 
-          code={code} 
+        <ResetPasswordComponent
+          code={code}
           errorMessage={errorMessage}
           onResetSuccess={(message) => {
             setShowResetForm(false);
-            setResetSuccessMessage(message);
+            setLoginMessage(message);
           }}
         />
         <SendFeedbackComponent />
@@ -65,7 +73,7 @@ const LoginPage = ({ searchParams }) => {
         tabs={tabs}
         onTabChange={setActiveTab}
       >
-        <LoginComponent tabKey="login" initialMessage={resetSuccessMessage} errorMessage={errorMessage} />
+        <LoginComponent tabKey="login" initialMessage={loginMessage} errorMessage={errorMessage} />
         <RegisterComponent tabKey="register" />
       </TabComponent>
 
