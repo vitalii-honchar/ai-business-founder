@@ -4,21 +4,24 @@ import LoginComponent from '@/components/login/LoginComponent';
 import RegisterComponent from '@/components/login/RegisterComponent';
 import ResetPasswordComponent from '@/components/login/ResetPasswordComponent';
 import ForgotPasswordComponent from '@/components/login/ForgotPasswordComponent';
-import ErrorMessageComponent from '@/components/common/ErrorMessageComponent';
-import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import CenterCardComponent from '@/components/common/CenterCardComponent';
 import SendFeedbackComponent from '@/components/common/SendFeedbackComponent';
 import TabComponent from '@/components/common/TabComponent';
 import { useState } from 'react';
 
+const getOperation = (params) => {
+  const error = params?.error;
+  return error == 'access_denied' ? 'login' : params?.operation;
+}
+
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
+
   const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
   const [showResetForm, setShowResetForm] = useState(true);
   const [resetSuccessMessage, setResetSuccessMessage] = useState('');
-
   const errorMessage = params?.error_description;
-  const operation = params?.operation;
+  const operation = getOperation(params);
   const code = params?.code;
 
   const tabs = [
@@ -26,7 +29,6 @@ const LoginPage = ({ searchParams }) => {
     { id: 'register', label: 'Register' },
   ];
 
-  // Handle reset password view
   if (operation === 'reset' && showResetForm) {
     return (
       <CenterCardComponent>
@@ -63,7 +65,7 @@ const LoginPage = ({ searchParams }) => {
         tabs={tabs}
         onTabChange={setActiveTab}
       >
-        <LoginComponent tabKey="login" initialMessage={resetSuccessMessage} />
+        <LoginComponent tabKey="login" initialMessage={resetSuccessMessage} errorMessage={errorMessage} />
         <RegisterComponent tabKey="register" />
       </TabComponent>
 
