@@ -7,7 +7,7 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import useLoading from '@/lib/client/hooks/useLoading';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 
-const ResetPasswordComponent = ({ code, errorMessage }) => {
+const ResetPasswordComponent = ({ code, errorMessage, onResetSuccess }) => {
     const [showPassword, setShowPassword] = useState(false);
     const supabase = createClient();
     const { error, setError, info, setInfo, clearMessages } = useAuthMessage({ errorMessage });
@@ -37,7 +37,9 @@ const ResetPasswordComponent = ({ code, errorMessage }) => {
                 return;
             }
 
-            setInfo('Password has been updated successfully. Please login with your new password.');
+            const successMessage = 'Password has been updated successfully. Please login with your new password.';
+            setInfo(successMessage);
+            onResetSuccess?.(successMessage);
         } finally {
             setLoading(false);
         }

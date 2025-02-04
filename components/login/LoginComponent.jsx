@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/db/dbClient';
 import { useRouter } from 'next/navigation';
 import ErrorMessageComponent from '@/components/common/ErrorMessageComponent';
@@ -8,12 +8,19 @@ import { useAuthMessage } from '@/lib/client/hooks/useAuthMessage';
 import useLoading from '@/lib/client/hooks/useLoading';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 
-const LoginComponent = ({ tabKey }) => {
+const LoginComponent = ({ tabKey, initialMessage }) => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const supabase = createClient();
     const { error, setError, info, setInfo, clearMessages } = useAuthMessage();
     const { loading, setLoading } = useLoading();
+
+    // Set initial message when component mounts
+    useEffect(() => {
+        if (initialMessage) {
+            setInfo(initialMessage);
+        }
+    }, [initialMessage]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
