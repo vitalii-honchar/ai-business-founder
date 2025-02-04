@@ -181,7 +181,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     const handleDeleteProject = withLoading(async () => {
         try {
             await projecApi.deleteProject(project.id);
-            router.push('/');
+            window.location.href = '/?timestamp=' + Date.now();
         } catch (err) {
             setError(err.message);
         }
