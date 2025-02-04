@@ -21,6 +21,10 @@ export default async function ProjectPage({ params }) {
 
     try {
         const project = await projectService.getProject(userId, id);
+        
+        if (!project) {
+            redirect('/error?message=Project not found');
+        }
 
         return (
             <div>
@@ -32,6 +36,6 @@ export default async function ProjectPage({ params }) {
             redirect('/login');
         }
         logger.error({ error, projectId: id }, 'Error loading project page');
-        return <div>Error loading project</div>;
+        redirect('/error?message=Error loading project');
     }
 }
