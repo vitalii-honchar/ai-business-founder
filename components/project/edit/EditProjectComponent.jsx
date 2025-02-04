@@ -6,7 +6,7 @@ import ValidationComponent from '@/components/project/analysis/validation/Valida
 import UserResearchComponent from '@/components/project/analysis/user_research/UserResearchComponent'
 import CustomerJourneyMapComponent from '@/components/project/analysis/customer_journey_map/CustomerJourneyMapComponent'
 import NavigationPanel from '@/components/project/edit/NavigationPanel'
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 import useProjectPolling from '@/lib/client/hooks/useProjectPolling';
 import useUserId from '@/lib/client/hooks/useUserId';
@@ -27,7 +27,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     );
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [showCopied, setShowCopied] = useState(false);
-
+    const router = useRouter();
     const isReadOnly = () => userId !== project?.user_id;
 
     const toggleNav = () => {
@@ -175,6 +175,15 @@ export default function EditProjectComponent({ project: initialProject }) {
             console.error('Failed to copy:', err);
         }
     };
+
+    const handleDeleteProject = withLoading(async () => {
+        try {
+            await projecApi.deleteProject(project.id);
+            router.push('/');
+        } catch (err) {
+            setError(err.message);
+        }
+    });
 
     return (
         <div className="flex flex-col">
@@ -361,6 +370,15 @@ export default function EditProjectComponent({ project: initialProject }) {
                             )}
                         </div>
                     </div>
+
+                    {/* Add Delete Button */}
+                    <button
+                        onClick={handleDeleteProject}
+                        className="text-red-600 hover:text-red-800"
+                        disabled={loading}
+                    >
+                        Delete Project
+                    </button>
                 </div>
             </div>
 
