@@ -11,6 +11,7 @@ import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 import useProjectPolling from '@/lib/client/hooks/useProjectPolling';
 import useUserId from '@/lib/client/hooks/useUserId';
 import get from 'lodash/get';
+import ConfirmationModal from '@/components/common/ConfirmationModal';
 
 export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
@@ -27,6 +28,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     );
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [showCopied, setShowCopied] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const router = useRouter();
     const isReadOnly = () => userId !== project?.user_id;
 
@@ -373,11 +375,11 @@ export default function EditProjectComponent({ project: initialProject }) {
 
                     {/* Add Delete Button */}
                     <button
-                        onClick={handleDeleteProject}
+                        onClick={() => setShowDeleteModal(true)}
                         className="text-red-600 hover:text-red-800"
                         disabled={loading}
                     >
-                        Delete Project
+                        🗑️ Delete Project
                     </button>
                 </div>
             </div>
@@ -431,6 +433,21 @@ export default function EditProjectComponent({ project: initialProject }) {
                     </div>
                 </div>
             </div>
+
+            <ConfirmationModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={() => {
+                    setShowDeleteModal(false);
+                    handleDeleteProject();
+                }}
+                title="Confirm Delete 🗑️"
+                message="Are you sure you want to delete this project?"
+                confirmText="Delete"
+                confirmIcon="🗑️"
+                confirmButtonClass="bg-red-600 hover:bg-red-700"
+                isLoading={loading}
+            />
         </div>
     )
 }
