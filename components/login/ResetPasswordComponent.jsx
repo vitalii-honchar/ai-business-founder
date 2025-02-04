@@ -48,8 +48,8 @@ const ResetPasswordComponent = ({ code, errorMessage }) => {
             <LoadingOverlay isLoading={loading} message="Updating password..." />
             
             <div className={loading ? 'pointer-events-none' : ''}>
-                <ErrorMessageComponent message={error} />
-                <InfoMessageComponent message={info} />
+                <ErrorMessageComponent className={"mb-4"} message={error} />
+                <InfoMessageComponent className={"mb-4"} message={info} />
 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <input type="hidden" name="code" value={code || ''} />

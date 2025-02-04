@@ -54,8 +54,8 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
         <div className="space-y-6 relative" role="tabpanel" hidden={tabKey !== 'register'}>
             <LoadingOverlay isLoading={loading} message="Creating your account..." />
             
-            <ErrorMessageComponent message={error} />
-            <InfoMessageComponent message={info} />
+            <ErrorMessageComponent className={"mb-4"} message={error} />
+            <InfoMessageComponent className={"mb-4"} message={info} />
 
             {!isRegistered && (
                 <div className={loading ? 'pointer-events-none' : ''}>
