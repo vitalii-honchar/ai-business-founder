@@ -1,11 +1,12 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import Link from 'next/link';
 
-export default function ErrorPage() {
+function ErrorContent() {
     const searchParams = useSearchParams();
-    const message = searchParams.get('message') || 'Sorry, something went wrong';
+    const message = searchParams.get('message') || 'An error occurred';
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[50vh]">
@@ -18,5 +19,20 @@ export default function ErrorPage() {
                 Go Home
             </Link>
         </div>
+    );
+}
+
+export default function ErrorPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex min-h-screen items-center justify-center">
+                <div className="text-center">
+                    <h1 className="text-2xl font-bold mb-4">Error</h1>
+                    <p className="text-gray-600">Loading...</p>
+                </div>
+            </div>
+        }>
+            <ErrorContent />
+        </Suspense>
     );
 }
