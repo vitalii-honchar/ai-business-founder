@@ -44,8 +44,8 @@ const ForgotPasswordComponent = () => {
             <LoadingOverlay isLoading={loading} message="Sending reset link..." />
             
             <div className={loading ? 'pointer-events-none' : ''}>
-                <ErrorMessageComponent message={error} />
-                <InfoMessageComponent message={info} />
+                <ErrorMessageComponent className={"mb-4"} message={error} />
+                <InfoMessageComponent className={"mb-4"} message={info} />
 
                 {!emailSent ? (
                     <form className="space-y-6" onSubmit={handleSubmit}>
