@@ -84,7 +84,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                     <div className="bg-red-50 p-2 md:p-4 rounded-lg">
                         <h3 className="font-medium mb-1 md:mb-2 text-red-800">Weaknesses</h3>
                         <ul className="list-disc list-inside text-sm text-gray-600">
-                            {recommendation.swot_analysis.strengths.map((item, index) => (
+                            {recommendation.swot_analysis.weaknesses.map((item, index) => (
                                 <li key={index}>{item}</li>
                             ))}
                         </ul>
