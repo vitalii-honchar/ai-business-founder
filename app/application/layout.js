@@ -12,7 +12,7 @@ export default async function AppLayout({ children }) {
             <header className="bg-white shadow">
                 <div className="w-full p-4 flex justify-between items-center">
                     <div className="flex items-center gap-4 flex-grow sm:flex-grow-0">
-                        <Link href="/" className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                        <Link href="/" className="text-xl sm:text-2xl font-bold flex items-center gap-2" prefetch={false}>
                             <Image
                                 src="/favicon.ico"
                                 alt="AI Founder Logo"
@@ -24,7 +24,7 @@ export default async function AppLayout({ children }) {
                         </Link>
                         {isLogedIn && (
                             <nav className="hidden sm:flex items-center">
-                                <Link href="/" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
+                                <Link href="/" className="text-gray-600 hover:text-gray-900 flex items-center gap-2" prefetch={false}>
                                     <span className="text-xl">🚀</span>
                                     Projects
                                 </Link>
