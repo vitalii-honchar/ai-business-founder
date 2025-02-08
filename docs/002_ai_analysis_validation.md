@@ -9,132 +9,156 @@
 - Asynchronous processing
 
 ### 1.2 Analysis Pipeline
-1. Name Generation
-2. HWW (How-Why-What) Analysis
-3. TAM-SAM-SOM Analysis
-4. Competitor Analysis
-5. Validation Summary
+1. Critical Input Validation
+2. Problem Validation (HWW Analysis)
+3. Market Analysis (TAM-SAM-SOM)
+4. Competition Assessment
+5. Risk Analysis & Final Verdict
 
 ## 2. Analysis Requirements
 
-### 2.1 Business Problem Analysis (HWW)
-1. **Problem Size Assessment**
-   - Quantify problem with factual data and numbers
-   - Include current market research data
-   - Analyze frequency patterns
-   - Assess readiness to pay
-   - Research pricing sensitivity
+### 2.1 Critical Input Validation
+1. **Founder Assessment**
+   - Domain expertise evaluation
+   - Resource availability analysis
+   - Time commitment capability
+   - Financial resources assessment
+   - Technical capabilities validation
 
-2. **Root Cause Analysis**
-   - Identify core problem causes
-   - Analyze historical context
-   - Evaluate existing solutions
+2. **Initial Idea Screening**
+   - Problem clarity assessment
+   - Unique value proposition validation
+   - Initial feasibility check
+   - Resource requirements mapping
+   - Time-to-market evaluation
 
-3. **Market Gap Analysis**
-   - Identify solution barriers
-   - Analyze market entry challenges
-   - Evaluate current market solutions
+### 2.2 Problem Validation (HWW)
+1. **Critical Problem Assessment**
+   - Problem existence verification
+   - "Must-have" vs "Nice-to-have" classification
+   - Problem persistence validation
+   - Solution urgency evaluation
+   - Historical solution analysis
+   - Failed attempts investigation
 
-4. **Target Demographics**
-   - Geographic distribution
-   - Psychological patterns
-   - Behavioral characteristics
-   - Trust factors
-   - Customer acquisition channels
+2. **Market Readiness**
+   - Payment willingness validation
+   - Price sensitivity analysis
+   - Adoption barrier assessment
+   - Market education needs
+   - Customer acquisition complexity
+   - Purchase decision factors
 
-### 2.2 Market Size Analysis (TAM-SAM-SOM)
-1. **Total Addressable Market**
-   - Calculate total user base
-   - Determine revenue opportunity
-   - Analyze price per user
-   - Identify market restrictions
+3. **Solution Viability**
+   - Technical feasibility
+   - Resource requirements
+   - Regulatory compliance
+   - Implementation timeline
+   - Cost structure analysis
+   - Scalability assessment
 
-2. **Serviceable Available Market**
-   - Define target segment
-   - Calculate accessible revenue
-   - Identify service constraints
-   - Analyze market restrictions
+### 2.3 Market Analysis (TAM-SAM-SOM)
+1. **Market Size Validation**
+   - Conservative market calculations
+   - Growth rate verification
+   - Market saturation assessment
+   - Entry barrier impact
+   - Revenue potential validation
 
-3. **Serviceable Obtainable Market**
-   - Calculate realistic market share
-   - Determine obtainable revenue
-   - Analyze conversion rates
-   - Identify capture limitations
+2. **Market Accessibility**
+   - Resource requirements validation
+   - Channel accessibility assessment
+   - Geographic constraints
+   - Regulatory limitations
+   - Competition intensity impact
 
-4. **Market Landscape Analysis**
-   - Market size metrics
-   - Demographic segmentation
-   - Growth rate analysis
-   - Pricing recommendations
-   - Opportunity identification
-   - Risk assessment
+3. **Realistic Market Share**
+   - Conservative capture estimation
+   - Resource-based limitations
+   - Competition impact assessment
+   - Timeline-based projections
+   - Risk-adjusted calculations
 
-### 2.3 Competitor Analysis
-1. **Top 5 Competitors Assessment**
-   - Revenue analysis
-   - User base metrics
-   - Platform comparison
-   - Effectiveness rating
-   - Feature analysis
-   - Pros and cons evaluation
-   - Ownership structure
-   - Business model analysis
-   - Price packaging
-   - Target demographics
+### 2.4 Competition Assessment
+1. **Market Saturation Analysis**
+   - Competitor density evaluation
+   - Market maturity assessment
+   - Entry barrier height
+   - Resource advantage analysis
+   - Brand value impact
 
-2. **SWOT Analysis**
-   - Analyze top 3 competitors
-   - Identify strengths
-   - Evaluate weaknesses
-   - Map opportunities
-   - Assess threats
+2. **Competitor Deep Dive**
+   - Failed competitor analysis
+   - Success factor identification
+   - Resource comparison
+   - Competitive advantage assessment
+   - Market positioning analysis
+   - Customer complaint patterns
 
-### 2.4 Validation Summary
-1. **Problem Validation**
-   - Worth solving score (1-10)
-   - Critical evaluation
-   - Implementation feasibility
-   - Market potential
+3. **Competitive Edge Validation**
+   - Unique advantage verification
+   - Sustainability assessment
+   - Resource gap analysis
+   - Time-to-market impact
+   - Defense strategy evaluation
 
-2. **SWOT Analysis**
-   - Business concept strengths
-   - Identified weaknesses
-   - Market opportunities
-   - Potential threats
+### 2.5 Risk Analysis & Final Verdict
+1. **Critical Risk Assessment**
+   - Market timing risks
+   - Resource adequacy risks
+   - Competition risks
+   - Execution risks
+   - Regulatory risks
+   - Technology risks
 
-3. **Alternative Solutions**
-   - Similar problem identification
-   - Potential pivots
-   - Market opportunity comparison
+2. **Scoring Framework**
+   - Problem validity score (1-10)
+   - Market opportunity score (1-10)
+   - Execution feasibility score (1-10)
+   - Resource adequacy score (1-10)
+   - Competitive advantage score (1-10)
+   - Overall viability score (1-10)
+
+3. **Go/No-Go Decision**
+   - Clear recommendation
+   - Critical failure points
+   - Resource gaps
+   - Timeline feasibility
+   - Investment requirements
+   - Risk mitigation requirements
+
+4. **Alternative Recommendations**
+   - Pivot suggestions
+   - Resource optimization
+   - Timeline adjustments
+   - Risk mitigation strategies
+   - Alternative market approaches
 
 ## 3. AI Analysis Requirements
 
-### 3.1 Analysis Tone & Style
-- Professional, analytical tone
-- Product manager perspective
-- Fact-based responses
-- Numerical data preference
-- Clear currency indicators
+### 3.1 Analysis Approach
+- Critically skeptical tone
+- Fact-based assessment
+- Conservative estimations
+- Clear risk identification
+- Brutal honesty principle
+- Evidence-based decisions
 
-### 3.2 Language Requirements
-- Multi-language support
-- Currency localization
-- Regional market context
-- Cultural considerations
+### 3.2 Response Quality
+- Specific, measurable metrics
+- Conservative numerical estimates
+- Clear failure criteria
+- Explicit risk identification
+- Actionable recommendations
+- Resource-based feasibility
 
-### 3.3 Data Requirements
-- Current market data
-- Factual information
-- Numerical estimates
-- Verifiable sources
-- Industry benchmarks
-
-### 3.4 Response Quality
-- Avoid vague terms
-- Provide specific metrics
-- Include numerical data
-- Clear recommendations
-- Actionable insights
+### 3.3 Validation Criteria
+- Strict problem validation
+- Conservative market sizing
+- Resource-based feasibility
+- Clear success metrics
+- Risk-adjusted projections
+- Competition-aware assessment
 
 ## 4. Analysis Constraints
 
@@ -144,53 +168,45 @@
 - Asynchronous processing
 - Parallel execution
 
-### 4.2 Data Constraints
-- Market data availability
-- Regional data accuracy
-- Industry-specific metrics
-- Competitor information
+### 4.2 Validation Requirements
+- Multiple data source verification
+- Conservative estimate principle
+- Risk-adjusted calculations
+- Resource-based feasibility
+- Market timing consideration
+- Competition impact assessment
 
-### 4.3 Time Constraints
-- Real-time analysis limits
-- Data freshness requirements
-- Processing time limits
-- Update frequency
+### 4.3 Quality Standards
+- Zero tolerance for optimistic bias
+- Strict validation criteria
+- Clear failure identification
+- Resource adequacy verification
+- Timeline feasibility assessment
+- Risk-aware recommendations
 
-## 5. Quality Requirements
+## 5. Future Improvements
 
-### 5.1 Analysis Accuracy
-- Market data verification
-- Competitor data validation
-- Financial metrics accuracy
-- Demographic precision
+### 5.1 Enhanced Validation
+- Machine learning-based validation
+- Historical data pattern analysis
+- Automated risk assessment
+- Resource optimization algorithms
+- Market timing analysis
+- Competition tracking systems
 
-### 5.2 Response Consistency
-- Structured analysis format
-- Consistent metrics usage
-- Standard terminology
-- Uniform evaluation criteria
-
-### 5.3 Analysis Depth
-- Comprehensive market coverage
-- Detailed competitor analysis
-- In-depth problem validation
-- Thorough recommendations
-
-## 6. Future Improvements
-
-### 6.1 Analysis Enhancements
+### 5.2 Analysis Enhancements
 - Enhanced data sources
 - Real-time market data
 - Improved accuracy metrics
 - Advanced validation techniques
 
-### 6.2 AI Capabilities
+### 5.3 AI Capabilities
 - Increased token limits
 - Real-time analysis
 - Enhanced accuracy
 - Broader market coverage
 
-### 6.3 User Experience
+### 5.4 User Experience
 - Improved transparency
 - Better source citations
 - Clearer methodology
