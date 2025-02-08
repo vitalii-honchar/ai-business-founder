@@ -32,6 +32,18 @@ function CompetitorCard({ competitor }) {
                     <p className="text-xs sm:text-sm text-gray-500">Revenue</p>
                     <p className="text-sm sm:text-base font-semibold text-gray-800">${formatNumber(competitor.revenue)}</p>
                 </div>
+                <div>
+                    <p className="text-xs sm:text-sm text-gray-500">Growth Rate</p>
+                    <p className="text-sm sm:text-base font-semibold text-gray-800">
+                        {competitor.growth_rate}%
+                    </p>
+                </div>
+                <div>
+                    <p className="text-xs sm:text-sm text-gray-500">User Growth</p>
+                    <p className="text-sm sm:text-base font-semibold text-gray-800">
+                        {competitor.user_growth_rate}%
+                    </p>
+                </div>
             </div>
 
             <div className="space-y-3">
@@ -69,6 +81,60 @@ function CompetitorCard({ competitor }) {
                         </ul>
                     </div>
                 </div>
+
+                <div>
+                    <p className="text-xs sm:text-sm font-medium text-gray-700">Customer Satisfaction</p>
+                    <div className="mt-1 bg-gray-200 rounded-full h-2">
+                        <div 
+                            className="bg-green-500 rounded-full h-2"
+                            style={{ width: `${competitor.customer_satisfaction * 10}%` }}
+                        />
+                    </div>
+                </div>
+
+                {competitor.failed_attempts?.length > 0 && (
+                    <div>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Failed Attempts</p>
+                        <ul className="mt-1 space-y-1">
+                            {competitor.failed_attempts.map((attempt, i) => (
+                                <li key={i} className="text-xs sm:text-sm text-gray-600">
+                                    {attempt}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {competitor.entry_barriers?.length > 0 && (
+                    <div>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Entry Barriers</p>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                            {competitor.entry_barriers.map((barrier, i) => (
+                                <span key={i} className="px-2 py-1 bg-red-50 text-red-700 rounded text-xs">
+                                    {barrier}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div>
+                    <p className="text-xs sm:text-sm font-medium text-gray-700">Market Maturity</p>
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                        {competitor.market_maturity}
+                    </p>
+                </div>
+
+                {competitor.resource_requirements?.length > 0 && (
+                    <div>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Resource Requirements</p>
+                        <ul className="list-disc list-inside text-xs sm:text-sm text-gray-600 space-y-1">
+                            {competitor.resource_requirements.map((req, i) => (
+                                <li key={i}>{req}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 <div className="pt-3 border-t border-gray-200">
                     <div className="flex justify-between text-xs sm:text-sm">
@@ -132,6 +198,77 @@ function SwotTable({ swotAnalysis }) {
     );
 }
 
+function MarketAnalysis({ marketAnalysis }) {
+    return (
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Market Analysis</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-base font-semibold mb-3">Market Saturation</h3>
+                    <p className="text-sm text-gray-700">{marketAnalysis.saturation_level}</p>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-base font-semibold mb-3">Entry Barriers</h3>
+                    <div className="space-y-2">
+                        {marketAnalysis.entry_barriers.map((barrier, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                                <span className="w-2 h-2 bg-red-400 rounded-full"></span>
+                                <span className="text-sm text-gray-700">{barrier}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-base font-semibold mb-3">Success Patterns</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        {marketAnalysis.success_patterns.map((pattern, i) => (
+                            <li key={i}>{pattern}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-base font-semibold mb-3">Failure Patterns</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        {marketAnalysis.failure_patterns.map((pattern, i) => (
+                            <li key={i}>{pattern}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg col-span-full">
+                    <h3 className="text-base font-semibold mb-3">Competitive Edge Sustainability</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <h4 className="text-sm font-medium mb-2">Time to Market Impact</h4>
+                            <p className="text-sm text-gray-700">
+                                {marketAnalysis.competitive_edge_sustainability.time_to_market_impact}
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="text-sm font-medium mb-2">Resource Gaps</h4>
+                            <ul className="list-disc list-inside text-sm text-gray-700">
+                                {marketAnalysis.competitive_edge_sustainability.resource_gaps.map((gap, i) => (
+                                    <li key={i}>{gap}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 className="text-sm font-medium mb-2">Defense Strategy</h4>
+                            <p className="text-sm text-gray-700">
+                                {marketAnalysis.competitive_edge_sustainability.defense_strategy}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function CompetitorAnalysisComponent({ competitorAnalysis }) {
     return (
         <>
@@ -142,6 +279,10 @@ export default function CompetitorAnalysisComponent({ competitorAnalysis }) {
             </div>
 
             <SwotTable swotAnalysis={competitorAnalysis.swot_analysis} />
+            
+            {competitorAnalysis.market_analysis && (
+                <MarketAnalysis marketAnalysis={competitorAnalysis.market_analysis} />
+            )}
         </>
     );
 }
