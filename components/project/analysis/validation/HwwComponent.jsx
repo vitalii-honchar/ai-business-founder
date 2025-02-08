@@ -7,10 +7,72 @@ function formatNumber(num) {
     return num.toString();
 }
 
+function PersistenceSection({ persistence }) {
+    return (
+        <div className="bg-blue-50 rounded-lg p-4 mb-4">
+            <h3 className="font-semibold text-gray-800 mb-2">Problem Persistence</h3>
+            <div className="space-y-2">
+                <div>
+                    <p className="text-sm text-gray-600">Duration</p>
+                    <p className="text-base font-medium text-gray-800">{persistence.duration}</p>
+                </div>
+                <div>
+                    <p className="text-sm text-gray-600">Trend</p>
+                    <p className="text-base font-medium text-gray-800">{persistence.trend}</p>
+                </div>
+                <div>
+                    <p className="text-sm text-gray-600">Analysis</p>
+                    <p className="text-base text-gray-700">{persistence.explanation}</p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function UrgencySection({ urgency }) {
+    return (
+        <div className="bg-red-50 rounded-lg p-4 mb-4">
+            <h3 className="font-semibold text-gray-800 mb-2">Problem Urgency</h3>
+            <div className="space-y-2">
+                <div>
+                    <p className="text-sm text-gray-600">Level</p>
+                    <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 rounded-full text-sm ${
+                            urgency.level === 'high' ? 'bg-red-100 text-red-800' :
+                            urgency.level === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-green-100 text-green-800'
+                        }`}>
+                            {urgency.level}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <p className="text-sm text-gray-600">Explanation</p>
+                    <p className="text-base text-gray-700">{urgency.explanation}</p>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function HistoricalAttemptsSection({ attempts }) {
+    return (
+        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+            <h3 className="font-semibold text-gray-800 mb-2">Historical Solution Attempts</h3>
+            <div className="space-y-2">
+                {attempts.map((attempt, index) => (
+                    <div key={index} className="bg-white rounded p-3">
+                        <p className="text-sm text-gray-700">{attempt}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 function HwwComponent({ hww }) {
     return (
-         <>
-            {/* Problem Size Section */}
+        <>
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">How big is this problem?</h2>
 
@@ -22,6 +84,21 @@ function HwwComponent({ hww }) {
                         <span className="text-sm uppercase">{hww.how_big_a_problem_is.overview.dimension}</span>
                     </div>
                 </div>
+
+                {/* New Persistence Section */}
+                {hww.how_big_a_problem_is.persistence && (
+                    <PersistenceSection persistence={hww.how_big_a_problem_is.persistence} />
+                )}
+
+                {/* New Urgency Section */}
+                {hww.how_big_a_problem_is.urgency && (
+                    <UrgencySection urgency={hww.how_big_a_problem_is.urgency} />
+                )}
+
+                {/* New Historical Attempts Section */}
+                {hww.how_big_a_problem_is.historical_attempts?.length > 0 && (
+                    <HistoricalAttemptsSection attempts={hww.how_big_a_problem_is.historical_attempts} />
+                )}
 
                 {/* Frequency Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">

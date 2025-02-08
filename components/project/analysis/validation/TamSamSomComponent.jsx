@@ -143,6 +143,98 @@ const MarketLandscape = ({ data }) => {
     );
 };
 
+function MarketReadinessSection({ readiness }) {
+    return (
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Market Readiness</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Payment Willingness */}
+                <div className="bg-green-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Payment Willingness</h3>
+                    <p className="text-sm text-gray-700">{readiness.payment_willingness}</p>
+                </div>
+
+                {/* Price Sensitivity */}
+                <div className="bg-blue-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Price Sensitivity</h3>
+                    <p className="text-sm text-gray-700">{readiness.price_sensitivity}</p>
+                </div>
+
+                {/* Adoption Barriers */}
+                <div className="bg-red-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Adoption Barriers</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-700">
+                        {readiness.adoption_barriers.map((barrier, i) => (
+                            <li key={i}>{barrier}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Education Needs */}
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Education Needs</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-700">
+                        {readiness.education_needs.map((need, i) => (
+                            <li key={i}>{need}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Decision Factors */}
+                <div className="bg-purple-50 p-4 rounded-lg col-span-full">
+                    <h3 className="font-medium text-gray-800 mb-2">Purchase Decision Factors</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {readiness.decision_factors.map((factor, i) => (
+                            <div key={i} className="bg-white p-2 rounded">
+                                <p className="text-sm text-gray-700">{factor}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function RiskAdjustmentsSection({ risks }) {
+    return (
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Risk Adjustments</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Market Timing */}
+                <div className="bg-orange-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Market Timing</h3>
+                    <p className="text-sm text-gray-700">{risks.market_timing}</p>
+                </div>
+
+                {/* Resource Adequacy */}
+                <div className="bg-teal-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Resource Adequacy</h3>
+                    <p className="text-sm text-gray-700">{risks.resource_adequacy}</p>
+                </div>
+
+                {/* Competition Impact */}
+                <div className="bg-indigo-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Competition Impact</h3>
+                    <p className="text-sm text-gray-700">{risks.competition_impact}</p>
+                </div>
+
+                {/* Regulatory Risks */}
+                <div className="bg-red-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-800 mb-2">Regulatory Risks</h3>
+                    <ul className="list-disc list-inside text-sm text-gray-700">
+                        {risks.regulatory_risks.map((risk, i) => (
+                            <li key={i}>{risk}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function TamSamSomComponent({ tamSamSom }) {
     return (
         <div className="w-full max-w-full overflow-hidden space-y-4 sm:space-y-6">
@@ -179,6 +271,12 @@ export default function TamSamSomComponent({ tamSamSom }) {
                 />
             </div>
             <MarketLandscape data={tamSamSom.market_landscape} />
+            {tamSamSom.market_landscape.market_readiness && (
+                <MarketReadinessSection readiness={tamSamSom.market_landscape.market_readiness} />
+            )}
+            {tamSamSom.market_landscape.risk_adjustments && (
+                <RiskAdjustmentsSection risks={tamSamSom.market_landscape.risk_adjustments} />
+            )}
         </div>
     );
 }
