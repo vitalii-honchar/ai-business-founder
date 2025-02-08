@@ -20,6 +20,7 @@ const ProjectCards = ({ projects }) => {
                     key={index}
                     href={`/application/project/${project.id}`}
                     className="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-[1.02] cursor-pointer"
+                    prefetch={false}
                 >
                     <div className="p-6">
                         <h3 className="text-xl font-semibold text-gray-800 mb-4">{project.name}</h3>
