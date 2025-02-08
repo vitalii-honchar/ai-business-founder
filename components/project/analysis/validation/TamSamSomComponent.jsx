@@ -2,19 +2,47 @@ import { HiInformationCircle, HiChevronDown, HiChevronUp } from 'react-icons/hi'
 import { useState } from 'react';
 
 const formatNumber = (num) => {
-    return new Intl.NumberFormat('en-US', {
-        notation: 'compact',
-        maximumFractionDigits: 1
-    }).format(num);
+    if (!num) return '0';
+    
+    // For millions
+    if (num >= 1000000) {
+        const millions = (num / 1000000);
+        return millions % 1 === 0 ? `${millions}M` : `${millions.toFixed(1)}M`;
+    }
+    
+    // For thousands
+    if (num >= 1000) {
+        const thousands = (num / 1000);
+        return thousands % 1 === 0 ? `${thousands}K` : `${thousands.toFixed(1)}K`;
+    }
+    
+    // For hundreds and smaller
+    return num.toLocaleString();
 };
 
 const formatMoney = (num) => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        notation: 'compact',
-        maximumFractionDigits: 1
-    }).format(num);
+    if (!num) return '$0';
+    
+    // For billions
+    if (num >= 1000000000) {
+        const billions = (num / 1000000000);
+        return `$${billions % 1 === 0 ? billions : billions.toFixed(1)}B`;
+    }
+    
+    // For millions
+    if (num >= 1000000) {
+        const millions = (num / 1000000);
+        return `$${millions % 1 === 0 ? millions : millions.toFixed(1)}M`;
+    }
+    
+    // For thousands
+    if (num >= 1000) {
+        const thousands = (num / 1000);
+        return `$${thousands % 1 === 0 ? thousands : thousands.toFixed(1)}K`;
+    }
+    
+    // For hundreds and smaller
+    return `$${num.toLocaleString()}`;
 };
 
 const MarketCard = ({ title, data, color, definition }) => (
@@ -79,7 +107,7 @@ const MarketLandscape = ({ data }) => {
                                 <div key={index} 
                                      className="flex justify-between py-2 px-3 hover:bg-white rounded transition-colors">
                                     <span className="text-gray-600">{item.name}</span>
-                                    <span className="font-medium">{item.value}</span>
+                                    <span className="font-medium">{formatNumber(item.value)}</span>
                                 </div>
                             ))}
                         </div>
