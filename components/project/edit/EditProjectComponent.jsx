@@ -92,7 +92,7 @@ export default function EditProjectComponent({ project: initialProject }) {
     }, [isNavOpen]);
 
     const getTasksStatus = () => {
-        const totalTasks = ['hww', 'tamSamSom', 'competitorAnalysis', 'summary'];
+        const totalTasks = ['hww', 'tamSamSom', 'competitorAnalysis', 'summary', 'optimizations'];
         const pendingTasks = project?.data?.tasks?.validation?.length ?? 0;
         const completedTasks = totalTasks.filter(section =>
             get(project?.data?.analysis?.validation, section)

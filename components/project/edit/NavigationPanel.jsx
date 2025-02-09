@@ -25,6 +25,10 @@ const navigationItems = [
                 title: '📋 Summary',
                 id: 'summary'
             },
+            {
+                title: '✨ Optimizations',
+                id: 'optimizations'
+            }
         ]
     },
 ];
@@ -55,6 +59,10 @@ const NavigationPanel = ({ onNavigate, activeItem, project, closeNav }) => {
             'summary': {
                 taskName: 'generate_summary',
                 analysisPath: 'validation.summary'
+            },
+            'optimizations': {
+                taskName: 'generate_optimizations',
+                analysisPath: 'validation.optimizations'
             }
         };
 
