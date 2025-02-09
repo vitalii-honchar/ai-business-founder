@@ -8,13 +8,15 @@ import ComponentCard from '@/components/project/analysis/ComponentCard';
 import SummaryComponent from '@/components/project/analysis/validation/SummaryComponent';
 import eventEmitter, { eventItemVisible } from '@/lib/client/eventEmitter';
 import { getUserId } from '@/lib/db/dbClient';
+import OptimizationsComponent from '@/components/project/analysis/validation/OptimizationsComponent';
 
 const sections = [
     { id: 'user-input', label: 'User Input', icon: '👤' },
     { id: 'hww', label: 'Problem Research', icon: '🤔' },
     { id: 'tam-sam-som', label: 'Market Size', icon: '📊' },
     { id: 'competitor-analysis', label: 'Competitor Analysis', icon: '🎯' },
-    { id: 'summary', label: 'Summary', icon: '📋' }
+    { id: 'summary', label: 'Summary', icon: '📋' },
+    { id: 'optimizations', label: 'Optimizations', icon: '✨' }
 ];
 
 const isTaskPending = (project, taskName) => {
@@ -66,7 +68,8 @@ export default function ValidationComponent({ project, loading, onSubmit, active
             hww: 'analyze_hww',
             'tam-sam-som': 'analyze_tam_sam_som',
             'competitor-analysis': 'analyze_competitors',
-            'summary': 'generate_summary'
+            'summary': 'generate_summary',
+            'generateOptimizations': 'generate_optimizations'
         };
         switch (activeItemId) {
             case 'user-input':
@@ -134,6 +137,23 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         ) : project?.data?.analysis?.validation?.summary ? (
                             <SummaryComponent 
                                 summary={project.data.analysis.validation.summary} 
+                                readOnly={readOnly}
+                            />
+                        ) : null}
+                    </ComponentCard>
+                );
+            case 'optimizations':
+                return (
+                    <ComponentCard
+                        title="Optimized Variations"
+                        icon={currentSection.icon}
+                        loading={isTaskPending(project, tasks.generateOptimizations)}
+                    >
+                        {isTaskPending(project, tasks.generateOptimizations) ? (
+                            renderLoadingState("We're generating optimized variations of your business idea...")
+                        ) : project?.data?.analysis?.validation?.optimizations ? (
+                            <OptimizationsComponent 
+                                optimizations={project.data.analysis.validation.optimizations.optimized_problems} 
                                 readOnly={readOnly}
                             />
                         ) : null}
