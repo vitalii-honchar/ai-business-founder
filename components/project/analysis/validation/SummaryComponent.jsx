@@ -138,7 +138,9 @@ function RiskSection({ risks }) {
                     <ul className="space-y-0.5 sm:space-y-1">
                         {items.map((risk, index) => (
                             <li key={index} className="text-sm text-gray-700">
-                                • {risk}
+                                • {typeof risk === 'object' ? 
+                                    `${risk.item} (${risk.currency}${risk.amount})` : 
+                                    risk}
                             </li>
                         ))}
                     </ul>
@@ -149,13 +151,20 @@ function RiskSection({ risks }) {
 }
 
 function FeasibilitySection({ feasibility }) {
+    const formatItem = (item) => {
+        if (typeof item === 'object') {
+            return `${item.item} (${item.currency}${item.amount})`;
+        }
+        return item;
+    };
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
             <div className="bg-yellow-50 p-2 sm:p-3 rounded-lg">
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Critical Failure Points</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {feasibility.critical_failure_points.map((point, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {point}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(point)}</li>
                     ))}
                 </ul>
             </div>
@@ -163,19 +172,19 @@ function FeasibilitySection({ feasibility }) {
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Resource Gaps</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {feasibility.resource_gaps.map((gap, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {gap}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(gap)}</li>
                     ))}
                 </ul>
             </div>
             <div className="bg-blue-50 p-2 sm:p-3 rounded-lg">
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Timeline Feasibility</h4>
-                <p className="text-sm text-gray-700">{feasibility.timeline_feasibility}</p>
+                <p className="text-sm text-gray-700">{formatItem(feasibility.timeline_feasibility)}</p>
             </div>
             <div className="bg-green-50 p-2 sm:p-3 rounded-lg">
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Investment Requirements</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {feasibility.investment_requirements.map((req, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {req}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(req)}</li>
                     ))}
                 </ul>
             </div>
@@ -184,13 +193,20 @@ function FeasibilitySection({ feasibility }) {
 }
 
 function AlternativesSection({ alternatives }) {
+    const formatItem = (item) => {
+        if (typeof item === 'object') {
+            return `${item.item} (${item.currency}${item.amount})`;
+        }
+        return item;
+    };
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
             <div className="bg-purple-50 p-2 sm:p-3 rounded-lg">
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Pivot Suggestions</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {alternatives.pivot_suggestions.map((suggestion, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {suggestion}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(suggestion)}</li>
                     ))}
                 </ul>
             </div>
@@ -198,7 +214,7 @@ function AlternativesSection({ alternatives }) {
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Resource Optimization</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {alternatives.resource_optimization.map((opt, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {opt}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(opt)}</li>
                     ))}
                 </ul>
             </div>
@@ -206,7 +222,7 @@ function AlternativesSection({ alternatives }) {
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Timeline Adjustments</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {alternatives.timeline_adjustments.map((adj, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {adj}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(adj)}</li>
                     ))}
                 </ul>
             </div>
@@ -214,7 +230,7 @@ function AlternativesSection({ alternatives }) {
                 <h4 className="font-medium text-gray-800 mb-1 sm:mb-2">Risk Mitigation</h4>
                 <ul className="space-y-0.5 sm:space-y-1">
                     {alternatives.risk_mitigation.map((mitigation, index) => (
-                        <li key={index} className="text-sm text-gray-700">• {mitigation}</li>
+                        <li key={index} className="text-sm text-gray-700">• {formatItem(mitigation)}</li>
                     ))}
                 </ul>
             </div>
@@ -396,7 +412,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                                 {recommendation.swot_analysis.strengths.map((item, index) => (
                                     <li key={index} className="flex items-start gap-2 text-green-700">
                                         <span className="text-green-500 mt-1">•</span>
-                                        <span>{item}</span>
+                                        <span>{typeof item === 'object' ? `${item.item} (${item.currency}${item.amount})` : item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -409,7 +425,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                                 {recommendation.swot_analysis.weaknesses.map((item, index) => (
                                     <li key={index} className="flex items-start gap-2 text-red-700">
                                         <span className="text-red-500 mt-1">•</span>
-                                        <span>{item}</span>
+                                        <span>{typeof item === 'object' ? `${item.item} (${item.currency}${item.amount})` : item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -422,7 +438,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                                 {recommendation.swot_analysis.opportunities.map((item, index) => (
                                     <li key={index} className="flex items-start gap-2 text-yellow-700">
                                         <span className="text-yellow-500 mt-1">•</span>
-                                        <span>{item}</span>
+                                        <span>{typeof item === 'object' ? `${item.item} (${item.currency}${item.amount})` : item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -435,7 +451,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                                 {recommendation.swot_analysis.threats.map((item, index) => (
                                     <li key={index} className="flex items-start gap-2 text-gray-700">
                                         <span className="text-gray-500 mt-1">•</span>
-                                        <span>{item}</span>
+                                        <span>{typeof item === 'object' ? `${item.item} (${item.currency}${item.amount})` : item}</span>
                                     </li>
                                 ))}
                             </ul>
