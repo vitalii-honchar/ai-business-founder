@@ -119,28 +119,33 @@ function ValidationDecision({ decision }) {
 function RevenueValidation({ revenue }) {
     return (
         <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Top metrics cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Monthly Revenue</div>
+                    <div className="text-sm text-gray-600 mb-1">Total Revenue</div>
                     <div className="text-2xl font-bold text-blue-700">
-                        {formatNumber(revenue.calculation.monthly_recurring_revenue)} {revenue.currency}
+                        {formatNumber(revenue.amount)} {revenue.currency}
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1">
+                        Error margin: ±{revenue.error_margin}%
                     </div>
                 </div>
                 <div className="bg-green-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Annual Revenue</div>
+                    <div className="text-sm text-gray-600 mb-1">Monthly Revenue</div>
                     <div className="text-2xl font-bold text-green-700">
-                        {formatNumber(revenue.calculation.annual_recurring_revenue)} {revenue.currency}
+                        {formatNumber(revenue.calculation.monthly_recurring_revenue)} {revenue.currency}
                     </div>
                 </div>
                 <div className="bg-purple-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Total Market Size</div>
+                    <div className="text-sm text-gray-600 mb-1">Annual Revenue</div>
                     <div className="text-2xl font-bold text-purple-700">
-                        {formatNumber(revenue.calculation.total_addressable_market)} {revenue.currency}
+                        {formatNumber(revenue.calculation.annual_recurring_revenue)} {revenue.currency}
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Key metrics and calculations */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
                     <div className="text-sm font-medium mb-2">Key Metrics</div>
                     <div className="space-y-2">
@@ -150,7 +155,7 @@ function RevenueValidation({ revenue }) {
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Revenue/User</span>
-                            <span className="font-medium">{formatNumber(revenue.calculation.revenue_per_user)}</span>
+                            <span className="font-medium">{formatNumber(revenue.calculation.revenue_per_user)} {revenue.currency}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Churn Rate</span>
@@ -158,9 +163,68 @@ function RevenueValidation({ revenue }) {
                                 {(revenue.calculation.churn_rate * 100).toFixed(1)}%
                             </span>
                         </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm text-gray-600">Conversion Rate</span>
+                            <span className="font-medium">
+                                {(revenue.calculation.conversion_rate * 100).toFixed(1)}%
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm text-gray-600">TAM</span>
+                            <span className="font-medium">
+                                {formatNumber(revenue.calculation.total_addressable_market)}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="text-sm font-medium mb-2">Key Assumptions</div>
+                    <div className="space-y-2">
+                        {revenue.key_assumptions.map((assumption, index) => (
+                            <div key={index} className="text-sm text-gray-600">• {assumption}</div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="text-sm font-medium mb-2">Calculation Method</div>
+                    <div className="text-sm text-gray-600">{revenue.calculation_method}</div>
+                </div>
+            </div>
+
+            {/* Validation and risk sections */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="text-sm font-medium mb-2">Confidence Factors</div>
+                    <div className="space-y-2">
+                        {revenue.confidence_factors.map((factor, index) => (
+                            <div key={index} className="text-sm text-gray-600">• {factor}</div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="text-sm font-medium mb-2">Risk Adjustments</div>
+                    <div className="space-y-2">
+                        {revenue.risk_adjustments.map((risk, index) => (
+                            <div key={index} className="text-sm text-gray-600">• {risk}</div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="text-sm font-medium mb-2">Assumption Validation</div>
+                    <div className="space-y-2">
+                        {revenue.assumption_validation.map((validation, index) => (
+                            <div key={index} className="text-sm text-gray-600">• {validation}</div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Validation status and confidence */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
                     <div className="text-sm font-medium mb-2">Validation Status</div>
                     <div className="space-y-2">
@@ -178,21 +242,16 @@ function RevenueValidation({ revenue }) {
                 </div>
 
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="text-sm font-medium mb-2">Confidence Score</div>
-                    <div className="text-3xl font-bold text-blue-600">
-                        {revenue.confidence_score}/10
-                    </div>
-                    <div className="text-sm text-gray-600 mt-2">
-                        Timeline: {revenue.timeline}
-                    </div>
-                </div>
-
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <div className="text-sm font-medium mb-2">Validation Steps</div>
+                    <div className="text-sm font-medium mb-2">Overview</div>
                     <div className="space-y-2">
-                        {revenue.verification_steps.map((step, index) => (
-                            <div key={index} className="text-sm text-gray-600">• {step}</div>
-                        ))}
+                        <div className="flex justify-between">
+                            <span className="text-sm text-gray-600">Confidence Score:</span>
+                            <span className="font-bold text-blue-600">{revenue.confidence_score}/10</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm text-gray-600">Timeline:</span>
+                            <span className="text-gray-800">{revenue.timeline}</span>
+                        </div>
                     </div>
                 </div>
             </div>
