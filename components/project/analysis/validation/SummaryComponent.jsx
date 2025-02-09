@@ -72,6 +72,66 @@ function ScoreCard({ label, score }) {
     );
 }
 
+function AchievableRevenueCard({ achievableRevenue }) {
+    const { amount, currency, timeline, confidence_score, key_assumptions } = achievableRevenue;
+    
+    const getConfidenceColor = (score) => {
+        if (score >= 8) return 'text-green-700 bg-green-50 ring-green-500/30';
+        if (score >= 6) return 'text-blue-700 bg-blue-50 ring-blue-500/30';
+        if (score >= 4) return 'text-yellow-700 bg-yellow-50 ring-yellow-500/30';
+        return 'text-red-700 bg-red-50 ring-red-500/30';
+    };
+
+    return (
+        <div className="bg-white rounded-lg shadow p-4">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Achievable Revenue</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Revenue Amount and Timeline */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4">
+                    <div className="mb-4">
+                        <div className="text-sm text-gray-600 mb-1">Estimated Revenue</div>
+                        <div className="text-2xl font-bold text-blue-700">
+                            {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: currency || 'USD',
+                                maximumFractionDigits: 0,
+                            }).format(amount)}
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-sm text-gray-600 mb-1">Timeline</div>
+                        <div className="text-lg font-medium text-gray-800">{timeline}</div>
+                    </div>
+                </div>
+
+                {/* Confidence Score and Assumptions */}
+                <div className="space-y-4">
+                    <div className={`rounded-lg p-4 ring-1 ring-inset ${getConfidenceColor(confidence_score)}`}>
+                        <div className="text-sm text-gray-600 mb-1">Confidence Score</div>
+                        <div className="flex items-end gap-2">
+                            <span className="text-2xl font-bold">{confidence_score}</span>
+                            <span className="text-sm text-gray-500 mb-1">/10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Key Assumptions */}
+            <div className="mt-4">
+                <h4 className="font-medium text-gray-700 mb-2">Key Assumptions</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {key_assumptions.map((assumption, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
+                            <span className="text-blue-500 mt-1">•</span>
+                            <span>{assumption}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
+
 function RiskSection({ risks }) {
     return (
         <div className="bg-white rounded-lg shadow p-4">
@@ -312,18 +372,6 @@ export default function SummaryComponent({ summary, readOnly }) {
 
     const { recommendation, optimized_problems } = summary;
 
-    const getScoreColor = (score) => {
-        if (score >= 8) return 'bg-green-600';
-        if (score >= 5) return 'bg-blue-600';
-        return 'bg-red-600';
-    };
-
-    const getScoreTextColor = (score) => {
-        if (score >= 8) return 'text-green-600';
-        if (score >= 5) return 'text-blue-600';
-        return 'text-red-600';
-    };
-
     return (
         <div className="space-y-6">
             {/* Main Recommendation */}
@@ -339,7 +387,7 @@ export default function SummaryComponent({ summary, readOnly }) {
 
                 <p className="text-gray-600 mb-6">{recommendation.explanation}</p>
 
-                {/* Scores Grid - Updated layout */}
+                {/* Scores Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     <ScoreCard 
                         label="Problem Validity" 
@@ -368,7 +416,7 @@ export default function SummaryComponent({ summary, readOnly }) {
                 </div>
 
                 {/* SWOT Analysis */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                     <div className="bg-green-50 p-2 md:p-4 rounded-lg">
                         <h3 className="font-medium mb-1 md:mb-2 text-green-800">Strengths</h3>
                         <ul className="list-disc list-inside text-sm text-gray-600">
@@ -402,6 +450,9 @@ export default function SummaryComponent({ summary, readOnly }) {
                         </ul>
                     </div>
                 </div>
+
+                {/* Move Achievable Revenue here */}
+                <AchievableRevenueCard achievableRevenue={recommendation.achievable_revenue} />
             </div>
 
             {/* Go/No-Go Decision Section */}
