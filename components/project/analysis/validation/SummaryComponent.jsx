@@ -3,6 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+function formatNumber(num) {
+    if (num == null) {
+        return 'N/A';
+    }
+    if (num >= 1000000) {
+        return `${(num / 1000000).toFixed(1)}M`;
+    } else if (num >= 1000) {
+        return `${(num / 1000).toFixed(1)}K`;
+    }
+    return num.toString();
+}
+
 // Reusable components
 function ScoreCard({ label, score }) {
     const getScoreConfig = (score) => {
@@ -111,19 +123,19 @@ function RevenueValidation({ revenue }) {
                 <div className="bg-blue-50 p-4 rounded-lg">
                     <div className="text-sm text-gray-600 mb-1">Monthly Revenue</div>
                     <div className="text-2xl font-bold text-blue-700">
-                        {revenue.calculation.monthly_recurring_revenue} {revenue.currency}
+                        {formatNumber(revenue.calculation.monthly_recurring_revenue)} {revenue.currency}
                     </div>
                 </div>
                 <div className="bg-green-50 p-4 rounded-lg">
                     <div className="text-sm text-gray-600 mb-1">Annual Revenue</div>
                     <div className="text-2xl font-bold text-green-700">
-                        {revenue.calculation.annual_recurring_revenue} {revenue.currency}
+                        {formatNumber(revenue.calculation.annual_recurring_revenue)} {revenue.currency}
                     </div>
                 </div>
                 <div className="bg-purple-50 p-4 rounded-lg">
                     <div className="text-sm text-gray-600 mb-1">Total Market Size</div>
                     <div className="text-2xl font-bold text-purple-700">
-                        {revenue.calculation.total_addressable_market} {revenue.currency}
+                        {formatNumber(revenue.calculation.total_addressable_market)} {revenue.currency}
                     </div>
                 </div>
             </div>
@@ -134,11 +146,11 @@ function RevenueValidation({ revenue }) {
                     <div className="space-y-2">
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Total Users</span>
-                            <span className="font-medium">{revenue.calculation.total_users}</span>
+                            <span className="font-medium">{formatNumber(revenue.calculation.total_users)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Revenue/User</span>
-                            <span className="font-medium">{revenue.calculation.revenue_per_user}</span>
+                            <span className="font-medium">{formatNumber(revenue.calculation.revenue_per_user)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Churn Rate</span>
