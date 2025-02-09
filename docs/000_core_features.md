@@ -19,6 +19,8 @@
   - Founder's expertise alignment
   - Financial requirements and constraints
   - Time-to-market constraints
+  - Target monthly revenue
+  - Revenue timeline expectations
 
 ### 1.2 HWW (How-Why-What) Analysis
 - **Critical Problem Validation**

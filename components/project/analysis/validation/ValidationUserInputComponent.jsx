@@ -9,7 +9,8 @@ const defaultFormData = {
     language: "",
     platform: "",
     currency: "",
-    auditory: "", // Add new field
+    targetRevenue: "",
+    auditory: "",
     personalConstraints: "",
 }
 
@@ -21,7 +22,8 @@ const placeholders = {
     location: "Define your go-to-market region. Example: 'Starting with NYC & SF tech hubs, expanding to top 10 US startup ecosystems', 'Major European business centers', 'English-speaking markets globally'",
     language: "Business communication languages. Example: 'English primary, support docs in Spanish & French', 'English + Mandarin for Asian market expansion', 'German - focusing on DACH region'",
     platform: "Delivery strategy. Example: 'Cloud-based SaaS with admin dashboard', 'Mobile-first platform with web portal', 'API-first service with white-label options'",
-    currency: "Revenue currencies. Example: 'USD primary + major European currencies', 'USD globally with local payment options', 'Multi-currency: focusing on USD, EUR, GBP for enterprise clients'"
+    currency: "Revenue currencies. Example: 'USD primary + major European currencies', 'USD globally with local payment options', 'Multi-currency: focusing on USD, EUR, GBP for enterprise clients'",
+    targetRevenue: "What's your target revenue? Example: '$50,000 monthly revenue' or '$1M ARR'",
 }
 
 const orderedFields = [
@@ -32,7 +34,8 @@ const orderedFields = [
     'location',
     'language',
     'platform',
-    'currency'
+    'currency',
+    'targetRevenue',
 ];
 
 // Add loading indicator and input validation
@@ -97,7 +100,7 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                     {orderedFields.slice(1).map(key => (
                         <div key={key}>
                             <label className="block text-sm font-medium text-gray-700 capitalize">
-                                {key.replace(/([A-Z])/g, ' $1').toLowerCase()} <span className="text-red-500">*</span>
+                                {key === 'targetRevenue' ? 'Target Revenue' : key.replace(/([A-Z])/g, ' $1').toLowerCase()} <span className="text-red-500">*</span>
                             </label>
                             {key === 'auditory' || key === 'personalConstraints' ? (
                                 <div className="mt-1">
