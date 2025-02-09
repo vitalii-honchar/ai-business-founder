@@ -1,6 +1,9 @@
 import { HiInformationCircle } from 'react-icons/hi';
 
 function formatNumber(num) {
+    if (num == null) {
+        return 'N/A';
+    }
     if (num >= 1000000) {
         return `${(num / 1000000).toFixed(1)}M`;
     } else if (num >= 1000) {
@@ -24,11 +27,11 @@ function CompetitorCard({ competitor }) {
             <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <p className="text-sm text-gray-500">Users</p>
-                    <p className="text-base font-semibold text-gray-800">{competitor.users}</p>
+                    <p className="text-base font-semibold text-gray-800">{formatNumber(competitor.users)}</p>
                 </div>
                 <div>
                     <p className="text-sm text-gray-500">Revenue</p>
-                    <p className="text-base font-semibold text-gray-800">${competitor.revenue}</p>
+                    <p className="text-base font-semibold text-gray-800">${formatNumber(competitor.revenue)}</p>
                 </div>
                 <div>
                     <p className="text-sm text-gray-500">Growth Rate</p>
