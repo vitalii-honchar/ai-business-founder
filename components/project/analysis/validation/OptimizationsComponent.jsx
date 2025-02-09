@@ -170,7 +170,7 @@ function getIconForKey(key) {
     return icons[key] || null;
 }
 
-export default function OptimizationsComponent({ optimizations, readOnly }) {
+export default function OptimizationsComponent({ optimizations = [], readOnly }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -187,6 +187,28 @@ export default function OptimizationsComponent({ optimizations, readOnly }) {
             setLoading(false);
         }
     };
+
+    // Show loading state if no optimizations are provided yet
+    if (!optimizations) {
+        return (
+            <div className="flex items-center justify-center p-8">
+                <div className="text-center">
+                    <span className="animate-spin text-2xl inline-block mb-2">⚡</span>
+                    <p className="text-gray-600">Loading optimizations...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Show message if optimizations array is empty
+    if (optimizations.length === 0) {
+        return (
+            <div className="bg-gray-50 rounded-lg p-6 text-center">
+                <span className="text-2xl mb-2 inline-block">🤔</span>
+                <p className="text-gray-600">No optimizations available yet.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
