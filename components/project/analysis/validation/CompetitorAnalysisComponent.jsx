@@ -15,40 +15,48 @@ function formatNumber(num) {
 function CompetitorCard({ competitor }) {
     return (
         <div className="bg-white rounded-lg shadow-lg p-3 sm:p-4 hover:shadow-xl transition-shadow">
-            <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base sm:text-lg font-bold text-gray-800">{competitor.name}</h3>
-                <div className={`px-2 py-1 rounded-full text-xs sm:text-sm ${
-                    competitor.uptime_effectiveness?.includes('99.9') ? 'bg-red-50 text-red-800' : 'bg-red-50 text-red-800'
-                }`}>
-                    High with {competitor.uptime_effectiveness} uptime effectiveness
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-0">{competitor.name}</h3>
+                <div className="flex flex-wrap gap-2">
+                    <span className={`px-2 py-1 rounded-full text-xs ${
+                        competitor.public_status === 'Public' ? 'bg-green-50 text-green-700' : 'bg-blue-50 text-blue-700'
+                    }`}>
+                        {competitor.public_status || 'Private'}
+                    </span>
+                    <span className="px-2 py-1 bg-purple-50 text-purple-700 rounded-full text-xs">
+                        {competitor.effectiveness}
+                    </span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                 <div>
-                    <p className="text-sm text-gray-500">Users</p>
-                    <p className="text-base font-semibold text-gray-800">{formatNumber(competitor.users)}</p>
+                    <p className="text-xs text-gray-500">Revenue</p>
+                    <p className="text-sm font-semibold text-gray-800">${formatNumber(competitor.revenue)}</p>
                 </div>
                 <div>
-                    <p className="text-sm text-gray-500">Revenue</p>
-                    <p className="text-base font-semibold text-gray-800">${formatNumber(competitor.revenue)}</p>
+                    <p className="text-xs text-gray-500">Users</p>
+                    <p className="text-sm font-semibold text-gray-800">{formatNumber(competitor.user_base)}</p>
                 </div>
                 <div>
-                    <p className="text-sm text-gray-500">Growth Rate</p>
-                    <p className="text-base font-semibold text-gray-800">{competitor.growth_rate}%</p>
+                    <p className="text-xs text-gray-500">Growth Rate</p>
+                    <p className="text-sm font-semibold text-gray-800">{competitor.growth_rate}%</p>
                 </div>
                 <div>
-                    <p className="text-sm text-gray-500">User Growth</p>
-                    <p className="text-base font-semibold text-gray-800">{competitor.user_growth}%</p>
+                    <p className="text-xs text-gray-500">User Growth</p>
+                    <p className="text-sm font-semibold text-gray-800">{competitor.user_growth_rate}%</p>
                 </div>
             </div>
 
-            <div className="space-y-4">
+            {/* Platform & Features */}
+            <div className="space-y-3 mb-4">
                 <div>
-                    <p className="text-sm font-medium text-gray-700">Platform</p>
-                    <div className="flex gap-2 mt-1">
-                        {competitor.platforms?.map((p, i) => (
-                            <span key={i} className="px-2 py-1 bg-gray-100 rounded text-sm text-gray-600">
+                    <p className="text-xs font-medium text-gray-700 mb-1">Platform</p>
+                    <div className="flex flex-wrap gap-2">
+                        {competitor.platform?.map((p, i) => (
+                            <span key={i} className="px-2 py-1 bg-gray-100 rounded text-xs text-gray-600">
                                 {p}
                             </span>
                         ))}
@@ -56,50 +64,87 @@ function CompetitorCard({ competitor }) {
                 </div>
 
                 <div>
-                    <p className="text-sm font-medium text-gray-700">Main Feature</p>
-                    <p className="text-sm text-gray-600 mt-1">{competitor.main_feature}</p>
+                    <p className="text-xs font-medium text-gray-700 mb-1">Main Features</p>
+                    <p className="text-xs text-gray-600">{competitor.main_feature}</p>
                 </div>
+            </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Pros</p>
-                        <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                            {competitor.pros.map((pro, i) => (
-                                <li key={i}>{pro}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Cons</p>
-                        <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                            {competitor.cons.map((con, i) => (
-                                <li key={i}>{con}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
+            {/* Pros & Cons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 <div>
-                    <p className="text-sm font-medium text-gray-700 mb-2">Customer Satisfaction</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '95%' }} />
+                    <p className="text-xs font-medium text-gray-700 mb-1">Pros</p>
+                    <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
+                        {competitor.pros.map((pro, i) => (
+                            <li key={i}>{pro}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <p className="text-xs font-medium text-gray-700 mb-1">Cons</p>
+                    <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
+                        {competitor.cons.map((con, i) => (
+                            <li key={i}>{con}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+
+            {/* Business Model & Pricing */}
+            <div className="space-y-3 mb-4">
+                <div>
+                    <p className="text-xs font-medium text-gray-700 mb-1">Business Model</p>
+                    <p className="text-xs text-gray-600">{competitor.business_model}</p>
+                </div>
+                <div>
+                    <p className="text-xs font-medium text-gray-700 mb-1">Price Packages</p>
+                    <div className="flex flex-wrap gap-2">
+                        {competitor.price_packages?.map((pkg, i) => (
+                            <span key={i} className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">
+                                {pkg}
+                            </span>
+                        ))}
                     </div>
                 </div>
+            </div>
 
-                {competitor.failed_attempts && (
-                    <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Failed Attempts</p>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                            {competitor.failed_attempts.map((attempt, i) => (
-                                <li key={i}>{attempt}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
+            {/* Customer Demographics */}
+            <div className="mb-4">
+                <p className="text-xs font-medium text-gray-700 mb-1">Target Demographics</p>
+                <div className="flex flex-wrap gap-2">
+                    {competitor.demographics?.map((demo, i) => (
+                        <span key={i} className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
+                            {demo}
+                        </span>
+                    ))}
+                </div>
+            </div>
 
-                {competitor.entry_barriers && (
+            {/* Customer Satisfaction */}
+            <div className="mb-4">
+                <div className="flex items-center justify-between mb-1">
+                    <p className="text-xs font-medium text-gray-700">Customer Satisfaction</p>
+                    <span className="text-xs font-medium text-gray-600">
+                        {competitor.customer_satisfaction}%
+                    </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                        className="bg-green-500 h-2 rounded-full" 
+                        style={{ width: `${competitor.customer_satisfaction}%` }} 
+                    />
+                </div>
+            </div>
+
+            {/* Market Analysis */}
+            <div className="space-y-3">
+                <div>
+                    <p className="text-xs font-medium text-gray-700 mb-1">Market Maturity</p>
+                    <p className="text-xs text-gray-600">{competitor.market_maturity}</p>
+                </div>
+
+                {competitor.entry_barriers?.length > 0 && (
                     <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Entry Barriers</p>
+                        <p className="text-xs font-medium text-gray-700 mb-1">Entry Barriers</p>
                         <div className="flex flex-wrap gap-2">
                             {competitor.entry_barriers.map((barrier, i) => (
                                 <span key={i} className="px-2 py-1 bg-red-50 text-red-700 rounded text-xs">
@@ -110,15 +155,10 @@ function CompetitorCard({ competitor }) {
                     </div>
                 )}
 
-                <div>
-                    <p className="text-sm font-medium text-gray-700 mb-1">Market Maturity</p>
-                    <p className="text-sm text-gray-600">{competitor.market_maturity}</p>
-                </div>
-
-                {competitor.resource_requirements && (
+                {competitor.resource_requirements?.length > 0 && (
                     <div>
-                        <p className="text-sm font-medium text-gray-700 mb-2">Resource Requirements</p>
-                        <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <p className="text-xs font-medium text-gray-700 mb-1">Resource Requirements</p>
+                        <ul className="list-disc list-inside text-xs text-gray-600 space-y-1">
                             {competitor.resource_requirements.map((req, i) => (
                                 <li key={i}>{req}</li>
                             ))}
@@ -254,18 +294,21 @@ function MarketAnalysis({ marketAnalysis }) {
 
 export default function CompetitorAnalysisComponent({ competitorAnalysis }) {
     return (
-        <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="space-y-6">
+            {/* Competitors Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {competitorAnalysis.competitors.map((competitor, index) => (
                     <CompetitorCard key={index} competitor={competitor} />
                 ))}
             </div>
 
+            {/* SWOT Analysis */}
             <SwotTable swotAnalysis={competitorAnalysis.swot_analysis} />
             
+            {/* Market Analysis */}
             {competitorAnalysis.market_analysis && (
                 <MarketAnalysis marketAnalysis={competitorAnalysis.market_analysis} />
             )}
-        </>
+        </div>
     );
 }
