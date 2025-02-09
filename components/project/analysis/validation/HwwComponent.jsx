@@ -10,7 +10,7 @@ function formatNumber(num) {
 function PersistenceSection({ persistence }) {
     return (
         <div className="bg-blue-50 rounded-lg p-4 mb-4">
-            <h3 className="font-semibold text-gray-800 mb-2">Problem Persistence</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">⏳ Problem Persistence</h3>
             <div className="space-y-2">
                 <div>
                     <p className="text-sm text-gray-600">Duration</p>
@@ -32,7 +32,7 @@ function PersistenceSection({ persistence }) {
 function UrgencySection({ urgency }) {
     return (
         <div className="bg-red-50 rounded-lg p-4 mb-4">
-            <h3 className="font-semibold text-gray-800 mb-2">Problem Urgency</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">🚨 Problem Urgency</h3>
             <div className="space-y-2">
                 <div>
                     <p className="text-sm text-gray-600">Level</p>
@@ -58,7 +58,7 @@ function UrgencySection({ urgency }) {
 function HistoricalAttemptsSection({ attempts }) {
     return (
         <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <h3 className="font-semibold text-gray-800 mb-2">Historical Solution Attempts</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">📚 Historical Solution Attempts</h3>
             <div className="space-y-2">
                 {attempts.map((attempt, index) => (
                     <div key={index} className="bg-white rounded p-3">
@@ -75,7 +75,7 @@ function HwwComponent({ hww }) {
     return (
         <>
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">How big is this problem?</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">📊 How big is this problem?</h2>
 
                 {/* Overview Card */}
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
@@ -105,7 +105,7 @@ function HwwComponent({ hww }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
                     {hww.how_big_a_problem_is.frequency.map((item, index) => (
                         <div key={index} className="bg-gray-50 rounded-lg p-3">
-                            <h3 className="font-semibold text-gray-700 mb-1">{item.name}</h3>
+                            <h3 className="font-semibold text-gray-700 mb-1">🔄 {item.name}</h3>
                             <p className="text-gray-600 text-sm">{item.explanation}</p>
                         </div>
                     ))}
@@ -113,7 +113,7 @@ function HwwComponent({ hww }) {
 
                 {/* Readiness to Pay */}
                 <div className="bg-green-50 rounded-lg p-4">
-                    <h3 className="font-semibold text-gray-800 mb-2">Readiness to Pay</h3>
+                    <h3 className="font-semibold text-gray-800 mb-2">💰 Readiness to Pay</h3>
                     <p className="text-gray-700 mb-2">{hww.how_big_a_problem_is.readiness_to_pay.summary}</p>
                     <div className="text-green-600 font-bold text-xl mb-2">
                         ${hww.how_big_a_problem_is.readiness_to_pay.pricing}
@@ -131,7 +131,7 @@ function HwwComponent({ hww }) {
 
             {/* Why Does This Problem Exist Section */}
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why does this problem exist?</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">🤔 Why does this problem exist?</h2>
                 <p className="text-gray-700 mb-4">{hww.why_does_this_problem_exist.summary}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {hww.why_does_this_problem_exist.reasons.map((reason, index) => (
@@ -145,7 +145,7 @@ function HwwComponent({ hww }) {
 
             {/* Why Nobody Solving It Section */}
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Why is nobody solving it?</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">🔍 Why is nobody solving it?</h2>
                 <p className="text-gray-700 mb-4">{hww.why_nobody_solving_it.summary}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {hww.why_nobody_solving_it.reasons.map((reason, index) => (
@@ -159,7 +159,7 @@ function HwwComponent({ hww }) {
 
             {/* Who Faces This Problem Section */}
             <section className="bg-white rounded-xl shadow-sm sm:p-4">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Who faces this problem?</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">👥 Who faces this problem?</h2>
                 <p className="text-gray-700 mb-4">{hww.who_faces_this_problem.summary}</p>
                 
                 <div className="space-y-4">
@@ -205,9 +205,19 @@ function HwwComponent({ hww }) {
 }
 
 function MetricsSection({ title, items }) {
+    const emojis = {
+        'Characteristics': '👤',
+        'Psychology Patterns': '🧠',
+        'Habitual Behaviour': '🔄',
+        'Trust Issues': '🤝',
+        'Where to Find Them': '📍'
+    };
+
     return (
         <div className="bg-gray-50 rounded-lg p-3">
-            <h3 className="font-semibold text-gray-700 mb-1">{title}</h3>
+            <h3 className="font-semibold text-gray-700 mb-1">
+                {emojis[title] || '📌'} {title}
+            </h3>
             <div className="space-y-1">
                 {items.map((item, index) => (
                     <div key={index} className="bg-white rounded p-2 flex justify-between items-center">
