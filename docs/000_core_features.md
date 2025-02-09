@@ -141,6 +141,24 @@
   - Resource adequacy score (1-10)
   - Competitive advantage score (1-10)
   - Overall viability score (1-10)
+  - Target revenue feasibility score (1-10)
+  - Timeline achievability score (1-10)
+  - Market size compatibility score (1-10)
+  - Customer acquisition feasibility score (1-10)
+  - Operational feasibility score (1-10)
+  - Pricing strategy viability score (1-10)
+  - Revenue scaling risk score (1-10)
+  - Overall revenue viability score (1-10)
+  
+- **Revenue-Based Risk Assessment**
+  - Market penetration risks
+  - Customer acquisition risks
+  - Pricing model risks
+  - Scaling operation risks
+  - Resource scaling risks
+  - Timeline risks
+  - Competition impact on revenue
+  - Market saturation impact
   
 - **Go/No-Go Assessment**
   - Clear go/no-go recommendation
@@ -148,6 +166,11 @@
   - Resource gap analysis
   - Timeline feasibility
   - Required investment assessment
+  - Revenue achievement blockers
+  - Critical resource gaps for revenue
+  - Revenue timeline feasibility
+  - Required investment for target revenue
+  - Revenue risk mitigation requirements
   
 - **Risk Assessment**
   - Market timing risks
@@ -163,6 +186,10 @@
   - Business model alternatives
   - Resource optimization suggestions
   - Risk mitigation strategies
+  - Alternative revenue models
+  - Revenue scaling strategies
+  - Market penetration strategies
+  - Pricing strategy alternatives
 
 ## 2. Project Management System
 

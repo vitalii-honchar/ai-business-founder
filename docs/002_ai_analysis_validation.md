@@ -48,6 +48,8 @@
    - Market education needs
    - Customer acquisition complexity
    - Purchase decision factors
+   - Trust factor evaluation
+   - Decision-making process mapping
 
 3. **Solution Viability**
    - Technical feasibility
@@ -56,6 +58,28 @@
    - Implementation timeline
    - Cost structure analysis
    - Scalability assessment
+
+4. **Target Demographics Analysis**
+   - Geographic distribution mapping
+   - Psychological pattern documentation
+   - Behavioral characteristics tracking
+   - Trust factors identification
+   - Acquisition channel mapping
+   - Pain point intensity validation
+   - Budget availability assessment
+   - Decision-making process analysis
+   - Adoption resistance factors
+
+5. **Target Revenue Validation**
+   - Target revenue feasibility assessment
+   - Revenue feasibility scoring (1-10)
+   - Timeline to achieve target revenue
+   - Resource requirements mapping
+   - Revenue scaling constraints analysis
+   - Customer acquisition needs calculation
+   - Operational capacity requirements
+   - Pricing strategy validation
+   - Revenue timeline risk assessment
 
 ### 2.3 Market Analysis (TAM-SAM-SOM)
 1. **Market Size Validation**
@@ -79,6 +103,21 @@
    - Competition impact assessment
    - Timeline-based projections
    - Risk-adjusted calculations
+   - Required market penetration rate
+   - Customer acquisition requirements
+   - Operational capacity needs
+   - Revenue blocker identification
+   - Timeline-based revenue projections
+
+4. **Market Landscape Analysis**
+   - SOM-based market size metrics
+   - Demographic segmentation based on obtainable market
+   - SOM growth rate calculation
+   - Target revenue achievability assessment
+   - Pricing strategy recommendations
+   - Opportunity identification
+   - Market risk assessment
+   - Revenue timeline planning
 
 ### 2.4 Competition Assessment
 1. **Market Competition Overview**
@@ -122,14 +161,26 @@
    - Customer behavior changes
    - Technology adoption patterns
 
+4. **Revenue Impact Analysis**
+   - Market penetration impact
+   - Customer acquisition impact
+   - Pricing model viability
+   - Scaling operation feasibility
+   - Resource scaling requirements
+   - Timeline impact assessment
+   - Competition impact on revenue
+   - Market saturation effects
+
 ### 2.5 Risk Analysis & Final Verdict
-1. **Critical Risk Assessment**
-   - Market timing risks
-   - Resource adequacy risks
-   - Competition risks
-   - Execution risks
-   - Regulatory risks
-   - Technology risks
+1. **Revenue-Based Risk Assessment**
+   - Market penetration risks
+   - Customer acquisition risks
+   - Pricing model risks
+   - Scaling operation risks
+   - Resource scaling risks
+   - Timeline risks
+   - Competition impact on revenue
+   - Market saturation impact
 
 2. **Scoring Framework**
    - Problem validity score (1-10)
@@ -138,6 +189,14 @@
    - Resource adequacy score (1-10)
    - Competitive advantage score (1-10)
    - Overall viability score (1-10)
+   - Target revenue feasibility score (1-10)
+   - Timeline achievability score (1-10)
+   - Market size compatibility score (1-10)
+   - Customer acquisition feasibility score (1-10)
+   - Operational feasibility score (1-10)
+   - Pricing strategy viability score (1-10)
+   - Revenue scaling risk score (1-10)
+   - Overall revenue viability score (1-10)
 
 3. **Go/No-Go Decision**
    - Clear recommendation
@@ -146,6 +205,11 @@
    - Timeline feasibility
    - Investment requirements
    - Risk mitigation requirements
+   - Revenue achievement blockers
+   - Critical resource gaps for revenue
+   - Revenue timeline feasibility
+   - Required investment for target revenue
+   - Revenue risk mitigation requirements
 
 4. **Alternative Recommendations**
    - Pivot suggestions
@@ -153,6 +217,10 @@
    - Timeline adjustments
    - Risk mitigation strategies
    - Alternative market approaches
+   - Alternative revenue models
+   - Revenue scaling strategies
+   - Market penetration strategies
+   - Pricing strategy alternatives
 
 ## 3. AI Analysis Requirements
 
