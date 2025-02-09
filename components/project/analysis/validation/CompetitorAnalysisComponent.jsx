@@ -99,7 +99,7 @@ function CompetitorCard({ competitor }) {
                     <p className="text-xs font-medium text-gray-700 mb-1">Price Packages</p>
                     <div className="flex flex-wrap gap-2">
                         {competitor.price_packages?.map((pkg, i) => (
-                            <span key={i} className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">`${pkg.name}: $${pkg.price}`</span>
+                            <span key={i} className="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">{`${pkg.name}: $${pkg.price}`}</span>
                         ))}
                     </div>
                 </div>
