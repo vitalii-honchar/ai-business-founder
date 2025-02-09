@@ -9,296 +9,214 @@
 - Asynchronous processing
 
 ### 1.2 Analysis Pipeline
-1. Critical Input Validation
+1. Problem Naming & Initial Assessment
 2. Problem Validation (HWW Analysis)
 3. Market Analysis (TAM-SAM-SOM)
 4. Competition Assessment
-5. Risk Analysis & Final Verdict
+5. Problem Optimization
+6. Final Summary & Recommendations
 
 ## 2. Analysis Requirements
 
-### 2.1 Critical Input Validation
-1. **Founder Assessment**
-   - Domain expertise evaluation
-   - Resource availability analysis
-   - Time commitment capability
-   - Financial resources assessment
-   - Technical capabilities validation
-
-2. **Initial Idea Screening**
-   - Problem clarity assessment
-   - Unique value proposition validation
-   - Initial feasibility check
-   - Resource requirements mapping
-   - Time-to-market evaluation
+### 2.1 Problem Naming
+- Clear, concise problem identification
+- Business context consideration
+- Market relevance validation
 
 ### 2.2 Problem Validation (HWW)
-1. **Critical Problem Assessment**
-   - Problem existence verification
-   - "Must-have" vs "Nice-to-have" classification
-   - Problem persistence validation
-   - Solution urgency evaluation
-   - Historical solution analysis
-   - Failed attempts investigation
+1. **Market Opportunity Assessment**
+   - Breakthrough potential validation
+   - "Market disruption" vs "Growth accelerator" classification
+   - Innovation opportunities identification
+   - First-mover advantages evaluation
+   - Success accelerators analysis
+   - Scaling opportunities study
 
-2. **Market Readiness**
-   - Payment willingness validation
-   - Price sensitivity analysis
-   - Adoption barrier assessment
-   - Market education needs
-   - Customer acquisition complexity
-   - Purchase decision factors
-   - Trust factor evaluation
-   - Decision-making process mapping
+2. **Market Leadership Validation**
+   - Premium value potential assessment
+   - Pricing optimization opportunities
+   - Rapid adoption catalysts
+   - Market domination paths
+   - Customer acquisition channel optimization
+   - Value multipliers documentation
 
-3. **Solution Viability**
-   - Technical feasibility
-   - Resource requirements
-   - Regulatory compliance
-   - Implementation timeline
-   - Cost structure analysis
-   - Scalability assessment
+3. **Solution Leadership Check**
+   - Competitive advantages validation
+   - Scaling opportunities mapping
+   - Compliance innovations
+   - Launch timeline optimization
+   - Efficiency multipliers analysis
+   - Market leadership potential evaluation
 
 4. **Target Demographics Analysis**
-   - Geographic distribution mapping
-   - Psychological pattern documentation
-   - Behavioral characteristics tracking
-   - Trust factors identification
-   - Acquisition channel mapping
-   - Pain point intensity validation
-   - Budget availability assessment
-   - Decision-making process analysis
-   - Adoption resistance factors
+   - Market domination potential mapping
+   - Behavioral opportunities documentation
+   - Engagement accelerators tracking
+   - Loyalty builders identification
+   - Growth multipliers mapping
+   - Premium positioning validation
+   - Revenue optimization assessment
+   - Decision catalysts mapping
+   - Adoption accelerators listing
 
-5. **Target Revenue Validation**
-   - Target revenue feasibility assessment
-   - Revenue feasibility scoring (1-10)
-   - Timeline to achieve target revenue
-   - Resource requirements mapping
-   - Revenue scaling constraints analysis
-   - Customer acquisition needs calculation
-   - Operational capacity requirements
-   - Pricing strategy validation
-   - Revenue timeline risk assessment
+5. **Target Revenue Acceleration**
+   - Revenue maximization potential validation
+   - Growth opportunity scoring (1-10)
+   - Rapid scaling possibilities mapping
+   - Resource multipliers identification
+   - Breakthrough opportunities documentation
+   - Optimized acquisition strategy calculation
+   - Operational excellence assessment
+   - Premium pricing validation
+   - Revenue acceleration paths mapping
 
 ### 2.3 Market Analysis (TAM-SAM-SOM)
 1. **Market Size Validation**
-   - Conservative market calculations
-   - Growth rate verification
-   - Market saturation assessment
-   - Entry barrier impact
-   - Revenue potential validation
-   - Focus on realistic obtainable market (SOM)
+   - Ambitious market size calculations with expansion potential
+   - Market leadership opportunities assessment
+   - Market domination strategies documentation
+   - Revenue maximization potential validation
+   - Premium revenue pathways evaluation
+   - Achievable market dominance calculation
 
-2. **Market Accessibility**
-   - Resource requirements validation
-   - Channel accessibility assessment
-   - Geographic constraints
-   - Regulatory limitations
-   - Competition intensity impact
+2. **Market Leadership Assessment**
+   - Resource optimization multipliers mapping
+   - Channel domination possibilities identification
+   - Geographic expansion opportunities documentation
+   - Competitive advantage accelerators listing
+   - Market disruption potential assessment
 
-3. **Realistic Market Share**
-   - Conservative capture estimation
-   - Resource-based limitations
-   - Competition impact assessment
-   - Timeline-based projections
-   - Risk-adjusted calculations
-   - Required market penetration rate
-   - Customer acquisition requirements
-   - Operational capacity needs
-   - Revenue blocker identification
-   - Timeline-based revenue projections
+3. **Market Share Leadership**
+   - Ambitious capture calculation with acceleration potential
+   - Resource multiplication strategies documentation
+   - Competitive breakthroughs assessment
+   - Accelerated timeline projections
+   - Growth-oriented assessment application
 
-4. **Market Landscape Analysis**
-   - SOM-based market size metrics
-   - Demographic segmentation based on obtainable market
-   - SOM growth rate calculation
-   - Target revenue achievability assessment
-   - Pricing strategy recommendations
-   - Opportunity identification
-   - Market risk assessment
-   - Revenue timeline planning
+4. **Market Domination Analysis**
+   - SOM analysis with breakthrough potential
+   - High-growth demographic segment mapping
+   - Ambitious yet achievable growth rate calculations
+   - Revenue maximization paths assessment
+   - Premium value pricing recommendations
+   - Market leadership opportunities identification
+   - Competitive advantage accelerators listing
+   - Market leadership timeline optimization
 
 ### 2.4 Competition Assessment
-1. **Market Competition Overview**
-   - Top 5 competitor identification
-   - Market share distribution
-   - Entry barrier analysis
-   - Market maturity assessment
-   - Industry trend analysis
+1. **Top 5 Competitor Opportunity Analysis**
+   - Market leadership opportunities identification
+   - High-growth segment mapping
+   - Disruption potential assessment
+   - Differentiation advantages evaluation
+   - Success accelerators study
+   - Optimization multipliers analysis
+   - Premium pricing opportunities review
+   - Emerging demographics mapping
+   - Rapid growth pattern study
+   - Service innovation identification
+   - Competitive breakthrough mapping
+   - Market domination potential assessment
 
-2. **Top 3 Competitor SWOT Analysis**
-   - Competitor 1 SWOT:
-     * Strengths: Market position, resources, capabilities
-     * Weaknesses: Gaps, limitations, challenges
-     * Opportunities: Untapped potential, market gaps
-     * Threats: Market risks, competitive pressures
-   
-   - Competitor 2 SWOT:
-     * Strengths: Market position, resources, capabilities
-     * Weaknesses: Gaps, limitations, challenges
-     * Opportunities: Untapped potential, market gaps
-     * Threats: Market risks, competitive pressures
-   
-   - Competitor 3 SWOT:
-     * Strengths: Market position, resources, capabilities
-     * Weaknesses: Gaps, limitations, challenges
-     * Opportunities: Untapped potential, market gaps
-     * Threats: Market risks, competitive pressures
+2. **Market Leadership Assessment**
+   - Rapid growth potential evaluation
+   - Competitive advantages mapping
+   - Market capture opportunities identification
+   - Domination strategies documentation
+   - Resource multiplier optimization
 
-3. **Competitive Edge Analysis**
-   - Differentiation opportunities
-   - Market positioning strategy
-   - Resource advantage analysis
-   - Innovation potential
-   - Customer pain points not addressed by competitors
-   - Unique value proposition validation
+3. **Top 3 Competitor Growth Analysis**
+   - Breakthrough advantages mapping
+   - Innovation leadership identification
+   - Optimization catalyst documentation
+   - Expansion opportunities listing
+   - Scaling possibilities mapping
+   - Risk optimization documentation
+   - Market leadership potential assessment
 
-4. **Historical Market Learning**
-   - Failed competitor analysis
-   - Success patterns identification
-   - Market evolution trends
-   - Customer behavior changes
-   - Technology adoption patterns
+4. **Market Success Accelerators**
+   - Breakthrough stories documentation
+   - Rapid growth strategies mapping
+   - Disruption opportunities tracking
+   - Premium customer trend study
+   - Innovation leadership analysis
 
-4. **Revenue Impact Analysis**
-   - Market penetration impact
-   - Customer acquisition impact
-   - Pricing model viability
-   - Scaling operation feasibility
-   - Resource scaling requirements
-   - Timeline impact assessment
-   - Competition impact on revenue
-   - Market saturation effects
+### 2.5 Problem Optimization
+- Generate 5 optimized variations with detailed analysis:
+  - Comprehensive problem statement
+  - Industry analysis
+  - Location-specific considerations
+  - Platform strategy
+  - Target audience analysis
+  - Revenue strategy
+  - Implementation roadmap
+  - Success metrics
+  - Critical success factors
+  - Risk analysis and mitigation
 
-### 2.5 Risk Analysis & Final Verdict
-1. **Revenue-Based Risk Assessment**
-   - Market penetration risks
-   - Customer acquisition risks
-   - Pricing model risks
-   - Scaling operation risks
-   - Resource scaling risks
-   - Timeline risks
-   - Competition impact on revenue
-   - Market saturation impact
+### 2.6 Final Summary & Recommendations
+1. **Target Revenue Assessment**
+   - Revenue opportunity scoring (1-10)
+   - Timeline acceleration scoring (1-10)
+   - Market expansion scoring (1-10)
+   - Customer acquisition opportunity scoring (1-10)
+   - Resource optimization scoring (1-10)
+   - Operational scaling scoring (1-10)
+   - Value-based pricing scoring (1-10)
+   - Growth acceleration scoring (1-10)
+   - Overall growth potential scoring (1-10)
 
-2. **Scoring Framework**
-   - Problem validity score (1-10)
-   - Market opportunity score (1-10)
-   - Execution feasibility score (1-10)
-   - Resource adequacy score (1-10)
-   - Competitive advantage score (1-10)
-   - Overall viability score (1-10)
-   - Target revenue feasibility score (1-10)
-   - Timeline achievability score (1-10)
-   - Market size compatibility score (1-10)
-   - Customer acquisition feasibility score (1-10)
-   - Operational feasibility score (1-10)
-   - Pricing strategy viability score (1-10)
-   - Revenue scaling risk score (1-10)
-   - Overall revenue viability score (1-10)
+2. **Growth Opportunity Assessment**
+   - Market expansion catalysts
+   - Customer acquisition accelerators
+   - Premium pricing opportunities
+   - Rapid scaling strategies
+   - Resource optimization multipliers
+   - Timeline acceleration enablers
+   - Competitive advantage amplifiers
+   - Market leadership opportunities
 
 3. **Go/No-Go Decision**
-   - Clear recommendation
-   - Critical failure points
-   - Resource gaps
-   - Timeline feasibility
-   - Investment requirements
-   - Risk mitigation requirements
-   - Revenue achievement blockers
-   - Critical resource gaps for revenue
-   - Revenue timeline feasibility
-   - Required investment for target revenue
-   - Revenue risk mitigation requirements
+   - Growth-oriented recommendation
+   - Revenue acceleration enablers
+   - Resource optimization multipliers
+   - Timeline compression potential
+   - Strategic growth investments
+   - Market domination strategies
 
-4. **Alternative Recommendations**
-   - Pivot suggestions
-   - Resource optimization
-   - Timeline adjustments
-   - Risk mitigation strategies
-   - Alternative market approaches
-   - Alternative revenue models
-   - Revenue scaling strategies
-   - Market penetration strategies
-   - Pricing strategy alternatives
+4. **Growth-Focused Alternatives**
+   - Revenue maximization models
+   - Rapid scaling strategies
+   - Timeline compression paths
+   - Resource leverage multipliers
+   - Market penetration accelerators
+   - Premium pricing strategies
 
-## 3. AI Analysis Requirements
-
-### 3.1 Analysis Approach
-- Balanced analytical tone
-- Evidence-based assessment
-- Realistic estimations
-- Comprehensive risk-opportunity analysis
-- Constructive feedback principle
-- Data-driven decisions
-
-### 3.2 Response Quality
-- Specific, measurable metrics
-- Realistic numerical estimates
-- Clear success and risk criteria
-- Balanced opportunity-risk identification
-- Actionable recommendations
-- Resource-based feasibility
-- Recognition of potential upsides
-
-### 3.3 Validation Criteria
-- Thorough problem validation
-- Market size validation with growth potential
-- Resource-based feasibility assessment
-- Clear success metrics
-- Balanced projections
-- Competition-aware assessment with differentiation opportunities
+## 3. Analysis Approach
+- Evidence-based assessment with breakthrough focus
+- Market leadership metrics emphasis
+- Clear domination path documentation
+- Balanced yet ambitious analysis
+- Catalyst-focused recommendations
+- Growth opportunities emphasis
+- Revenue maximization strategy focus
+- Accelerated success path documentation
 
 ## 4. Analysis Constraints
-
-### 4.1 Technical Constraints
 - 4096 token limit per request
 - JSON response format
 - Asynchronous processing
-- Parallel execution
-
-### 4.2 Validation Requirements
-- Multiple data source verification
-- Balanced estimate principle
-- Risk-adjusted calculations with upside potential
-- Resource-based feasibility
-- Market timing consideration
-- Competition impact and opportunity assessment
-- Innovation potential evaluation
-
-### 4.3 Quality Standards
-- Balanced analysis approach
+- Balanced analysis requirement
 - Evidence-based validation criteria
-- Risk and opportunity identification
 - Resource adequacy verification
 - Timeline feasibility assessment
-- Constructive recommendations
-- Innovation potential recognition
 
 ## 5. Future Improvements
-
-### 5.1 Enhanced Validation
-- Machine learning-based validation
-- Historical data pattern analysis
-- Automated risk assessment
-- Resource optimization algorithms
-- Market timing analysis
-- Competition tracking systems
-
-### 5.2 Analysis Enhancements
-- Enhanced data sources
-- Real-time market data
+- Enhanced validation capabilities
+- Real-time market data integration
 - Improved accuracy metrics
 - Advanced validation techniques
-
-### 5.3 AI Capabilities
 - Increased token limits
-- Real-time analysis
-- Enhanced accuracy
 - Broader market coverage
-
-### 5.4 User Experience
-- Improved transparency
+- Enhanced user experience
 - Better source citations
-- Clearer methodology
-- Real-time updates
