@@ -62,7 +62,8 @@ function HistoricalAttemptsSection({ attempts }) {
             <div className="space-y-2">
                 {attempts.map((attempt, index) => (
                     <div key={index} className="bg-white rounded p-3">
-                        <p className="text-sm text-gray-700">{attempt}</p>
+                        <h4 className="font-medium text-gray-800 mb-1">{attempt.name}</h4>
+                        <p className="text-sm text-gray-700">{attempt.result}</p>
                     </div>
                 ))}
             </div>
