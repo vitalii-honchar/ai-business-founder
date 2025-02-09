@@ -263,9 +263,142 @@ function RiskAdjustmentsSection({ risks }) {
     );
 }
 
+function TargetRevenueFeasibilitySection({ feasibility }) {
+    if (!feasibility) return null;
+
+    return (
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">Target Revenue Feasibility</h2>
+            
+            {/* Main Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div className="bg-green-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">Achievable?</p>
+                    <div className="flex items-center mt-1">
+                        <span className={`text-lg font-bold ${
+                            feasibility.is_achievable ? 'text-green-600' : 'text-red-600'
+                        }`}>
+                            {feasibility.is_achievable ? 'Yes' : 'No'}
+                        </span>
+                    </div>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">Timeline</p>
+                    <p className="text-lg font-bold text-gray-800">
+                        {feasibility.timeline_months} months
+                    </p>
+                </div>
+
+                <div className="bg-purple-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">Required Market Share</p>
+                    <p className="text-lg font-bold text-gray-800">
+                        {feasibility.required_market_share}%
+                    </p>
+                </div>
+
+                <div className="bg-orange-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">Monthly Penetration</p>
+                    <p className="text-lg font-bold text-gray-800">
+                        {feasibility.monthly_penetration_rate}%
+                    </p>
+                </div>
+            </div>
+
+            {/* Customer Acquisition Requirements */}
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-gray-800 mb-3">Customer Acquisition Requirements</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-white p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">Monthly New Customers</p>
+                        <p className="text-lg font-bold text-gray-800">
+                            {formatNumber(feasibility.customer_acquisition_requirements.monthly_new_customers)}
+                        </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">CAC</p>
+                        <p className="text-lg font-bold text-gray-800">
+                            ${formatNumber(feasibility.customer_acquisition_requirements.estimated_cac)}
+                        </p>
+                    </div>
+                    <div className="bg-white p-3 rounded-lg">
+                        <p className="text-sm text-gray-600">Total Cost</p>
+                        <p className="text-lg font-bold text-gray-800">
+                            ${formatNumber(feasibility.customer_acquisition_requirements.total_acquisition_cost)}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Monthly Projections */}
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-gray-800 mb-3">Monthly Projections</h3>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full">
+                        <thead>
+                            <tr className="text-left text-sm text-gray-600">
+                                <th className="pb-2">Month</th>
+                                <th className="pb-2">Revenue</th>
+                                <th className="pb-2">Customers</th>
+                                <th className="pb-2">Market Share</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {feasibility.monthly_projections.map((projection, index) => (
+                                <tr key={index} className="border-t border-gray-200">
+                                    <td className="py-2">{projection.month}</td>
+                                    <td className="py-2">{formatMoney(projection.revenue)}</td>
+                                    <td className="py-2">{formatNumber(projection.customer_base)}</td>
+                                    <td className="py-2">{projection.market_share}%</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Requirements and Challenges */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Operational Requirements */}
+                <div className="space-y-2">
+                    <h3 className="font-semibold text-gray-800 mb-2">Operational Requirements</h3>
+                    {feasibility.operational_requirements.map((req, index) => (
+                        <div key={index} className="bg-gray-50 p-3 rounded-lg text-sm text-gray-700">
+                            {req}
+                        </div>
+                    ))}
+                </div>
+
+                {/* Revenue Blockers */}
+                <div className="space-y-2">
+                    <h3 className="font-semibold text-gray-800 mb-2">Revenue Blockers</h3>
+                    {feasibility.revenue_blockers.map((blocker, index) => (
+                        <div key={index} className="bg-red-50 p-3 rounded-lg text-sm text-gray-700">
+                            {blocker}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Recommendations */}
+            <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+                <h3 className="font-semibold text-gray-800 mb-2">Recommendations</h3>
+                <div className="space-y-2">
+                    {feasibility.recommended_adjustments.map((adjustment, index) => (
+                        <div key={index} className="bg-white p-3 rounded-lg text-sm text-gray-700">
+                            {adjustment}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function TamSamSomComponent({ tamSamSom }) {
     return (
         <div className="w-full max-w-full overflow-hidden space-y-4 sm:space-y-6">
+            {/* TAM/SAM/SOM Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
                 <MarketCard
                     title={"Total Addressable Market"}
@@ -286,12 +419,23 @@ export default function TamSamSomComponent({ tamSamSom }) {
                     definition={"Realistic portion of SAM that can be captured"}
                 />
             </div>
+
+            {/* Market Analysis Sections */}
             <MarketLandscape data={tamSamSom.market_landscape} />
+            
             {tamSamSom.market_landscape.market_readiness && (
                 <MarketReadinessSection readiness={tamSamSom.market_landscape.market_readiness} />
             )}
+            
             {tamSamSom.market_landscape.risk_adjustments && (
                 <RiskAdjustmentsSection risks={tamSamSom.market_landscape.risk_adjustments} />
+            )}
+
+            {/* Target Revenue Feasibility - Moved to bottom */}
+            {tamSamSom.serviceable_obtainable_market?.target_revenue_feasibility && (
+                <TargetRevenueFeasibilitySection 
+                    feasibility={tamSamSom.serviceable_obtainable_market.target_revenue_feasibility} 
+                />
             )}
         </div>
     );
