@@ -331,6 +331,24 @@ export default function SummaryComponent({ summary, readOnly }) {
                 <ValidationDecision decision={recommendation.validation_decision} />
             </div>
 
+            {/* Revenue Validation */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    Revenue Validation
+                    <span className="text-2xl">💰</span>
+                </h2>
+                <RevenueValidation revenue={recommendation.revenue_validation} />
+            </div>
+
+            {/* SWOT Analysis */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    Problem SWOT Analysis
+                    <span className="text-2xl">📊</span>
+                </h2>
+                <SwotAnalysis swot={recommendation.problem_swot_analysis} />
+            </div>
+
             {/* Problem Validation Scores */}
             <div className="bg-white rounded-lg shadow-sm p-6">
                 <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -346,15 +364,6 @@ export default function SummaryComponent({ summary, readOnly }) {
                         />
                     ))}
                 </div>
-            </div>
-
-            {/* Revenue Validation */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    Revenue Validation
-                    <span className="text-2xl">💰</span>
-                </h2>
-                <RevenueValidation revenue={recommendation.revenue_validation} />
             </div>
 
             {/* Problem Evidence */}
@@ -404,15 +413,6 @@ export default function SummaryComponent({ summary, readOnly }) {
                         </div>
                     ))}
                 </div>
-            </div>
-
-            {/* SWOT Analysis */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    Problem SWOT Analysis
-                    <span className="text-2xl">📊</span>
-                </h2>
-                <SwotAnalysis swot={recommendation.problem_swot_analysis} />
             </div>
         </div>
     );
