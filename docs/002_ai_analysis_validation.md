@@ -80,27 +80,46 @@
    - Risk-adjusted calculations
 
 ### 2.4 Competition Assessment
-1. **Market Saturation Analysis**
-   - Competitor density evaluation
+1. **Market Competition Overview**
+   - Top 5 competitor identification
+   - Market share distribution
+   - Entry barrier analysis
    - Market maturity assessment
-   - Entry barrier height
+   - Industry trend analysis
+
+2. **Top 3 Competitor SWOT Analysis**
+   - Competitor 1 SWOT:
+     * Strengths: Market position, resources, capabilities
+     * Weaknesses: Gaps, limitations, challenges
+     * Opportunities: Untapped potential, market gaps
+     * Threats: Market risks, competitive pressures
+   
+   - Competitor 2 SWOT:
+     * Strengths: Market position, resources, capabilities
+     * Weaknesses: Gaps, limitations, challenges
+     * Opportunities: Untapped potential, market gaps
+     * Threats: Market risks, competitive pressures
+   
+   - Competitor 3 SWOT:
+     * Strengths: Market position, resources, capabilities
+     * Weaknesses: Gaps, limitations, challenges
+     * Opportunities: Untapped potential, market gaps
+     * Threats: Market risks, competitive pressures
+
+3. **Competitive Edge Analysis**
+   - Differentiation opportunities
+   - Market positioning strategy
    - Resource advantage analysis
-   - Brand value impact
+   - Innovation potential
+   - Customer pain points not addressed by competitors
+   - Unique value proposition validation
 
-2. **Competitor Deep Dive**
+4. **Historical Market Learning**
    - Failed competitor analysis
-   - Success factor identification
-   - Resource comparison
-   - Competitive advantage assessment
-   - Market positioning analysis
-   - Customer complaint patterns
-
-3. **Competitive Edge Validation**
-   - Unique advantage verification
-   - Sustainability assessment
-   - Resource gap analysis
-   - Time-to-market impact
-   - Defense strategy evaluation
+   - Success patterns identification
+   - Market evolution trends
+   - Customer behavior changes
+   - Technology adoption patterns
 
 ### 2.5 Risk Analysis & Final Verdict
 1. **Critical Risk Assessment**
@@ -137,28 +156,29 @@
 ## 3. AI Analysis Requirements
 
 ### 3.1 Analysis Approach
-- Critically skeptical tone
-- Fact-based assessment
-- Conservative estimations
-- Clear risk identification
-- Brutal honesty principle
-- Evidence-based decisions
+- Balanced analytical tone
+- Evidence-based assessment
+- Realistic estimations
+- Comprehensive risk-opportunity analysis
+- Constructive feedback principle
+- Data-driven decisions
 
 ### 3.2 Response Quality
 - Specific, measurable metrics
-- Conservative numerical estimates
-- Clear failure criteria
-- Explicit risk identification
+- Realistic numerical estimates
+- Clear success and risk criteria
+- Balanced opportunity-risk identification
 - Actionable recommendations
 - Resource-based feasibility
+- Recognition of potential upsides
 
 ### 3.3 Validation Criteria
-- Strict problem validation
-- Conservative market sizing
-- Resource-based feasibility
+- Thorough problem validation
+- Market size validation with growth potential
+- Resource-based feasibility assessment
 - Clear success metrics
-- Risk-adjusted projections
-- Competition-aware assessment
+- Balanced projections
+- Competition-aware assessment with differentiation opportunities
 
 ## 4. Analysis Constraints
 
@@ -170,19 +190,21 @@
 
 ### 4.2 Validation Requirements
 - Multiple data source verification
-- Conservative estimate principle
-- Risk-adjusted calculations
+- Balanced estimate principle
+- Risk-adjusted calculations with upside potential
 - Resource-based feasibility
 - Market timing consideration
-- Competition impact assessment
+- Competition impact and opportunity assessment
+- Innovation potential evaluation
 
 ### 4.3 Quality Standards
-- Zero tolerance for optimistic bias
-- Strict validation criteria
-- Clear failure identification
+- Balanced analysis approach
+- Evidence-based validation criteria
+- Risk and opportunity identification
 - Resource adequacy verification
 - Timeline feasibility assessment
-- Risk-aware recommendations
+- Constructive recommendations
+- Innovation potential recognition
 
 ## 5. Future Improvements
 
