@@ -150,8 +150,14 @@ function RevenueValidation({ revenue }) {
                     <div className="text-sm font-medium mb-2">Key Metrics</div>
                     <div className="space-y-2">
                         <div className="flex justify-between">
-                            <span className="text-sm text-gray-600">Total Users</span>
-                            <span className="font-medium">{formatNumber(revenue.calculation.total_users)}</span>
+                            <span className="text-sm text-gray-600">Serviceable Obtainable Market Users</span>
+                            <span className="font-medium">{formatNumber(revenue.calculation.serviceable_obtainable_market_users)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm text-gray-600">Serviceable Obtainable Market Revenue</span>
+                            <span className="font-medium">
+                                {formatNumber(revenue.calculation.serviceable_obtainable_market_revenue)}
+                            </span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm text-gray-600">Revenue/User</span>
@@ -167,12 +173,6 @@ function RevenueValidation({ revenue }) {
                             <span className="text-sm text-gray-600">Conversion Rate</span>
                             <span className="font-medium">
                                 {(revenue.calculation.conversion_rate * 100).toFixed(1)}%
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-sm text-gray-600">TAM</span>
-                            <span className="font-medium">
-                                {formatNumber(revenue.calculation.total_addressable_market)}
                             </span>
                         </div>
                     </div>
