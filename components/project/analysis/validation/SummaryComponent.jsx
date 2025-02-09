@@ -176,6 +176,111 @@ function AlternativesSection({ alternatives }) {
     );
 }
 
+function GoNoGoSection({ decision }) {
+    const getDecisionColor = (decision) => {
+        return decision === "GO" ? "green" : "red";
+    };
+    
+    const color = getDecisionColor(decision.decision);
+    
+    return (
+        <div className="bg-white rounded-lg shadow p-4">
+            <h3 className="font-semibold text-gray-800 mb-3">Go/No-Go Decision</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Decision and Confidence */}
+                <div className={`bg-${color}-50 p-4 rounded-lg col-span-full`}>
+                    <div className="flex justify-between items-center mb-3">
+                        <span className={`text-xl font-bold text-${color}-700`}>
+                            {decision.decision}
+                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-600">Confidence:</span>
+                            <span className={`text-${color}-700 font-semibold`}>
+                                {decision.confidence_score}/10
+                            </span>
+                        </div>
+                    </div>
+                    <p className="text-gray-700 mb-3">{decision.revenue_achievability}</p>
+                </div>
+
+                {/* Key Factors */}
+                <div className="bg-blue-50 p-3 rounded-lg">
+                    <h4 className="font-medium text-gray-800 mb-2">Key Factors</h4>
+                    <ul className="space-y-1">
+                        {decision.key_factors.map((factor, index) => (
+                            <li key={index} className="text-sm text-gray-700">• {factor}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Prerequisites */}
+                <div className="bg-purple-50 p-3 rounded-lg">
+                    <h4 className="font-medium text-gray-800 mb-2">Critical Prerequisites</h4>
+                    <ul className="space-y-1">
+                        {decision.critical_prerequisites.map((prereq, index) => (
+                            <li key={index} className="text-sm text-gray-700">• {prereq}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Next Steps */}
+                <div className="bg-teal-50 p-3 rounded-lg">
+                    <h4 className="font-medium text-gray-800 mb-2">Recommended Next Steps</h4>
+                    <ul className="space-y-1">
+                        {decision.recommended_next_steps.map((step, index) => (
+                            <li key={index} className="text-sm text-gray-700">• {step}</li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Risk and Resource Assessment */}
+                <div className="bg-amber-50 p-3 rounded-lg">
+                    <h4 className="font-medium text-gray-800 mb-2">Risk & Resource Assessment</h4>
+                    <div className="space-y-2">
+                        <p className="text-sm text-gray-700">
+                            <span className="font-medium">Risk Assessment:</span> {decision.risk_threshold_assessment}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                            <span className="font-medium">Resource Status:</span> {decision.resource_readiness_status}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function OptimizedProblemsSection({ problems, readOnly, onProblemClick }) {
+    return (
+        <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-lg font-semibold mb-4">Optimized Variations</h2>
+            <div className="space-y-4">
+                {problems.map((problem, index) => (
+                    <div key={index} 
+                         className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition-all duration-200">
+                        <div className="flex justify-between items-start mb-3">
+                            <h3 className="font-medium text-gray-800">{problem.name}</h3>
+                            <span className="px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
+                                Score: {problem.potential_score}/10
+                            </span>
+                        </div>
+                        <p className="text-gray-600 text-sm mb-3">{problem.explanation}</p>
+                        
+                        {!readOnly && (
+                            <button
+                                onClick={() => onProblemClick(problem.user_input)}
+                                className="w-full mt-2 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200"
+                            >
+                                Try This Variation
+                            </button>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 export default function SummaryComponent({ summary, readOnly }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -194,7 +299,7 @@ export default function SummaryComponent({ summary, readOnly }) {
         }
     };
 
-    const { recommendation, similar_problems } = summary;
+    const { recommendation, optimized_problems } = summary;
 
     const getScoreColor = (score) => {
         if (score >= 8) return 'bg-green-600';
@@ -207,9 +312,6 @@ export default function SummaryComponent({ summary, readOnly }) {
         if (score >= 5) return 'text-blue-600';
         return 'text-red-600';
     };
-
-    console.log('Summary:');
-    console.dir(summary);
 
     return (
         <div className="space-y-6">
@@ -291,6 +393,9 @@ export default function SummaryComponent({ summary, readOnly }) {
                 </div>
             </div>
 
+            {/* Go/No-Go Decision Section */}
+            <GoNoGoSection decision={recommendation.go_no_go_decision} />
+
             {/* Risk Assessment */}
             <RiskSection risks={recommendation.risks} />
 
@@ -300,102 +405,12 @@ export default function SummaryComponent({ summary, readOnly }) {
             {/* Alternative Recommendations */}
             <AlternativesSection alternatives={recommendation.alternatives} />
 
-            {/* Similar Problems */}
-            <div className="bg-white rounded-lg shadow p-4 md:p-6 mt-8">
-                <h2 className="text-lg md:text-xl font-semibold mb-2 md:mb-4">Similar Problems</h2>
-                {error && (
-                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-                        <p className="text-red-600 text-sm">{error}</p>
-                    </div>
-                )}
-                <div className="space-y-3 md:space-y-4"> {/* Increased spacing on mobile */}
-                    {similar_problems.map((problem, index) => (
-                        <div key={index} className="group relative">
-                            {/* Button */}
-                            <button
-                                onClick={() => !readOnly && handleProblemClick(problem.user_input)}
-                                disabled={loading || readOnly}
-                                className={`w-full text-left border border-transparent transition-all duration-200 
-                                    ${readOnly ? 'cursor-default' : 'hover:border-blue-100 hover:bg-blue-50/50 group-hover:shadow-md group-hover:scale-[1.01]'} 
-                                    rounded-lg p-3 md:p-3
-                                    disabled:opacity-100 disabled:hover:bg-transparent disabled:hover:border-transparent
-                                    ${!readOnly && 'active:scale-[0.99]'} transform
-                                    relative flex flex-col
-                                    before:absolute before:inset-0 before:rounded-lg before:border-2 before:border-dashed before:border-gray-200
-                                    ${!readOnly && 'hover:before:border-blue-400'} before:transition-colors
-                                    touch-manipulation`}
-                            >
-                                {/* Mobile-friendly click indicator */}
-                                <div className="flex items-center justify-between mb-2 md:mb-0">
-                                    <h3 className={`font-medium ${!readOnly ? 'group-hover:text-blue-700' : ''} transition-colors duration-200 pr-2`}>
-                                        {problem.name}
-                                    </h3>
-                                    {/* Score and action indicator combined for mobile */}
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex items-center">
-                                            <span className="text-xs md:text-sm text-gray-600 mr-1 md:mr-2 group-hover:text-gray-700">
-                                                Score:
-                                            </span>
-                                            <span className={`text-xs md:text-sm font-medium ${getScoreTextColor(problem.worth_solving)} group-hover:opacity-90`}>
-                                                {problem.worth_solving}/10
-                                            </span>
-                                        </div>
-                                        {!readOnly && (
-                                            <div className="flex items-center text-blue-500 md:hidden">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Content with better mobile spacing */}
-                                <div className="space-y-2">
-                                    <p className="text-sm text-gray-600 group-hover:text-gray-700 line-clamp-3 md:line-clamp-none">
-                                        {problem.explanation}
-                                    </p>
-
-                                    {/* Mobile action hint */}
-                                    {!readOnly && (
-                                        <div className="flex items-center justify-center md:hidden py-2 mt-2 border-t border-gray-100">
-                                            <span className="text-xs text-blue-500 flex items-center gap-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                </svg>
-                                                Tap to use this idea
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Desktop-only "Click to use" indicator */}
-                                {!readOnly && (
-                                    <div className="absolute top-3 right-3 hidden md:flex text-xs text-gray-400 items-center gap-1 group-hover:text-blue-500 transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                        <span>Click to use</span>
-                                    </div>
-                                )}
-                            </button>
-
-                            {/* Desktop-only tooltip */}
-                            {!readOnly && (
-                                <div className="absolute invisible group-hover:visible opacity-0 group-hover:opacity-100 
-                                    top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-2 
-                                    text-sm text-white bg-gray-900 rounded-lg transition-all duration-200 
-                                    whitespace-nowrap z-10 hidden md:block">
-                                    Click to create a new project based on this recommendation
-                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mt-2">
-                                        <div className="border-solid border-b-gray-900 border-b-8 border-x-transparent border-x-8 border-t-0"></div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+            {/* Optimized Problems (replacing Similar Problems) */}
+            <OptimizedProblemsSection 
+                problems={optimized_problems}
+                readOnly={readOnly}
+                onProblemClick={handleProblemClick}
+            />
         </div>
     );
 }
