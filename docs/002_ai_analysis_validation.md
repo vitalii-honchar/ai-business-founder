@@ -64,6 +64,7 @@
    - Market saturation assessment
    - Entry barrier impact
    - Revenue potential validation
+   - Focus on realistic obtainable market (SOM)
 
 2. **Market Accessibility**
    - Resource requirements validation

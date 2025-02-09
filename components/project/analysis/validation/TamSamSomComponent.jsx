@@ -285,18 +285,6 @@ export default function TamSamSomComponent({ tamSamSom }) {
                     color={'green'}
                     definition={"Realistic portion of SAM that can be captured"}
                 />
-                <MarketCard
-                    title={"Market Ready to Pay"}
-                    data={tamSamSom.market_ready_to_pay}
-                    color={'green'}
-                    definition={"Users showing clear purchase intent"}
-                />
-                <MarketCard
-                    title={"Paid Users"}
-                    data={tamSamSom.paid_users}
-                    color={'green'}
-                    definition={"Paid Users"}
-                />
             </div>
             <MarketLandscape data={tamSamSom.market_landscape} />
             {tamSamSom.market_landscape.market_readiness && (
