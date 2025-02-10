@@ -1,18 +1,7 @@
 import Link from "next/link";
+import { getScoreColor, getScoreTextColor } from "@/lib/metrics/worthSolvingScore";
 
 const ProjectCards = ({ projects }) => {
-    const getScoreColor = (score) => {
-        if (score >= 8) return 'bg-green-600';
-        if (score >= 5) return 'bg-blue-600';
-        return 'bg-red-600';
-    };
-
-    const getScoreTextColor = (score) => {
-        if (score >= 8) return 'text-green-600';
-        if (score >= 5) return 'text-blue-600';
-        return 'text-red-600';
-    };
-
     const hasInProgressTasks = (project) => {
         return project.pendingTasks > 0;
     };
