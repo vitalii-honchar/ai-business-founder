@@ -41,6 +41,27 @@ const orderedFields = [
     'platform',
 ];
 
+const maxLengths = {
+    problem: 1000,
+    personalConstraints: 500,
+    auditory: 500,
+    industry: 500,
+    location: 500,
+    language: 100,
+    platform: 500,
+}
+
+const tooltips = {
+    problem: "🎯 Describe the specific problem you're solving, including who experiences it, how severe it is, and why existing solutions fall short",
+    personalConstraints: "💪 List your key resources, limitations, and capabilities that will affect your ability to execute",
+    auditory: "👥 Define who will pay for your solution - be as specific as possible about their characteristics and needs",
+    targetRevenue: "💰 Set your revenue goal - be realistic based on your market and constraints",
+    industry: "🏢 Specify the primary industry or sector your solution serves",
+    location: "🌎 Define your geographic target market",
+    language: "🗣️ List the languages you'll support in your product and customer service",
+    platform: "🚀 Describe how you'll deliver your solution to customers",
+}
+
 // Add loading indicator and input validation
 export default function ValidationUserInputComponent({ onSubmit, loading, initialFormData, readOnly }) {
     const [formData, setFormData] = useState(() => ({
@@ -53,11 +74,13 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
     const validateForm = () => {
         const newErrors = {}
         orderedFields.forEach(key => {
-            // Skip validation for currency since it's always USD
             if (key === 'currency') return;
             
-            if (!formData[key]?.toString().trim()) {
+            const value = formData[key]?.toString().trim()
+            if (!value) {
                 newErrors[key] = `${key} is required`
+            } else if (maxLengths[key] && value.length > maxLengths[key]) {
+                newErrors[key] = `${key} must be less than ${maxLengths[key]} characters`
             }
         })
         setErrors(newErrors)
@@ -81,81 +104,128 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
         }))
     }
 
+    const renderTooltip = (key) => {
+        if (!tooltips[key]) return null;
+        return (
+            <div className="group relative inline-block ml-2">
+                <span className="text-gray-400 hover:text-gray-600 cursor-help">ℹ️</span>
+                <div className="invisible group-hover:visible absolute z-10 w-64 p-2 mt-1 text-sm text-white bg-gray-800 rounded-md shadow-lg">
+                    {tooltips[key]}
+                </div>
+            </div>
+        );
+    }
+
+    const renderCharCount = (key, value) => {
+        if (!maxLengths[key]) return null;
+        const count = value?.length || 0;
+        return (
+            <div className={`text-xs ${count > maxLengths[key] ? 'text-red-500' : 'text-gray-400'}`}>
+                {count}/{maxLengths[key]}
+            </div>
+        );
+    }
+
+    // Update the textarea rendering in the form to include character count and tooltips
+    const renderTextArea = (key, rows = 4) => (
+        <div className="col-span-full">
+            <div className="flex items-center">
+                <label className="block text-sm font-medium text-gray-700 capitalize">
+                    {key.replace(/([A-Z])/g, ' $1').toLowerCase()} <span className="text-red-500">*</span>
+                </label>
+                {renderTooltip(key)}
+            </div>
+            <div className="mt-1">
+                <textarea
+                    name={key}
+                    value={formData[key] || ''}
+                    onChange={(e) => handleInputChange(key, e.target.value)}
+                    rows={rows}
+                    className={`w-full rounded-md border ${
+                        errors[key] ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
+                        loading ? 'bg-gray-50' : ''
+                    }`}
+                    placeholder={placeholders[key]}
+                    disabled={loading || readOnly}
+                />
+                {renderCharCount(key, formData[key])}
+            </div>
+            {errors[key] && (
+                <p className="mt-1 text-sm text-red-500">{errors[key]}</p>
+            )}
+            <p className="mt-1 text-sm text-gray-500">{placeholders[key]}</p>
+        </div>
+    );
+
     return (
-        <form className="w-full max-w-7xl mx-auto" onSubmit={handleSubmit}>
+        <form className={`w-full max-w-7xl mx-auto ${loading ? 'opacity-70' : ''}`} onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6">
-                {/* Problem field - full width */}
-                <div className="col-span-full">
-                    <label className="block text-sm font-medium text-gray-700 capitalize">
-                        problem <span className="text-red-500">*</span>
-                    </label>
-                    <div className="mt-1">
-                        <textarea
-                            name="problem"
-                            value={formData.problem || ''}
-                            onChange={(e) => handleInputChange('problem', e.target.value)}
-                            rows={6}
-                            className={`w-full rounded-md border ${
-                                errors.problem ? 'border-red-500' : 'border-gray-300'
-                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                            placeholder={placeholders.problem}
-                            disabled={loading || readOnly}
-                        />
+                {/* Problem and Personal Constraints in one row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Problem Field */}
+                    <div className="col-span-1">
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                problem <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('problem')}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                name="problem"
+                                value={formData.problem || ''}
+                                onChange={(e) => handleInputChange('problem', e.target.value)}
+                                rows={6}
+                                className={`w-full rounded-md border ${
+                                    errors.problem ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
+                                    loading ? 'bg-gray-50' : ''
+                                }`}
+                                placeholder={placeholders.problem}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('problem', formData.problem)}
+                        </div>
+                        {errors.problem && (
+                            <p className="mt-1 text-sm text-red-500">{errors.problem}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.problem}</p>
                     </div>
-                    {errors.problem && (
-                        <p className="mt-1 text-sm text-red-500">{errors.problem}</p>
-                    )}
-                    <p className="mt-1 text-sm text-gray-500">{placeholders.problem}</p>
+
+                    {/* Personal Constraints Field */}
+                    <div className="col-span-1">
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                personal constraints <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('personalConstraints')}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                name="personalConstraints"
+                                value={formData.personalConstraints || ''}
+                                onChange={(e) => handleInputChange('personalConstraints', e.target.value)}
+                                rows={6}
+                                className={`w-full rounded-md border ${
+                                    errors.personalConstraints ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
+                                    loading ? 'bg-gray-50' : ''
+                                }`}
+                                placeholder={placeholders.personalConstraints}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('personalConstraints', formData.personalConstraints)}
+                        </div>
+                        {errors.personalConstraints && (
+                            <p className="mt-1 text-sm text-red-500">{errors.personalConstraints}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.personalConstraints}</p>
+                    </div>
                 </div>
 
-                {/* Personal Constraints field */}
-                <div className="col-span-full">
-                    <label className="block text-sm font-medium text-gray-700 capitalize">
-                        Personal Constraints <span className="text-red-500">*</span>
-                    </label>
-                    <div className="mt-1">
-                        <textarea
-                            name="personalConstraints"
-                            value={formData.personalConstraints || ''}
-                            onChange={(e) => handleInputChange('personalConstraints', e.target.value)}
-                            rows={4}
-                            className={`w-full rounded-md border ${
-                                errors.personalConstraints ? 'border-red-500' : 'border-gray-300'
-                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                            placeholder={placeholders.personalConstraints}
-                            disabled={loading || readOnly}
-                        />
-                    </div>
-                    {errors.personalConstraints && (
-                        <p className="mt-1 text-sm text-red-500">{errors.personalConstraints}</p>
-                    )}
-                    <p className="mt-1 text-sm text-gray-500">{placeholders.personalConstraints}</p>
-                </div>
-
-                {/* Auditory field */}
-                <div className="col-span-full">
-                    <label className="block text-sm font-medium text-gray-700 capitalize">
-                        Auditory <span className="text-red-500">*</span>
-                    </label>
-                    <div className="mt-1">
-                        <textarea
-                            name="auditory"
-                            value={formData.auditory || ''}
-                            onChange={(e) => handleInputChange('auditory', e.target.value)}
-                            rows={4}
-                            className={`w-full rounded-md border ${
-                                errors.auditory ? 'border-red-500' : 'border-gray-300'
-                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                            placeholder={placeholders.auditory}
-                            disabled={loading || readOnly}
-                        />
-                    </div>
-                    {errors.auditory && (
-                        <p className="mt-1 text-sm text-red-500">{errors.auditory}</p>
-                    )}
-                    <p className="mt-1 text-sm text-gray-500">{placeholders.auditory}</p>
-                </div>
-
+                {renderTextArea('auditory', 4)}
+                
                 {/* Revenue Fields Row */}
                 <div className="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-4">
                     {/* Currency Field */}
@@ -228,52 +298,117 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
 
                 {/* Other fields - 2 columns grid */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    {orderedFields.slice(6).map(key => {
-                        return (
-                            <div key={key}>
-                                <label className="block text-sm font-medium text-gray-700 capitalize">
-                                    {key === 'targetRevenue' ? 'Target Revenue' : key.replace(/([A-Z])/g, ' $1').toLowerCase()} <span className="text-red-500">*</span>
-                                </label>
-                                {key === 'auditory' || key === 'personalConstraints' ? (
-                                    <div className="mt-1">
-                                        <textarea
-                                            name={key}
-                                            value={formData[key] || ''}
-                                            onChange={(e) => handleInputChange(key, e.target.value)}
-                                            rows={4}
-                                            className={`w-full rounded-md border ${
-                                                errors[key] ? 'border-red-500' : 'border-gray-300'
-                                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
-                                            placeholder={placeholders[key]}
-                                            disabled={loading || readOnly}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="mt-1">
-                                        <input
-                                            type="text"
-                                            name={key}
-                                            value={key === 'currency' ? 'USD' : (formData[key] || '')}
-                                            onChange={(e) => handleInputChange(key, e.target.value)}
-                                            className={`w-full rounded-md border ${
-                                                errors[key] ? 'border-red-500' : 'border-gray-300'
-                                            } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-                                                key === 'currency' ? 'bg-gray-100' : ''
-                                            }`}
-                                            placeholder={placeholders[key]}
-                                            disabled={loading || readOnly || key === 'currency'}
-                                        />
-                                    </div>
-                                )}
-                                {errors[key] && (
-                                    <p className="mt-1 text-sm text-red-500">{errors[key]}</p>
-                                )}
-                                {key !== 'currency' && placeholders[key] && (
-                                    <p className="mt-1 text-sm text-gray-500">{placeholders[key]}</p>
-                                )}
-                            </div>
-                        );
-                    })}
+                    {/* Industry Field */}
+                    <div>
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                industry <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('industry')}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                name="industry"
+                                value={formData.industry || ''}
+                                onChange={(e) => handleInputChange('industry', e.target.value)}
+                                rows={3}
+                                className={`w-full rounded-md border ${
+                                    errors.industry ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                placeholder={placeholders.industry}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('industry', formData.industry)}
+                        </div>
+                        {errors.industry && (
+                            <p className="mt-1 text-sm text-red-500">{errors.industry}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.industry}</p>
+                    </div>
+
+                    {/* Location Field */}
+                    <div>
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                location <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('location')}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                name="location"
+                                value={formData.location || ''}
+                                onChange={(e) => handleInputChange('location', e.target.value)}
+                                rows={3}
+                                className={`w-full rounded-md border ${
+                                    errors.location ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                placeholder={placeholders.location}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('location', formData.location)}
+                        </div>
+                        {errors.location && (
+                            <p className="mt-1 text-sm text-red-500">{errors.location}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.location}</p>
+                    </div>
+
+                    {/* Language Field - keep as input */}
+                    <div>
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                language <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('language')}
+                        </div>
+                        <div className="mt-1">
+                            <input
+                                type="text"
+                                name="language"
+                                value={formData.language || ''}
+                                onChange={(e) => handleInputChange('language', e.target.value)}
+                                className={`w-full rounded-md border ${
+                                    errors.language ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                placeholder={placeholders.language}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('language', formData.language)}
+                        </div>
+                        {errors.language && (
+                            <p className="mt-1 text-sm text-red-500">{errors.language}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.language}</p>
+                    </div>
+
+                    {/* Platform Field */}
+                    <div>
+                        <div className="flex items-center">
+                            <label className="block text-sm font-medium text-gray-700 capitalize">
+                                platform <span className="text-red-500">*</span>
+                            </label>
+                            {renderTooltip('platform')}
+                        </div>
+                        <div className="mt-1">
+                            <textarea
+                                name="platform"
+                                value={formData.platform || ''}
+                                onChange={(e) => handleInputChange('platform', e.target.value)}
+                                rows={3}
+                                className={`w-full rounded-md border ${
+                                    errors.platform ? 'border-red-500' : 'border-gray-300'
+                                } shadow-sm p-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                                placeholder={placeholders.platform}
+                                disabled={loading || readOnly}
+                            />
+                            {renderCharCount('platform', formData.platform)}
+                        </div>
+                        {errors.platform && (
+                            <p className="mt-1 text-sm text-red-500">{errors.platform}</p>
+                        )}
+                        <p className="mt-1 text-sm text-gray-500">{placeholders.platform}</p>
+                    </div>
                 </div>
             </div>
 
