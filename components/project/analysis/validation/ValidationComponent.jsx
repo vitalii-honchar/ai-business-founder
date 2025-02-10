@@ -107,7 +107,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         {isTaskPending(project, tasks['tam-sam-som']) ? (
                             renderLoadingState("We're analyzing the Total Addressable Market, Serviceable Available Market, and Serviceable Obtainable Market for your business...")
                         ) : project?.data?.analysis?.validation?.tamSamSom ? (
-                            <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} />
+                            <TamSamSomComponent tamSamSom={project.data.analysis.validation.tamSamSom} userInput={project.data.input.validation} />
                         ) : null}
                     </ComponentCard>
                 );

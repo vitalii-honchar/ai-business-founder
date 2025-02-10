@@ -92,50 +92,141 @@ const MarketCard = ({ title, data, color, definition }) => {
     );
 };
 
-const MarketLandscape = ({ data }) => {
+const MarketLandscape = ({ data, userInput }) => {
     return (
         <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mt-6 sm:mt-8 transition-all hover:shadow-xl w-full overflow-hidden">
             <div className="flex flex-wrap items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-800">🏢 Market Landscape</h2>
-                <div className="text-sm text-gray-500">
-                    {data.updated_at && `Last updated: ${new Date(data.updated_at).toLocaleDateString()}`}
+                <div className="flex items-center space-x-2">
+                    <h2 className="text-xl font-bold text-gray-800">🏢 Market Landscape</h2>
+                    {data.updated_at && (
+                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                            Updated {new Date(data.updated_at).toLocaleDateString()}
+                        </span>
+                    )}
                 </div>
             </div>
 
-            <div className="mt-4 sm:mt-6 space-y-6 sm:space-y-8">
-                <div className="grid grid-cols-1 gap-4 sm:gap-8 max-w-full">
-                    {/* Demographics Section */}
-                    <div className="bg-gray-50 p-4 rounded-lg w-full overflow-hidden">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center">
-                            <span>👥 Demographics</span>
-                            <span className="ml-2 text-sm text-gray-500">{data.demographics?.length} segments</span>
-                        </h3>
-                        <div className="space-y-3">
-                            {data.demographics?.map((item, index) => (
-                                <div key={index} 
-                                     className="flex justify-between py-2 px-3 hover:bg-white rounded transition-colors">
-                                    <span className="text-gray-600">{item.name}</span>
-                                    <span className="font-medium">{formatNumber(item.value)}</span>
+            <div className="mt-4 sm:mt-6 space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                    {/* Market Size Section */}
+                    <div className="bg-gray-50 p-4 sm:p-6 rounded-lg">
+                        <div className="flex items-center space-x-2 mb-4">
+                            <h3 className="text-lg font-semibold">📊 Market Size</h3>
+                            <div className="flex-grow h-px bg-gray-200"></div>
+                        </div>
+
+                        <div className="space-y-6">
+                            {/* Users Count */}
+                            <div className="bg-white p-4 rounded-lg shadow-sm">
+                                <p className="text-sm text-gray-600 mb-2">Market Size (Users)</p>
+                                <div className="flex items-baseline">
+                                    <p className="text-2xl sm:text-3xl font-bold text-green-600">
+                                        {formatNumber(data.market_size)}
+                                    </p>
+                                    <span className="ml-2 text-sm text-gray-500">users</span>
                                 </div>
-                            ))}
+                            </div>
+
+                            {/* Revenue Comparison */}
+                            <div className="bg-white p-4 rounded-lg shadow-sm">
+                                <p className="text-sm text-gray-600 mb-2">Market Revenue vs Target</p>
+                                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                                    <div>
+                                        <p className="text-2xl sm:text-3xl font-bold text-blue-600">
+                                            {formatMoney(data.market_revenue)}
+                                        </p>
+                                        <p className="text-sm text-gray-500">Projected Revenue</p>
+                                    </div>
+                                    <div className="hidden sm:block h-12 w-px bg-gray-200"></div>
+                                    <div className="sm:text-right">
+                                        <p className="text-2xl sm:text-3xl font-bold text-purple-600">
+                                            {formatMoney(userInput.targetRevenue)}
+                                        </p>
+                                        <p className="text-sm text-gray-500">Target Revenue</p>
+                                    </div>
+                                </div>
+
+                                {/* Achievement Progress */}
+                                {data.market_revenue && userInput?.targetRevenue && (
+                                    <div className="mt-4 space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-sm text-gray-600">Achievement</p>
+                                            <p className={`text-sm font-semibold ${
+                                                data.market_revenue >= userInput.targetRevenue 
+                                                    ? 'text-green-600' 
+                                                    : 'text-red-600'
+                                            }`}>
+                                                {Math.round((data.market_revenue / userInput.targetRevenue) * 100)}%
+                                            </p>
+                                        </div>
+                                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                            <div 
+                                                className={`h-full rounded-full transition-all ${
+                                                    data.market_revenue >= userInput.targetRevenue 
+                                                        ? 'bg-green-500' 
+                                                        : 'bg-red-500'
+                                                }`}
+                                                style={{
+                                                    width: `${Math.min(
+                                                        Math.round((data.market_revenue / userInput.targetRevenue) * 100), 
+                                                        100
+                                                    )}%`
+                                                }}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Rates Information */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="bg-white p-4 rounded-lg shadow-sm">
+                                    <div className="flex items-center text-gray-600 mb-2">
+                                        <span>🎯 Conversion Rate</span>
+                                        <span className="ml-2 font-semibold text-blue-600">
+                                            {data.conversion_rate * 100}%
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-500">
+                                        {data.conversion_rate_explanation}
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-4 rounded-lg shadow-sm">
+                                    <div className="flex items-center text-gray-600 mb-2">
+                                        <span>📈 Growth Rate</span>
+                                        <span className={`ml-2 font-semibold ${
+                                            data.growth_rate > 0 ? 'text-green-600' : 'text-red-600'
+                                        }`}>
+                                            {data.growth_rate > 0 ? '+' : ''}{data.growth_rate * 100}%
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-500">
+                                        {data.growth_rate_explanation}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Market Size Section */}
-                    <div className="bg-gray-50 p-4 rounded-lg w-full overflow-hidden">
-                        <h3 className="text-lg font-semibold mb-4">📊 Market Size</h3>
-                        <div className="flex flex-col space-y-2">
-                            <p className="text-3xl font-bold text-green-600">
-                                {formatMoney(data.market_size)}
-                            </p>
-                            <div className="flex items-center text-gray-600">
-                                <span>📈 Growth Rate: </span>
-                                <span className={`ml-2 font-semibold ${
-                                    data.growth_rate > 0 ? 'text-green-600' : 'text-red-600'
-                                }`}>
-                                    {data.growth_rate > 0 ? '+' : ''}{data.growth_rate}%
-                                </span>
-                            </div>
+                    {/* Demographics Section */}
+                    <div className="bg-gray-50 p-4 sm:p-6 rounded-lg">
+                        <div className="flex items-center space-x-2 mb-4">
+                            <h3 className="text-lg font-semibold">👥 Demographics</h3>
+                            <span className="text-sm px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full">
+                                {data.demographics?.length} segments
+                            </span>
+                        </div>
+                        <div className="space-y-2">
+                            {data.demographics?.map((item, index) => (
+                                <div 
+                                    key={index} 
+                                    className="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                                >
+                                    <span className="text-gray-700">{item.name}</span>
+                                    <span className="font-medium text-blue-600">{formatNumber(item.value)}</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -271,7 +362,7 @@ function RiskAdjustmentsSection({ risks }) {
     );
 }
 
-export default function TamSamSomComponent({ tamSamSom }) {
+export default function TamSamSomComponent({ tamSamSom, userInput }) {
     return (
         <div className="w-full max-w-full overflow-hidden space-y-4 sm:space-y-6">
             {/* TAM/SAM/SOM Cards */}
@@ -297,7 +388,7 @@ export default function TamSamSomComponent({ tamSamSom }) {
             </div>
 
             {/* Market Analysis Sections */}
-            <MarketLandscape data={tamSamSom.market_landscape} />
+            <MarketLandscape data={tamSamSom.market_landscape} userInput={userInput} />
             
             {tamSamSom.market_landscape.market_readiness && (
                 <MarketReadinessSection readiness={tamSamSom.market_landscape.market_readiness} />
