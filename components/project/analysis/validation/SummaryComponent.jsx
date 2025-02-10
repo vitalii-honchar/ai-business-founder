@@ -138,105 +138,134 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
         return <div className="p-4 text-center text-gray-500">No revenue validation data available</div>;
     }
 
+    const { market_assessment } = revenueValidation;
+
     return (
-        <div className="space-y-4">
-            {/* Revenue Metrics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="space-y-6">
+            {/* Revenue Metrics Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Target Revenue */}
-                <div className="bg-blue-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-                        <span>🎯</span> Target Revenue
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl shadow-sm">
+                    <div className="text-sm text-blue-600 mb-2 flex items-center gap-2">
+                        <span className="text-lg">🎯</span> Target Revenue
                     </div>
-                    <div className="text-2xl font-bold text-blue-700">
+                    <div className="text-3xl font-bold text-blue-700">
                         ${formatNumber(userInput?.targetRevenue || 0)}
+                        <span className="text-sm font-normal text-blue-500 ml-2">
+                            {userInput.targetRevenueRecurring}
+                        </span>
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">{userInput.targetRevenueRecurring}</div>
                 </div>
 
-                <div className="bg-green-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-                        <span>💰</span> Realistic Revenue
+                {/* Market Potential */}
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl shadow-sm">
+                    <div className="text-sm text-purple-600 mb-2 flex items-center gap-2">
+                        <span className="text-lg">🌐</span> Market Potential
                     </div>
-                    <div className="text-2xl font-bold text-green-700">
-                        ${formatNumber(revenueValidation.realistic_revenue || 0)}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">{userInput.targetRevenueRecurring}</div>
-                </div>
-
-                {/* Potential Revenue */}
-                <div className="bg-purple-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-                        <span>🌐</span> Market Potential
-                    </div>
-                    <div className="text-2xl font-bold text-purple-700">
+                    <div className="text-3xl font-bold text-purple-700">
                         ${formatNumber(tamSamSom?.market_landscape?.market_revenue || 0)}
+                        <span className="text-sm font-normal text-purple-500 ml-2">
+                            {userInput.targetRevenueRecurring}
+                        </span>
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">{userInput.targetRevenueRecurring}</div>
+                </div>
+            </div>
+
+            {/* Market Assessment */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Strengths */}
+                <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl shadow-sm">
+                    <h3 className="text-green-700 font-semibold mb-3 flex items-center gap-2">
+                        <span className="text-lg">💪</span> Market Strengths
+                    </h3>
+                    <ul className="space-y-2">
+                        {market_assessment.strengths.map((strength, index) => (
+                            <li key={index} className="text-sm text-green-600 flex items-start gap-2">
+                                <span className="mt-1">•</span>
+                                <span>{strength}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Challenges */}
+                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-xl shadow-sm">
+                    <h3 className="text-yellow-700 font-semibold mb-3 flex items-center gap-2">
+                        <span className="text-lg">⚠️</span> Market Challenges
+                    </h3>
+                    <ul className="space-y-2">
+                        {market_assessment.challenges.map((challenge, index) => (
+                            <li key={index} className="text-sm text-yellow-600 flex items-start gap-2">
+                                <span className="mt-1">•</span>
+                                <span>{challenge}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Opportunities */}
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl shadow-sm">
+                    <h3 className="text-blue-700 font-semibold mb-3 flex items-center gap-2">
+                        <span className="text-lg">🎯</span> Market Opportunities
+                    </h3>
+                    <ul className="space-y-2">
+                        {market_assessment.opportunities.map((opportunity, index) => (
+                            <li key={index} className="text-sm text-blue-600 flex items-start gap-2">
+                                <span className="mt-1">•</span>
+                                <span>{opportunity}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
 
             {/* Market Metrics */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Users and Probability */}
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
-                        <span>📊</span> Market Metrics
+                {/* Market Size & Metrics */}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <span className="text-lg">📊</span> Market Metrics
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">Potential Users</span>
-                            <span className="font-medium">
+                            <span className="font-medium text-gray-800">
                                 {formatNumber(tamSamSom?.market_landscape?.market_size || 0)}
                             </span>
                         </div>
                         <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600">Success Probability</span>
-                            <span className="font-medium text-blue-600">
-                                {((revenueValidation.probability_of_achieving_revenue || 0) * 100).toFixed(1)}%
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Revenue per User */}
-                <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
-                        <span>💎</span> Revenue Metrics
-                    </h3>
-                    <div className="space-y-3">
-                        <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">Revenue/User</span>
-                            <span className="font-medium">
+                            <span className="font-medium text-gray-800">
                                 ${formatNumber((tamSamSom?.market_landscape?.market_revenue || 0) / 
                                     (tamSamSom?.market_landscape?.market_size || 1))}
                             </span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">Target Achievement</span>
-                            <span className={`font-medium ${revenueValidation.realistic_revenue >= (userInput?.targetRevenue || 0) 
+                            <span className={`font-medium ${(tamSamSom?.market_landscape?.market_revenue || 0) >= (userInput?.targetRevenue || 0) 
                                 ? 'text-green-600' 
                                 : 'text-red-600'}`}>
-                                {((revenueValidation.realistic_revenue / (userInput?.targetRevenue || 1)) * 100).toFixed(1)}%
+                                {((tamSamSom?.market_landscape?.market_revenue / (userInput?.targetRevenue || 1)) * 100).toFixed(1)}%
                             </span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Revenue Analysis */}
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
-                    <span>📈</span> Revenue Achievement Analysis
-                </h3>
-                <div className="space-y-3">
-                    <p className="text-sm text-gray-600">{revenueValidation.explanation || 'No explanation available'}</p>
-                    <div className="space-y-2">
-                        {(revenueValidation.reasons || []).map((reason, index) => (
-                            <div key={index} className="flex items-start gap-2">
-                                <span className="text-blue-500 mt-1">•</span>
-                                <span className="text-sm text-gray-600">{reason}</span>
-                            </div>
-                        ))}
+                {/* Analysis Summary */}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <span className="text-lg">📈</span> Market Analysis
+                    </h3>
+                    <div className="space-y-3">
+                        <p className="text-sm text-gray-600">{revenueValidation.explanation}</p>
+                        <div className="space-y-2">
+                            {revenueValidation.reasons.map((reason, index) => (
+                                <div key={index} className="flex items-start gap-2">
+                                    <span className="text-blue-500 mt-1">•</span>
+                                    <span className="text-sm text-gray-600">{reason}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -489,9 +518,9 @@ export default function SummaryComponent({ summary, userInput, tamSamSom, readOn
     const colorScheme = getWorthSolvingColorScheme(recommendation.worth_solving);
 
     return (
-        <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div className="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 py-8">
             {/* Worth Solving Score Banner */}
-            <div className={`bg-gradient-to-r ${colorScheme.gradient} rounded-xl p-6 text-white transition-colors duration-300`}>
+            <div className={`bg-gradient-to-r ${colorScheme.gradient} rounded-2xl p-8 text-white shadow-lg`}>
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold mb-2 flex items-center gap-2">
@@ -525,55 +554,21 @@ export default function SummaryComponent({ summary, userInput, tamSamSom, readOn
                 </div>
             </div>
 
-            {/* Key Metrics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <ValidationDecision decision={recommendation.validation_decision} />
+            {/* Main Content */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <RevenueValidation 
                     revenueValidation={recommendation.revenue_validation}
                     userInput={userInput}
                     tamSamSom={tamSamSom}
                 />
-                <ChallengesSection challenges={recommendation.worth_solving_challenges} />
+                <ValidationDecision decision={recommendation.validation_decision} />
             </div>
 
-            {/* Problem Validation Scores */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <span>📋</span> Problem Validation Scores
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {Object.entries(recommendation.scores).map(([key, value]) => (
-                        <ScoreCard 
-                            key={key}
-                            label={key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                            score={value}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* SWOT Analysis */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <span>🎯</span> Strategic Analysis
-                </h2>
+            {/* Additional Sections */}
+            <div className="space-y-8">
                 <SwotAnalysis swot={recommendation.problem_swot_analysis} />
-            </div>
-
-            {/* Validation Gaps & Evidence */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span>⚠️</span> Critical Gaps & Risks
-                    </h2>
-                    <ValidationGapsSection gaps={recommendation.validation_gaps} />
-                </div>
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span>🔍</span> Supporting Evidence
-                    </h2>
-                    <ProblemEvidenceSection evidence={recommendation.problem_evidence} />
-                </div>
+                <ValidationGapsSection gaps={recommendation.validation_gaps} />
+                <ProblemEvidenceSection evidence={recommendation.problem_evidence} />
             </div>
         </div>
     );
