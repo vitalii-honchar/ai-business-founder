@@ -27,9 +27,23 @@ export default function ValidationComponent({ project, loading, onSubmit, active
     const contentRef = useRef(null);
     const currentSectionIndex = sections.findIndex(section => section.id === activeItemId);
 
+    useEffect(() => {
+        if (contentRef.current) {
+            setTimeout(() => {
+                contentRef.current.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+    }, [activeItemId]);
+
     const scrollToTop = () => {
         if (contentRef.current) {
-            contentRef.current.scrollIntoView({ behavior: 'smooth' });
+            contentRef.current.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     };
 
@@ -168,7 +182,7 @@ export default function ValidationComponent({ project, loading, onSubmit, active
 
     return (
         <div className="pb-20">
-            <div ref={contentRef}>{renderContent()}</div>
+            <div ref={contentRef} className="scroll-mt-4">{renderContent()}</div>
             <NavigationButtons
                 onPrevious={handlePrevious}
                 onNext={handleNext}
