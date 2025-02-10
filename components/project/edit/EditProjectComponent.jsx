@@ -12,6 +12,7 @@ import useProjectPolling from '@/lib/client/hooks/useProjectPolling';
 import useUserId from '@/lib/client/hooks/useUserId';
 import get from 'lodash/get';
 import ConfirmationModal from '@/components/common/ConfirmationModal';
+import { getScoreColor, getScoreTextColor } from "@/lib/metrics/worthSolvingScore";
 
 export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
@@ -137,18 +138,6 @@ export default function EditProjectComponent({ project: initialProject }) {
             );
         }
         return null;
-    };
-
-    const getScoreColor = (score) => {
-        if (score >= 8) return 'bg-green-600';
-        if (score >= 5) return 'bg-blue-600';
-        return 'bg-red-600';
-    };
-
-    const getScoreTextColor = (score) => {
-        if (score >= 8) return 'text-green-600';
-        if (score >= 5) return 'text-blue-600';
-        return 'text-red-600';
     };
 
     const handleScoreClick = () => {
