@@ -376,7 +376,7 @@ export default function EditProjectComponent({ project: initialProject }) {
             </div>
 
             {/* Main content area */}
-            <div className="flex sm:flex-row relative min-h-[calc(100vh-280px)]">
+            <div className="flex sm:flex-row relative pb-[60px]">
                 {/* Overlay for mobile */}
                 {isNavOpen && (
                     <div
@@ -385,8 +385,8 @@ export default function EditProjectComponent({ project: initialProject }) {
                     />
                 )}
 
-                {/* Navigation panel - make sticky on desktop */}
-                <div className={`fixed sm:sticky sm:top-0 sm:h-[calc(100vh-280px)] inset-0 z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
+                {/* Navigation panel */}
+                <div className={`fixed sm:relative sm:flex-none inset-0 bottom-[60px] z-50 bg-white transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:translate-x-0 sm:w-64 border-r border-gray-200`}>
                     <div className="flex flex-col h-full">
                         <div className="flex-1 overflow-y-auto">
                             <NavigationPanel
@@ -411,9 +411,9 @@ export default function EditProjectComponent({ project: initialProject }) {
                     </div>
                 </div>
 
-                {/* Content area - adjust padding bottom for navigation buttons */}
+                {/* Content area */}
                 <div className="w-full sm:flex-1 overflow-auto bg-gray-50">
-                    <div className="px-2 sm:px-4 py-4 pb-24">
+                    <div className="px-2 sm:px-4 py-4">
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}

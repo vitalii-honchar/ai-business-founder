@@ -3,7 +3,7 @@ const NavigationButtons = ({ onPrevious, onNext, prevLabel, nextLabel, prevIcon,
     const hasNext = !!nextLabel;
     
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 sm:px-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 sm:px-4 z-[60]">
             <div className="flex justify-between max-w-5xl mx-auto">
                 <button
                     onClick={onPrevious}
