@@ -14,33 +14,54 @@ const ProjectCards = ({ projects }) => {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {projects.map((project, index) => (
                 <Link
                     key={index}
                     href={`/application/project/${project.id}`}
-                    className="block bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-[1.02] cursor-pointer"
+                    className="group flex flex-col h-full bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200"
                     prefetch={false}
                 >
-                    <div className="p-6">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-4">{project.name}</h3>
+                    <div className="flex flex-col h-full p-5">
+                        {/* Header Section */}
+                        <div className="mb-4">
+                            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
+                                {project.name}
+                            </h3>
+                            {project.description && (
+                                <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+                                    {project.description}
+                                </p>
+                            )}
+                        </div>
 
-                        <div>
-                            <p className="text-sm text-gray-600 mb-2">Validation Score:</p>
+                        {/* Score Section */}
+                        <div className="mt-auto pt-4 border-t border-gray-100">
+                            <p className="text-sm text-gray-600 mb-2 flex items-center gap-1">
+                                <span className="inline-block w-2 h-2 rounded-full bg-gray-300"></span>
+                                Validation Score
+                            </p>
                             {project.worth_solving ? (
-                                <div className="flex items-center gap-2">
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div
-                                            className={`${getScoreColor(project.worth_solving)} rounded-full h-2.5 transition-all duration-300`}
-                                            style={{ width: `${project.worth_solving * 10}%` }}
-                                        />
+                                <div className="flex items-center gap-3">
+                                    <div className="flex-1">
+                                        <div className="w-full bg-gray-100 rounded-full h-2">
+                                            <div
+                                                className={`${getScoreColor(project.worth_solving)} rounded-full h-2 transition-all duration-300`}
+                                                style={{ width: `${project.worth_solving * 10}%` }}
+                                            />
+                                        </div>
                                     </div>
-                                    <span className={`text-sm font-medium ${getScoreTextColor(project.worth_solving)}`}>
+                                    <span className={`text-sm font-medium ${getScoreTextColor(project.worth_solving)} min-w-[40px] text-right`}>
                                         {project.worth_solving}/10
                                     </span>
                                 </div>
                             ) : (
-                                <span className="text-sm text-gray-500">Not validated yet</span>
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Not validated yet
+                                </div>
                             )}
                         </div>
                     </div>

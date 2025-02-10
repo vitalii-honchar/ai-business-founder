@@ -219,19 +219,33 @@ export default function EditProjectComponent({ project: initialProject }) {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>
                         </button>
-                        <div className="flex-1 flex items-center justify-between min-w-0">
-                            <h1 className="text-base font-medium text-gray-900 truncate pr-2">
-                                {project.name}
-                            </h1>
-                            {renderAnalysisStatus(true)}
+                        <div className="flex-1 flex flex-col min-w-0">
+                            <div className="flex items-center justify-between">
+                                <h1 className="text-base font-medium text-gray-900 truncate pr-2">
+                                    {project.name}
+                                </h1>
+                                {renderAnalysisStatus(true)}
+                            </div>
+                            {project.description && (
+                                <p className="text-xs text-gray-600 line-clamp-2 mt-0.5">
+                                    {project.description}
+                                </p>
+                            )}
                         </div>
                     </div>
 
                     {/* Desktop Layout */}
                     <div className="hidden sm:flex flex-1 items-center justify-between">
-                        <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
-                            {project.name}
-                        </h1>
+                        <div className="flex flex-col">
+                            <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
+                                {project.name}
+                            </h1>
+                            {project.description && (
+                                <p className="mt-1 text-sm text-gray-600 max-w-2xl line-clamp-2">
+                                    {project.description}
+                                </p>
+                            )}
+                        </div>
 
                         <div className="flex items-center gap-4">
                             {!isReadOnly() && (
