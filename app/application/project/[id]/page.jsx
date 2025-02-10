@@ -10,8 +10,8 @@ export async function generateMetadata({ params }) {
     const project = await projectService.getProject(userId, id);
 
     return {
-        title: project?.name || 'Project Details',
-        description: `Manage and edit details for project ${project?.name || id}`
+        title: project?.name || 'Project Name',
+        description: project?.description || 'Project Description'
     };
 }
 
