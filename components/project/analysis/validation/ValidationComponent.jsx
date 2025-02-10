@@ -137,6 +137,8 @@ export default function ValidationComponent({ project, loading, onSubmit, active
                         ) : project?.data?.analysis?.validation?.summary ? (
                             <SummaryComponent 
                                 summary={project.data.analysis.validation.summary} 
+                                userInput={project.data.input.validation}
+                                tamSamSom={project.data.analysis.validation.tamSamSom}
                                 readOnly={readOnly}
                             />
                         ) : null}
