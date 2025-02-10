@@ -18,10 +18,10 @@ function formatNumber(num) {
 // Reusable components
 function ScoreCard({ label, score }) {
     const getScoreConfig = (score) => {
-        if (score >= 8) return { bg: 'bg-green-50', text: 'text-green-700', bar: 'bg-green-500', label: 'Excellent' };
-        if (score >= 6) return { bg: 'bg-blue-50', text: 'text-blue-700', bar: 'bg-blue-500', label: 'Good' };
-        if (score >= 4) return { bg: 'bg-yellow-50', text: 'text-yellow-700', bar: 'bg-yellow-500', label: 'Fair' };
-        return { bg: 'bg-red-50', text: 'text-red-700', bar: 'bg-red-500', label: 'Poor' };
+        if (score >= 8) return { bg: 'bg-green-50', text: 'text-green-700', bar: 'bg-green-500', label: 'Excellent', icon: '⭐' };
+        if (score >= 6) return { bg: 'bg-blue-50', text: 'text-blue-700', bar: 'bg-blue-500', label: 'Good', icon: '✨' };
+        if (score >= 4) return { bg: 'bg-yellow-50', text: 'text-yellow-700', bar: 'bg-yellow-500', label: 'Fair', icon: '⚡' };
+        return { bg: 'bg-red-50', text: 'text-red-700', bar: 'bg-red-500', label: 'Poor', icon: '⚠️' };
     };
 
     const config = getScoreConfig(score || 0);
@@ -29,7 +29,9 @@ function ScoreCard({ label, score }) {
     return (
         <div className={`${config.bg} rounded-lg p-4`}>
             <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-600">{label}</span>
+                <span className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                    <span>{config.icon}</span> {label}
+                </span>
                 <span className={`text-xs font-medium px-2 py-1 rounded-full ${config.bg} ${config.text}`}>
                     {config.label}
                 </span>
@@ -46,30 +48,45 @@ function ScoreCard({ label, score }) {
 }
 
 function ValidationDecision({ decision }) {
-    const getDecisionColor = (decision) => {
+    const getDecisionConfig = (decision) => {
         switch (decision?.toLowerCase()) {
-            case 'go': return 'green';
-            case 'no go': return 'red';
-            default: return 'yellow';
+            case 'go':
+                return {
+                    color: 'green',
+                    icon: '🚀',
+                    label: 'Ready to Proceed',
+                    description: 'Project shows strong potential'
+                };
+            case 'no-go':
+                return {
+                    color: 'yellow',
+                    icon: '💡',
+                    label: 'Needs Refinement',
+                    description: 'Consider improvements before proceeding'
+                };
+            default:
+                return {
+                    color: 'blue',
+                    icon: '🤔',
+                    label: 'Under Review',
+                    description: 'Analysis in progress'
+                };
         }
     };
 
-    const color = getDecisionColor(decision.decision);
+    const config = getDecisionConfig(decision.decision);
 
     return (
         <div className="space-y-4">
-            <div className={`bg-${color}-50 rounded-lg p-4`}>
-                <div className="flex justify-between items-center">
-                    <span className={`text-xl font-bold text-${color}-700`}>
-                        {decision.decision || 'NO GO'}
+            <div className={`bg-${config.color}-50 rounded-lg p-4`}>
+                <div className="flex items-center justify-between">
+                    <span className={`text-xl font-bold text-${config.color}-700 flex items-center gap-2`}>
+                        {config.icon} {config.label}
                     </span>
-                    <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-600">Confidence:</span>
-                        <span className={`font-bold text-${color}-700`}>
-                            {decision.confidence_score}/10
-                        </span>
-                    </div>
                 </div>
+                <p className={`text-sm text-${config.color}-600 mt-1`}>
+                    {config.description}
+                </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -101,13 +118,13 @@ function ValidationDecision({ decision }) {
                 </div>
 
                 <div className="bg-yellow-50 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-800 mb-2">Risk & Resource Assessment</h4>
+                    <h4 className="font-medium text-gray-800 mb-2">Risk Assessment</h4>
                     <div className="space-y-2">
                         <p className="text-sm text-gray-600">
-                            <span className="font-medium">Risk Assessment:</span> {decision.risk_assessment}
+                            {decision.risk_assessment}
                         </p>
                         <p className="text-sm text-gray-600">
-                            <span className="font-medium">Evidence Strength:</span> {decision.evidence_strength}
+                            <span className="font-medium">Evidence:</span> {decision.evidence_strength}
                         </p>
                     </div>
                 </div>
@@ -127,7 +144,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Target Revenue */}
                 <div className="bg-blue-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Target Revenue</div>
+                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                        <span>🎯</span> Target Revenue
+                    </div>
                     <div className="text-2xl font-bold text-blue-700">
                         ${formatNumber(userInput?.targetRevenue || 0)}
                     </div>
@@ -135,7 +154,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
                 </div>
 
                 <div className="bg-green-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Realistic Revenue</div>
+                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                        <span>💰</span> Realistic Revenue
+                    </div>
                     <div className="text-2xl font-bold text-green-700">
                         ${formatNumber(revenueValidation.realistic_revenue || 0)}
                     </div>
@@ -144,7 +165,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
 
                 {/* Potential Revenue */}
                 <div className="bg-purple-50 p-4 rounded-lg">
-                    <div className="text-sm text-gray-600 mb-1">Market Potential</div>
+                    <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                        <span>🌐</span> Market Potential
+                    </div>
                     <div className="text-2xl font-bold text-purple-700">
                         ${formatNumber(tamSamSom?.market_landscape?.market_revenue || 0)}
                     </div>
@@ -156,7 +179,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Users and Probability */}
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <h3 className="text-sm font-medium mb-3">Market Metrics</h3>
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                        <span>📊</span> Market Metrics
+                    </h3>
                     <div className="space-y-3">
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">Potential Users</span>
@@ -175,7 +200,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
 
                 {/* Revenue per User */}
                 <div className="bg-white p-4 rounded-lg border border-gray-200">
-                    <h3 className="text-sm font-medium mb-3">Revenue Metrics</h3>
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                        <span>💎</span> Revenue Metrics
+                    </h3>
                     <div className="space-y-3">
                         <div className="flex justify-between items-center">
                             <span className="text-sm text-gray-600">Revenue/User</span>
@@ -198,7 +225,9 @@ function RevenueValidation({ revenueValidation, userInput, tamSamSom }) {
 
             {/* Revenue Analysis */}
             <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="text-sm font-medium mb-3">Revenue Achievement Analysis</h3>
+                <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <span>📈</span> Revenue Achievement Analysis
+                </h3>
                 <div className="space-y-3">
                     <p className="text-sm text-gray-600">{revenueValidation.explanation || 'No explanation available'}</p>
                     <div className="space-y-2">
@@ -411,6 +440,42 @@ function ProblemEvidenceSection({ evidence }) {
     );
 }
 
+function getWorthSolvingColorScheme(score) {
+    if (score >= 8) {
+        return {
+            gradient: 'from-green-500 to-green-600',
+            bgOpacity: 'bg-white/20',
+            textColor: 'text-green-50',
+            label: 'Highly Promising',
+            icon: '🚀'
+        };
+    } else if (score >= 6) {
+        return {
+            gradient: 'from-blue-500 to-blue-600',
+            bgOpacity: 'bg-white/15',
+            textColor: 'text-blue-50',
+            label: 'Worth Exploring',
+            icon: '✨'
+        };
+    } else if (score >= 4) {
+        return {
+            gradient: 'from-yellow-500 to-yellow-600',
+            bgOpacity: 'bg-white/15',
+            textColor: 'text-yellow-50',
+            label: 'Needs Improvement',
+            icon: '💡'
+        };
+    } else {
+        return {
+            gradient: 'from-red-500 to-red-600',
+            bgOpacity: 'bg-white/10',
+            textColor: 'text-red-50',
+            label: 'Consider Pivoting',
+            icon: '🔄'
+        };
+    }
+}
+
 export default function SummaryComponent({ summary, userInput, tamSamSom, readOnly }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -421,20 +486,42 @@ export default function SummaryComponent({ summary, userInput, tamSamSom, readOn
     }
 
     const { recommendation } = summary;
+    const colorScheme = getWorthSolvingColorScheme(recommendation.worth_solving);
 
     return (
         <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 py-6">
             {/* Worth Solving Score Banner */}
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-6 text-white">
+            <div className={`bg-gradient-to-r ${colorScheme.gradient} rounded-xl p-6 text-white transition-colors duration-300`}>
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold mb-2">Worth Solving Score</h1>
-                        <p className="text-white/90">{recommendation.worth_solving_explanation}</p>
+                        <h1 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                            Worth Solving Score
+                            <span className="text-xl">{colorScheme.icon}</span>
+                        </h1>
+                        <p className={`${colorScheme.textColor} text-opacity-90`}>
+                            {recommendation.worth_solving_explanation}
+                        </p>
                     </div>
-                    <div className="flex items-center gap-2 bg-white/10 px-6 py-3 rounded-lg">
+                    <div className={`flex items-center gap-2 ${colorScheme.bgOpacity} px-6 py-3 rounded-lg backdrop-blur-sm`}>
                         <span className="text-3xl font-bold">{recommendation.worth_solving}</span>
                         <span className="text-lg">/10</span>
                     </div>
+                    <div className={`hidden sm:block ${colorScheme.bgOpacity} px-4 py-2 rounded-lg backdrop-blur-sm`}>
+                        <span className="text-sm font-medium flex items-center gap-2">
+                            {colorScheme.label}
+                        </span>
+                    </div>
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                    <div className="flex-1 bg-white/20 h-2 rounded-full overflow-hidden">
+                        <div 
+                            className="h-full bg-white transition-all duration-300" 
+                            style={{ width: `${recommendation.worth_solving * 10}%` }}
+                        />
+                    </div>
+                    <span className="text-sm font-medium">
+                        {recommendation.worth_solving * 10}%
+                    </span>
                 </div>
             </div>
 
@@ -451,7 +538,9 @@ export default function SummaryComponent({ summary, userInput, tamSamSom, readOn
 
             {/* Problem Validation Scores */}
             <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Problem Validation Scores</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span>📋</span> Problem Validation Scores
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {Object.entries(recommendation.scores).map(([key, value]) => (
                         <ScoreCard 
@@ -465,18 +554,24 @@ export default function SummaryComponent({ summary, userInput, tamSamSom, readOn
 
             {/* SWOT Analysis */}
             <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Strategic Analysis</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span>🎯</span> Strategic Analysis
+                </h2>
                 <SwotAnalysis swot={recommendation.problem_swot_analysis} />
             </div>
 
             {/* Validation Gaps & Evidence */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white rounded-xl shadow-sm p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Critical Gaps & Risks</h2>
+                    <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span>⚠️</span> Critical Gaps & Risks
+                    </h2>
                     <ValidationGapsSection gaps={recommendation.validation_gaps} />
                 </div>
                 <div className="bg-white rounded-xl shadow-sm p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Supporting Evidence</h2>
+                    <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span>🔍</span> Supporting Evidence
+                    </h2>
                     <ProblemEvidenceSection evidence={recommendation.problem_evidence} />
                 </div>
             </div>
