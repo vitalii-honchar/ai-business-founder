@@ -35,10 +35,7 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                 email: formData.get('email'),
                 password,
                 options: {
-                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email`,
-                    data: {
-                        subscription_plan: selectedPlan
-                    }
+                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email&plan=${selectedPlan}`,
                 },
             });
 
@@ -59,7 +56,6 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
         <div className="space-y-6 relative" role="tabpanel" hidden={tabKey !== 'register'}>
             <LoadingOverlay isLoading={loading} message="Creating your account..." />
 
-            <ErrorMessageComponent className={"mb-4"} message={error} />
             <InfoMessageComponent className={"mb-4"} message={info} />
 
             {!isRegistered && (
@@ -72,7 +68,6 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                                 onPlanSelect={setSelectedPlan}
                             />
                         </div>
-
                         {/* Registration Details Section */}
                         <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
                             <div className="text-center">
@@ -81,7 +76,7 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                                     Enter your details to get started with your {selectedPlan} plan
                                 </p>
                             </div>
-
+                            <ErrorMessageComponent className={"mb-4"} message={error} />
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
                                     Email
