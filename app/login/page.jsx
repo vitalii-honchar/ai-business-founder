@@ -9,14 +9,22 @@ import SendFeedbackComponent from '@/components/common/SendFeedbackComponent';
 import TabComponent from '@/components/common/TabComponent';
 import { useState } from 'react';
 
+const Operation = Object.freeze({
+  LOGIN: 'login',
+  REGISTER: 'register',
+  RESET: 'reset',
+  FORGOT: 'forgot',
+  CONFIRM_EMAIL: 'confirm_email',
+});
+
 const getOperation = (params) => {
   const error = params?.error;
-  return error == 'access_denied' ? 'login' : params?.operation;
+  return error == 'access_denied' ? Operation.LOGIN : params?.operation;
 };
 
 const getLoginMessage = (params) => {
   const operation = getOperation(params);
-  if (operation === 'confirm_email') {
+  if (operation === Operation.CONFIRM_EMAIL) {
     return 'Account confirmed. Please login.';
   }
   return '';
@@ -25,19 +33,20 @@ const getLoginMessage = (params) => {
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
 
-  const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
+  const [activeTab, setActiveTab] = useState(params?.activeTab || Operation.LOGIN);
   const [showResetForm, setShowResetForm] = useState(true);
   const [loginMessage, setLoginMessage] = useState(getLoginMessage(params));
   const errorMessage = params?.error_description;
   const operation = getOperation(params);
   const code = params?.code;
+  const plan = params?.plan;
 
   const tabs = [
-    { id: 'login', label: 'Login' },
-    { id: 'register', label: 'Register' },
+    { id: Operation.LOGIN, label: 'Login' },
+    { id: Operation.REGISTER, label: 'Register' },
   ];
 
-  if (operation === 'reset' && showResetForm) {
+  if (operation === Operation.RESET && showResetForm) {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Reset Password</h2>
@@ -55,7 +64,7 @@ const LoginPage = ({ searchParams }) => {
   }
 
   // Handle forgot password view
-  if (operation === 'forgot') {
+  if (operation === Operation.FORGOT) {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Forgot Password</h2>
@@ -67,18 +76,24 @@ const LoginPage = ({ searchParams }) => {
 
   // Main login/register view
   return (
-    <CenterCardComponent size={activeTab === 'register' ? 'xl' : 'default'}>
+    <CenterCardComponent size={activeTab === Operation.REGISTER ? 'xl' : 'default'}>
       <TabComponent
         activeTab={activeTab}
         tabs={tabs}
         onTabChange={setActiveTab}
       >
-        <LoginComponent tabKey="login" initialMessage={loginMessage} errorMessage={errorMessage} />
-        <RegisterComponent tabKey="register" />
+        <LoginComponent 
+          tabKey={Operation.LOGIN} 
+          initialMessage={loginMessage} 
+          errorMessage={errorMessage}
+          isConfirmedEmail={operation === Operation.CONFIRM_EMAIL}
+          subscriptionPlan={plan}
+        />
+        <RegisterComponent tabKey={Operation.REGISTER} />
       </TabComponent>
 
       <p className="text-center text-sm text-gray-600">
-        {activeTab === 'login' ? (
+        {activeTab === Operation.LOGIN ? (
           "Don't have an account? Click Register above."
         ) : (
           "Already have an account? Click Login above."
