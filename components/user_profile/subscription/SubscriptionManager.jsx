@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
 import ErrorMessageComponent from '@/components/common/ErrorMessageComponent';
 import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
-import userProfileApi from '@/lib/client/api/user_profile_api';
+import CurrentSubscription from './CurrentSubscription';
 import { loadStripe } from '@stripe/stripe-js';
 
 // Initialize Stripe
@@ -16,9 +16,8 @@ export default function SubscriptionManager({ initialSubscription, message }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [info, setInfo] = useState(message || '');
-    const [currentSubscription, setCurrentSubscription] = useState(initialSubscription);
 
-    const handlePlanSelect = async (planName) => {
+    const handlePlanSelect = (planName) => {
         setSelectedPlan(planName);
         setError('');
         setInfo('');
@@ -27,6 +26,12 @@ export default function SubscriptionManager({ initialSubscription, message }) {
     const handleSubscribe = async () => {
         if (!selectedPlan) {
             setError('Please select a plan first');
+            return;
+        }
+
+        // Don't allow resubscribing to current active plan
+        if (initialSubscription?.status === 'active' && initialSubscription?.plan === selectedPlan) {
+            setError('You are already subscribed to this plan');
             return;
         }
 
@@ -41,7 +46,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                 },
                 body: JSON.stringify({
                     plan: selectedPlan,
-                    currentPlan: currentSubscription?.plan
+                    currentPlan: initialSubscription?.plan
                 }),
             });
 
@@ -72,28 +77,24 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                 <ErrorMessageComponent message={error} className="mb-6" />
                 <InfoMessageComponent message={info} className="mb-6" />
 
-                {currentSubscription && (
-                    <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-                        <h3 className="text-lg font-semibold mb-2">Current Subscription</h3>
-                        <p className="text-gray-600">
-                            Plan: <span className="font-medium capitalize">{currentSubscription.plan}</span>
-                        </p>
-                        <p className="text-gray-600">
-                            Status: <span className="font-medium capitalize">{currentSubscription.status}</span>
-                        </p>
-                    </div>
-                )}
+                <CurrentSubscription subscription={initialSubscription} />
 
-                <SubscriptionPlans 
-                    selectedPlan={selectedPlan} 
-                    onPlanSelect={handlePlanSelect} 
-                />
+                {/* Subscription Plans */}
+                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 className="text-lg font-semibold mb-4">Available Plans</h3>
+                    <SubscriptionPlans 
+                        selectedPlan={selectedPlan} 
+                        onPlanSelect={handlePlanSelect}
+                        currentPlan={initialSubscription?.status === 'active' ? initialSubscription.plan : null}
+                    />
+                </div>
 
+                {/* Action Button */}
                 {selectedPlan && selectedPlan !== 'free' && (
                     <div className="mt-8 text-center">
                         <button
                             onClick={handleSubscribe}
-                            disabled={loading}
+                            disabled={loading || (initialSubscription?.status === 'active' && initialSubscription?.plan === selectedPlan)}
                             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
@@ -103,6 +104,11 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
                                     Processing...
+                                </>
+                            ) : initialSubscription?.status === 'active' ? (
+                                <>
+                                    <span className="text-xl mr-2">↗️</span>
+                                    Upgrade Subscription
                                 </>
                             ) : (
                                 <>
