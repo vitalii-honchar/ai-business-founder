@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import userProfileService from '@/lib/service/user_profile_service';
+import userProfileService, { SubscriptionStatus, SubscriptionPlan } from '@/lib/service/user_profile_service';
 import { loggerWithUserId } from '@/lib/logger';
 
 const validateSubscriptionPlan = (plan) => {
-    const validPlans = ['free', 'hobby', 'pro'];
+    const validPlans = Object.values(SubscriptionPlan);
     if (!plan || !validPlans.includes(plan)) {
         return {
             isValid: false,
-            error: 'Invalid subscription plan. Must be one of: free, hobby, pro'
+            error: `Invalid subscription plan. Must be one of: ${validPlans.join(', ')}`
         };
     }
     return { isValid: true };
@@ -33,6 +33,7 @@ export async function POST(request, { params }) {
 
         const profileData = {
             subscription_plan: body.subscription_plan,
+            subscription_status: SubscriptionStatus.NEW
         };
 
         const userProfile = await userProfileService.createUserProfile(params.id, profileData);
