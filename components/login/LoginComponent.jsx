@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createClient } from '@/lib/db/dbClient';
 import { useRouter } from 'next/navigation';
 import ErrorMessageComponent from '@/components/common/ErrorMessageComponent';
@@ -7,8 +7,15 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import { useAuthMessage } from '@/lib/client/hooks/useAuthMessage';
 import useLoading from '@/lib/client/hooks/useLoading';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
+import userProfileApi from '@/lib/client/api/user_profile_api';
 
-const LoginComponent = ({ tabKey, initialMessage, errorMessage }) => {
+const LoginComponent = ({ 
+    tabKey, 
+    initialMessage, 
+    errorMessage, 
+    isConfirmedEmail, 
+    subscriptionPlan 
+}) => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const supabase = createClient();
@@ -23,7 +30,7 @@ const LoginComponent = ({ tabKey, initialMessage, errorMessage }) => {
         const formData = new FormData(e.target);
 
         try {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
                 email: formData.get('email'),
                 password: formData.get('password'),
             });
@@ -32,6 +39,17 @@ const LoginComponent = ({ tabKey, initialMessage, errorMessage }) => {
                 setError(signInError.message);
                 setLoading(false);
                 return;
+            }
+
+            if (isConfirmedEmail && data?.user?.id) {
+                try {
+                    await userProfileApi.createUserProfile(data.user.id, subscriptionPlan);
+                } catch (error) {
+                    console.error('Failed to create user profile:', error);
+                    setError('Failed to create user profile: ' + error.message);
+                    setLoading(false);
+                    return;
+                }
             }
 
             router.push('/');
