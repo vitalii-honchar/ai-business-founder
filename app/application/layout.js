@@ -5,35 +5,39 @@ import { getUserId } from '@/lib/db/dbServer';
 import { redirect } from 'next/navigation';
 import userProfileService from '@/lib/service/user_profile_service';
 import { SubscriptionStatus } from '@/lib/domain/user_profile';
+import { headers } from 'next/headers';
 
 export default async function AppLayout({ children }) {
     const userId = await getUserId();
     const isLoggedIn = userId !== null;
 
-    // Get current path from headers
-    const headers = new Headers();
-    const currentPath = headers.get('x-invoke-path') || '';
-    
+    // Get current path from custom header set by middleware
+    const headersList = await headers();
+    const pathname = headersList.get('x-pathname') || '';
+
     // List of paths that should bypass subscription check
     const bypassPaths = [
-        '/logout',
-        '/application/user-profile/subscription'
+        '/application/user-profile/subscription',
+        '/application/auth/logout'
     ];
 
-    if (isLoggedIn && !bypassPaths.some(path => currentPath.includes(path))) {
+    // Only check subscription for logged-in users and non-bypassed paths
+    if (isLoggedIn && !bypassPaths.some(path => pathname.startsWith(path))) {
         const subscription = await userProfileService.getSubscriptionStatus(userId);
         
         // If no subscription or status is not active, redirect to subscription page
-        if (!subscription || subscription.status !== SubscriptionStatus.ACTIVE) {
+        if (!subscription || subscription.subscriptionStatus !== SubscriptionStatus.ACTIVE) {
             const searchParams = new URLSearchParams();
             
-            if (subscription?.status === SubscriptionStatus.EXPIRED) {
+            if (subscription?.subscriptionStatus === SubscriptionStatus.EXPIRED) {
                 searchParams.set('message', 'Your subscription has expired. Please renew your plan to continue using the application.');
             } else {
                 searchParams.set('message', 'Please choose a subscription plan to continue using the application.');
             }
             
-            redirect(`/application/user-profile/subscription?${searchParams.toString()}`);
+            // Use absolute path for redirect
+            const redirectUrl = `/application/user-profile/subscription?${searchParams.toString()}`;
+            redirect(redirectUrl);
         }
     }
 
@@ -82,7 +86,7 @@ export default async function AppLayout({ children }) {
                     {/* Feedback button - visible on both mobile and desktop */}
                     <div className="ml-2 flex items-center gap-4">
                         {isLoggedIn ? (
-                            <Link href="/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
+                            <Link href="/application/auth/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
                                 Sign Out
                                 <HiLogout className="w-5 h-5" />
                             </Link>
@@ -97,7 +101,7 @@ export default async function AppLayout({ children }) {
             </header>
             <main className="flex-grow w-full px-2 sm:px-4 py-4">
                 {/* Only show subscription check message on protected pages */}
-                {isLoggedIn && !bypassPaths.some(path => currentPath.includes(path)) && (
+                {isLoggedIn && !bypassPaths.some(path => pathname.startsWith(path)) && (
                     <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                         <p className="font-medium">🔔 Open Beta Testing</p>
                         <p className="mt-1">This is an open beta version of AI Founder. Please be aware that you may encounter bugs or incomplete features. All data created during the beta period may be deleted after the testing phase. Your feedback is valuable to us!</p>
