@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import userProfileService, { SubscriptionStatus, SubscriptionPlan } from '@/lib/service/user_profile_service';
+import userProfileService from '@/lib/service/user_profile_service';
+import { SubscriptionStatus, SubscriptionPlan } from '@/lib/domain/user_profile';
 import { loggerWithUserId } from '@/lib/logger';
 
 const validateSubscriptionPlan = (plan) => {
