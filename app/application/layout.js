@@ -23,13 +23,13 @@ export default async function AppLayout({ children }) {
 
     // Only check subscription for logged-in users and non-bypassed paths
     if (isLoggedIn && !bypassPaths.some(path => pathname.startsWith(path))) {
-        const subscription = await userProfileService.getSubscriptionStatus(userId);
+        const userProfile = await userProfileService.getUserProfile(userId);
         
         // If no subscription or status is not active, redirect to subscription page
-        if (!subscription || subscription.subscriptionStatus !== SubscriptionStatus.ACTIVE) {
+        if (!userProfile || userProfile.subscription_status !== SubscriptionStatus.ACTIVE) {
             const searchParams = new URLSearchParams();
             
-            if (subscription?.subscriptionStatus === SubscriptionStatus.EXPIRED) {
+            if (userProfile?.subscription_status === SubscriptionStatus.EXPIRED) {
                 searchParams.set('message', 'Your subscription has expired. Please renew your plan to continue using the application.');
             } else {
                 searchParams.set('message', 'Please choose a subscription plan to continue using the application.');
