@@ -67,7 +67,7 @@ const LoginPage = ({ searchParams }) => {
 
   // Main login/register view
   return (
-    <CenterCardComponent>
+    <CenterCardComponent size={activeTab === 'register' ? 'xl' : 'default'}>
       <TabComponent
         activeTab={activeTab}
         tabs={tabs}
