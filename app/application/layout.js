@@ -18,6 +18,7 @@ export default async function AppLayout({ children }) {
     // List of paths that should bypass subscription check
     const bypassPaths = [
         '/application/user-profile/subscription',
+        '/application/user-profile/subscription/checkout',
         '/application/auth/logout'
     ];
 
