@@ -6,15 +6,10 @@ export default async function SubscriptionPage({ searchParams }) {
     const { message } = await searchParams;
     const userId = await getUserId();
     const userProfile = await userProfileService.getUserProfile(userId);
-    
-    const currentSubscription = userProfile ? {
-        plan: userProfile.subscription_plan,
-        status: userProfile.subscription_status
-    } : null;
 
     return (
         <SubscriptionManager 
-            initialSubscription={currentSubscription}
+            userProfileObj={userProfile.toObject()}
             message={message}
         />
     );

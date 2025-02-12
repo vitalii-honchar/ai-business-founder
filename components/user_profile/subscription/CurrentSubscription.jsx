@@ -1,7 +1,7 @@
 import { SUBSCRIPTION_PLANS } from '@/components/subscription/subscription_plans_config';
-import { SubscriptionPlan } from '@/lib/domain/user_profile';
+import { UserProfile } from '@/lib/domain/user_profile';
 
-export default function CurrentSubscription({ subscription }) {
+export default function CurrentSubscription({ userProfile }) {
     const getStatusBadgeColor = (status) => {
         switch (status?.toLowerCase()) {
             case 'active':
@@ -15,11 +15,11 @@ export default function CurrentSubscription({ subscription }) {
         }
     };
 
-    if (!subscription) return null;
+    if (!userProfile) return null;
 
-    const planDetails = SUBSCRIPTION_PLANS[subscription.plan] || {
+    const planDetails = SUBSCRIPTION_PLANS[userProfile.subscriptionPlan] || {
         emoji: '📦',
-        name: subscription.plan,
+        name: userProfile.subscriptionPlan,
         features: []
     };
 
@@ -43,9 +43,9 @@ export default function CurrentSubscription({ subscription }) {
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-gray-600">Status</span>
-                    <span className={`font-medium capitalize px-3 py-1 rounded-full border ${getStatusBadgeColor(subscription.status)}`}>
-                        {subscription.status === 'active' ? '✅ ' : subscription.status === 'expired' ? '⚠️ ' : '❌ '}
-                        {subscription.status}
+                    <span className={`font-medium capitalize px-3 py-1 rounded-full border ${getStatusBadgeColor(userProfile.subscriptionStatus)}`}>
+                        {userProfile.subscriptionStatus === 'active' ? '✅ ' : userProfile.subscriptionStatus === 'expired' ? '⚠️ ' : '❌ '}
+                        {userProfile.subscriptionStatus}
                     </span>
                 </div>
             </div>
@@ -64,19 +64,19 @@ export default function CurrentSubscription({ subscription }) {
                 </div>
             )}
             
-            {subscription.status === 'active' && (
+            {userProfile.subscriptionStatus === 'active' && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
                     <span className="text-xl">💡</span>
                     <p>To change your plan, select a new plan below</p>
                 </div>
             )}
-            {subscription.status === 'expired' && (
+            {userProfile.subscriptionStatus === 'expired' && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-red-600">
                     <span className="text-xl">⚠️</span>
                     <p>Your subscription has expired. Please renew or choose a new plan below</p>
                 </div>
             )}
-            {subscription.status === 'cancelled' && (
+            {userProfile.subscriptionStatus === 'cancelled' && (
                 <div className="mt-4 flex items-center gap-2 text-sm text-gray-600">
                     <span className="text-xl">📝</span>
                     <p>Your subscription has been cancelled. Select a plan below to resubscribe</p>

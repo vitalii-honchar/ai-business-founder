@@ -7,12 +7,14 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CurrentSubscription from './CurrentSubscription';
 import { loadStripe } from '@stripe/stripe-js';
+import { UserProfile } from '@/lib/domain/user_profile';
 
 // Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-export default function SubscriptionManager({ initialSubscription, message }) {
-    const [selectedPlan, setSelectedPlan] = useState(initialSubscription?.plan || null);
+export default function SubscriptionManager({ userProfileObj, message }) {
+    const userProfile = new UserProfile(userProfileObj);
+    const [selectedPlan, setSelectedPlan] = useState(userProfile?.subscriptionPlan || null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [info, setInfo] = useState(message || '');
@@ -30,7 +32,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
         }
 
         // Don't allow resubscribing to current active plan
-        if (initialSubscription?.status === 'active' && initialSubscription?.plan === selectedPlan) {
+        if (userProfile?.isActive && userProfile?.subscriptionPlan === selectedPlan) {
             setError('You are already subscribed to this plan');
             return;
         }
@@ -46,7 +48,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                 },
                 body: JSON.stringify({
                     plan: selectedPlan,
-                    currentPlan: initialSubscription?.plan
+                    currentPlan: userProfile?.subscriptionPlan
                 }),
             });
 
@@ -77,7 +79,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                 <ErrorMessageComponent message={error} className="mb-6" />
                 <InfoMessageComponent message={info} className="mb-6" />
 
-                <CurrentSubscription subscription={initialSubscription} />
+                <CurrentSubscription userProfile={userProfile} />
 
                 {/* Subscription Plans */}
                 <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -85,7 +87,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                     <SubscriptionPlans 
                         selectedPlan={selectedPlan} 
                         onPlanSelect={handlePlanSelect}
-                        currentPlan={initialSubscription?.status === 'active' ? initialSubscription.plan : null}
+                        currentPlan={userProfile?.isActive ? userProfile.subscriptionPlan : null}
                     />
                 </div>
 
@@ -94,7 +96,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                     <div className="mt-8 text-center">
                         <button
                             onClick={handleSubscribe}
-                            disabled={loading || (initialSubscription?.status === 'active' && initialSubscription?.plan === selectedPlan)}
+                            disabled={loading || (userProfile?.isActive && userProfile?.subscriptionPlan === selectedPlan)}
                             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (
@@ -105,7 +107,7 @@ export default function SubscriptionManager({ initialSubscription, message }) {
                                     </svg>
                                     Processing...
                                 </>
-                            ) : initialSubscription?.status === 'active' ? (
+                            ) : userProfile?.isActive ? (
                                 <>
                                     <span className="text-xl mr-2">↗️</span>
                                     Upgrade Subscription
