@@ -6,9 +6,8 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CurrentSubscription from './CurrentSubscription';
 import AvailablePlans from './AvailablePlans';
-import { getStripe } from '@/lib/client/stripe';
 import { UserProfile } from '@/lib/domain/user_profile';
-
+import { useRouter } from 'next/navigation';
 
 export default function SubscriptionManager({ userProfileObj, message }) {
     const userProfile = new UserProfile(userProfileObj);
@@ -17,6 +16,7 @@ export default function SubscriptionManager({ userProfileObj, message }) {
     const [error, setError] = useState('');
     const [info, setInfo] = useState(message || '');
     const [showPlans, setShowPlans] = useState(userProfile?.subscriptionPlan?.isNew || true);
+    const router = useRouter();
 
     const handlePlanSelect = (planName) => {
         setSelectedPlan(planName);
@@ -40,11 +40,7 @@ export default function SubscriptionManager({ userProfileObj, message }) {
         setError('');
 
         try {
-            const stripe = await getStripe();
-            if (!stripe) {
-                throw new Error('Failed to initialize Stripe');
-            }
-
+            console.log('Creating checkout session...');
             const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: {
@@ -55,22 +51,13 @@ export default function SubscriptionManager({ userProfileObj, message }) {
                     currentPlan: userProfile?.subscriptionPlan
                 }),
             });
-
-            const data = await response.json();
-            
             if (!response.ok) {
-                throw new Error(data.error || 'Failed to create checkout session');
+                throw new Error('Failed to create checkout session');
             }
 
-            const { sessionId } = data;
-            if (!sessionId) {
-                throw new Error('No session ID returned from server');
-            }
+            const { url } = await response.json();
+            router.push(url);
 
-            const { error } = await stripe.redirectToCheckout({ sessionId });
-            if (error) {
-                throw error;
-            }
         } catch (error) {
             console.error('Subscription error:', error);
             setError(error.message || 'Failed to process subscription. Please try again.');
