@@ -20,7 +20,7 @@ export async function POST(request) {
             currentPlan,
         });
 
-        return NextResponse.json({ sessionId: session.id });
+        return NextResponse.json({ sessionId: session.id, url: session.url });
     } catch (error) {
         console.error('Stripe session creation error:', error);
         return NextResponse.json(
