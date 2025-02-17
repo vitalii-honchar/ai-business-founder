@@ -18,7 +18,7 @@ export default function SubscriptionManager({ userProfileObj, message }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [info, setInfo] = useState(message || '');
-    const [showPlans, setShowPlans] = useState(false);
+    const [showPlans, setShowPlans] = useState(userProfile?.subscriptionPlan?.isNew || true);
 
     const handlePlanSelect = (planName) => {
         setSelectedPlan(planName);
@@ -42,6 +42,11 @@ export default function SubscriptionManager({ userProfileObj, message }) {
         setError('');
 
         try {
+            const stripe = await stripePromise;
+            if (!stripe) {
+                throw new Error('Failed to initialize Stripe');
+            }
+
             const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: {
@@ -53,20 +58,24 @@ export default function SubscriptionManager({ userProfileObj, message }) {
                 }),
             });
 
+            const data = await response.json();
+            
             if (!response.ok) {
-                throw new Error('Failed to create checkout session');
+                throw new Error(data.error || 'Failed to create checkout session');
             }
 
-            const { sessionId } = await response.json();
-            const stripe = await stripePromise;
-            const { error } = await stripe.redirectToCheckout({ sessionId });
+            const { sessionId } = data;
+            if (!sessionId) {
+                throw new Error('No session ID returned from server');
+            }
 
+            const { error } = await stripe.redirectToCheckout({ sessionId });
             if (error) {
                 throw error;
             }
         } catch (error) {
             console.error('Subscription error:', error);
-            setError('Failed to process subscription: ' + error.message);
+            setError(error.message || 'Failed to process subscription. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getUserId } from '@/lib/db/dbServer';
+import { getUser } from '@/lib/db/dbServer';
 import stripeService from '@/lib/service/stripe_service';
 
 export async function POST(request) {
     try {
-        const userId = await getUserId();
-        if (!userId) {
+        const user = await getUser();
+        if (!user) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
@@ -15,7 +15,7 @@ export async function POST(request) {
         const { plan, currentPlan } = await request.json();
 
         const session = await stripeService.createCheckoutSession({
-            userId,
+            user,
             plan,
             currentPlan,
         });
