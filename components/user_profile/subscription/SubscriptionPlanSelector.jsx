@@ -34,6 +34,11 @@ export default function SubscriptionPlanSelector({ userProfile, onBack }) {
         setError('');
 
         try {
+            if (selectedPlan === 'free') {
+                router.push('/application/user-profile/subscription?operation=success&plan=free');
+                return;
+            }
+
             console.log('Creating checkout session...');
             const { url } = await checkoutApi.createCheckoutSession(selectedPlan, userProfile?.subscriptionPlan);
             router.push(url);

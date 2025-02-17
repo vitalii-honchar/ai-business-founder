@@ -29,7 +29,7 @@ export default function AvailablePlans({
             </div>
 
             {/* Action Button */}
-            {selectedPlan && selectedPlan !== 'free' && (
+            {selectedPlan && (
                 <div className="mt-8 text-center">
                     <button
                         onClick={onSubscribe}
@@ -46,8 +46,8 @@ export default function AvailablePlans({
                             </>
                         ) : (
                             <>
-                                <span className="text-xl mr-2">💳</span>
-                                Checkout
+                                <span className="text-xl mr-2">{selectedPlan === 'free' ? '🎉' : '💳'}</span>
+                                {selectedPlan === 'free' ? 'Use Free Version' : 'Checkout'}
                             </>
                         )}
                     </button>
