@@ -8,6 +8,7 @@ import CurrentSubscription from './CurrentSubscription';
 import AvailablePlans from './AvailablePlans';
 import { UserProfile } from '@/lib/domain/user_profile';
 import { useRouter } from 'next/navigation';
+import checkoutApi from '@/lib/client/api/checkout_api';
 
 export default function SubscriptionManager({ userProfileObj, message }) {
     const userProfile = new UserProfile(userProfileObj);
@@ -41,21 +42,7 @@ export default function SubscriptionManager({ userProfileObj, message }) {
 
         try {
             console.log('Creating checkout session...');
-            const response = await fetch('/api/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    plan: selectedPlan,
-                    currentPlan: userProfile?.subscriptionPlan
-                }),
-            });
-            if (!response.ok) {
-                throw new Error('Failed to create checkout session');
-            }
-
-            const { url } = await response.json();
+            const { url } = await checkoutApi.createCheckoutSession(selectedPlan, userProfile?.subscriptionPlan);
             router.push(url);
 
         } catch (error) {
