@@ -6,11 +6,9 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CurrentSubscription from './CurrentSubscription';
 import AvailablePlans from './AvailablePlans';
-import { loadStripe } from '@stripe/stripe-js';
+import { getStripe } from '@/lib/client/stripe';
 import { UserProfile } from '@/lib/domain/user_profile';
 
-// Initialize Stripe
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default function SubscriptionManager({ userProfileObj, message }) {
     const userProfile = new UserProfile(userProfileObj);
@@ -42,7 +40,7 @@ export default function SubscriptionManager({ userProfileObj, message }) {
         setError('');
 
         try {
-            const stripe = await stripePromise;
+            const stripe = await getStripe();
             if (!stripe) {
                 throw new Error('Failed to initialize Stripe');
             }
