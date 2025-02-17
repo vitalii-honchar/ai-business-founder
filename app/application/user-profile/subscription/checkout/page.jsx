@@ -4,9 +4,7 @@ import { getUserId } from '@/lib/db/dbServer';
 import userProfileService from '@/lib/service/user_profile_service';
 import stripeService from '@/lib/service/stripe_service';
 import { SUBSCRIPTION_PLANS } from '@/components/subscription/subscription_plans_config';
-import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+import { getStripe } from '@/lib/client/stripe';
 
 export default async function CheckoutPage() {
     const userId = await getUserId();
@@ -94,7 +92,7 @@ export default async function CheckoutPage() {
                     <form action={async () => {
                         'use server';
                         const sessionId = await createCheckoutSession();
-                        const stripe = await stripePromise;
+                        const stripe = await getStripe();
                         await stripe.redirectToCheckout({ sessionId });
                     }}>
                         <button
