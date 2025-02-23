@@ -1,18 +1,30 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import createProject from '@/components/project/createProject';
+import addProject from './createProject';
 
-const AddProjectButton = () => {
+const AddProjectButton = ({ disabled }) => {
     const router = useRouter();
+
+    const handleClick = async () => {
+        try {
+            await addProject(router);
+        } catch (error) {
+            console.error('Failed to create project:', error);
+            // You might want to show a toast notification here
+        }
+    };
+
     return (
         <button
-            onClick={() => createProject(router)}
-            className="fixed bottom-8 right-8 p-4 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            aria-label="Create new project"
+            onClick={handleClick}
+            disabled={disabled}
+            className={`fixed bottom-8 right-8 p-4 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-colors
+                ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+            title={disabled ? "Project limit reached" : "Create new project"}
         >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
         </button>
     );
