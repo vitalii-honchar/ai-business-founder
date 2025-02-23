@@ -19,7 +19,7 @@ export default async function SubscriptionPage({ searchParams }) {
         profile.subscriptionPlan = SubscriptionPlan.FREE;
         profile.subscriptionStatus = SubscriptionStatus.ACTIVE;
 
-        await userProfileService.updateUserProfile(profile);
+        await userProfileService.activateSubscription(profile);
         redirect('/');
     }
     
