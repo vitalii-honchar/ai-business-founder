@@ -13,6 +13,8 @@ import useUserId from '@/lib/client/hooks/useUserId';
 import get from 'lodash/get';
 import ConfirmationModal from '@/components/common/ConfirmationModal';
 import { getScoreColor, getScoreTextColor } from "@/lib/metrics/worthSolvingScore";
+import useUserProfileLimits from '@/lib/client/hooks/useUserProfileLimits';
+import UsageLimitReachedMessage, { UsageLimitType } from '@/components/subscription/UsageLimitReachedMessage';
 
 export default function EditProjectComponent({ project: initialProject }) {
     const searchParams = useSearchParams();
@@ -32,6 +34,8 @@ export default function EditProjectComponent({ project: initialProject }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const router = useRouter();
     const isReadOnly = () => userId !== project?.user_id;
+
+    const { userProfileLimits, updateUserProfileLimits } = useUserProfileLimits(userId);
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
@@ -55,9 +59,9 @@ export default function EditProjectComponent({ project: initialProject }) {
     }
 
     const handleValidationSubmit = withLoading((formData) => {
-        console.log('handleValidationSubmit:', JSON.stringify(project));
         return projecApi.generateProjectValidation(project.id, formData)
             .then(newProject => {
+                updateUserProfileLimits();
                 startPolling(newProject);
             });
     })
@@ -175,6 +179,18 @@ export default function EditProjectComponent({ project: initialProject }) {
             setError(err.message);
         }
     });
+
+    // Add this function to check validation limits
+    const hasReachedValidationLimit = () => {
+        if (!userProfileLimits) return false;
+        
+        if (project.user_id !== userId) {
+            return false;
+        }
+
+        const validationCount = userProfileLimits.usage.validationsPerProject[project.id] ?? 0;
+        return validationCount >= userProfileLimits.limits.maxValidationsPerProject;
+    };
 
     return (
         <div className="flex flex-col">
@@ -417,12 +433,23 @@ export default function EditProjectComponent({ project: initialProject }) {
                 {/* Content area */}
                 <div className="w-full sm:flex-1 overflow-auto bg-gray-50">
                     <div className="px-2 sm:px-4 py-4">
+                        {/* Add Usage Limit Message */}
+                        {hasReachedValidationLimit() && activeItem.itemId === 'validation' && (
+                            <UsageLimitReachedMessage
+                                type={UsageLimitType.VALIDATIONS}
+                                userProfile={userProfileLimits.limits}
+                                className="mb-4 mx-auto"
+                            />
+                        )}
+
                         {activeItem.itemId === 'validation' && (
                             <ValidationComponent
                                 activeItemId={activeItem.subItemId}
                                 project={project}
                                 onSubmit={handleValidationSubmit}
-                                readOnly={isReadOnly()}
+                                readOnly={isReadOnly() || hasReachedValidationLimit()}
+                                reachedValidationLimit={hasReachedValidationLimit()}
+                                userProfileLimits={userProfileLimits}
                                 loading={loading}
                             />
                         )}

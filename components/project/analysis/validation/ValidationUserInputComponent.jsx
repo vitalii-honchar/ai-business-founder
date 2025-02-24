@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import UsageLimitReachedMessage, { UsageLimitType } from '@/components/subscription/UsageLimitReachedMessage'
 
 const defaultFormData = {
     problem: "",
@@ -63,7 +64,7 @@ const tooltips = {
 }
 
 // Add loading indicator and input validation
-export default function ValidationUserInputComponent({ onSubmit, loading, initialFormData, readOnly }) {
+export default function ValidationUserInputComponent({ onSubmit, loading, initialFormData, readOnly, reachedValidationLimit, userProfileLimits }) {
     const [formData, setFormData] = useState(() => ({
         ...defaultFormData,
         ...initialFormData,
@@ -431,6 +432,13 @@ export default function ValidationUserInputComponent({ onSubmit, loading, initia
                             '🚀 Validate!'
                         )}
                     </button>
+                )}
+                {reachedValidationLimit && (
+                    <UsageLimitReachedMessage
+                        type={UsageLimitType.VALIDATIONS}
+                        userProfile={userProfileLimits.limits}
+                        className="mb-4 mx-auto"
+                    />
                 )}
             </div>
         </form>

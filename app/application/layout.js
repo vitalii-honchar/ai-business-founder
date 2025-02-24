@@ -9,7 +9,7 @@ import { headers } from 'next/headers';
 
 export default async function AppLayout({ children }) {
     const userId = await getUserId();
-    const isLoggedIn = userId !== null;
+    const isLoggedIn = userId != null;
 
     // Get current path from custom header set by middleware
     const headersList = await headers();
