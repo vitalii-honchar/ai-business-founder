@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import userProfileService from '@/lib/service/user_profile_service';
 import { SubscriptionStatus } from '@/lib/domain/user_profile';
 import { headers } from 'next/headers';
+import UserMenu from '@/components/user/UserMenu';
 
 export default async function AppLayout({ children }) {
     const userId = await getUserId();
@@ -64,13 +65,6 @@ export default async function AppLayout({ children }) {
                                     <span className="text-xl">🚀</span>
                                     Projects
                                 </Link>
-                                <Link 
-                                    href="/application/user-profile/subscription" 
-                                    className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
-                                >
-                                    <span className="text-xl">💳</span>
-                                    Subscription
-                                </Link>
                             </nav>
                         )}
                     </div>
@@ -85,19 +79,9 @@ export default async function AppLayout({ children }) {
                         <span className="inline">Send Feedback</span>
                     </Link>
 
-                    {/* Feedback button - visible on both mobile and desktop */}
+                    {/* Replace the existing sign in/out button with UserMenu */}
                     <div className="ml-2 flex items-center gap-4">
-                        {isLoggedIn ? (
-                            <Link href="/application/auth/logout" className="flex text-gray-600 hover:text-gray-900 items-center gap-2">
-                                Sign Out
-                                <HiLogout className="w-5 h-5" />
-                            </Link>
-                        ) : (
-                            <Link href="/login" className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex items-center gap-2 text-sm sm:text-base transition-colors">
-                                <span className="text-xl">👤</span>
-                                <span>Sign In / Sign Up</span>
-                            </Link>
-                        )}
+                        <UserMenu isLoggedIn={isLoggedIn} />
                     </div>
                 </div>
             </header>
