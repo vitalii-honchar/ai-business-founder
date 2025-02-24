@@ -14,6 +14,47 @@ const validateSubscriptionPlan = (plan) => {
     return { isValid: true };
 };
 
+export async function GET(request, { params }) {
+    const { id } = await params;
+    const log = loggerWithUserId(id);
+
+    try {
+        log.info('Handling get user profile request');
+
+        const userProfile = await userProfileService.getUserProfile(id);
+        
+        if (!userProfile) {
+            log.warn('User profile not found');
+            return NextResponse.json(
+                { error: 'User profile not found' },
+                { status: 404 }
+            );
+        }
+
+        const response = {
+            usage: userProfile.usage.toObject(),
+            limits: {
+                maxProjects: userProfile.maxProjects,
+                maxValidationsPerProject: userProfile.maxValidationsPerProject
+            },
+            subscription: {
+                plan: userProfile.subscriptionPlan,
+                status: userProfile.subscriptionStatus
+            }
+        };
+
+        log.info({ profile: response }, 'User profile retrieved successfully');
+        return NextResponse.json(response);
+
+    } catch (error) {
+        log.error({ error: error.message }, 'Error retrieving user profile');
+        return NextResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+        );
+    }
+}
+
 export async function POST(request, { params }) {
     const { id } = await params;
     const log = loggerWithUserId(id);

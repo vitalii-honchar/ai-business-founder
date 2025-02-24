@@ -8,7 +8,7 @@ const getLimitMessage = (type, userProfile) => {
         case UsageLimitType.PROJECTS:
             return `You've reached the maximum number of projects (${userProfile.maxProjects}) for your current plan.`;
         case UsageLimitType.VALIDATIONS:
-            return `You've reached the maximum number of validations (${userProfile.validationsPerProject}) for your current plan.`;
+            return `You've reached the maximum number of validations (${userProfile.maxValidationsPerProject}) for your current plan.`;
         default:
             return "You've reached the usage limit for your current plan.";
     }
