@@ -63,7 +63,7 @@ export default function UserMenu({ isLoggedIn }) {
                     <div className="h-px bg-gray-200 my-1"></div>
                     
                     <Link 
-                        href="/application/auth/logout"
+                        href="/logout"
                         className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
                         onClick={() => setIsOpen(false)}
                     >
