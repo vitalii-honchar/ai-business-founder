@@ -52,8 +52,7 @@ const LoginComponent = ({
                 }
             }
 
-            router.push('/');
-            router.refresh();
+            window.location.href = '/';
         } catch (error) {
             setError('An unexpected error occurred');
             setLoading(false);
