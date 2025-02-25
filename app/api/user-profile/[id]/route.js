@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import userProfileService from '@/lib/service/user_profile_service';
-import { SubscriptionStatus, SubscriptionPlan } from '@/lib/domain/user_profile';
+import { SubscriptionStatus, SubscriptionPlan, UserProfile } from '@/lib/domain/user_profile';
 import { loggerWithUserId } from '@/lib/logger';
 
 const validateSubscriptionPlan = (plan) => {
@@ -78,7 +78,7 @@ export async function POST(request, { params }) {
             subscription_status: SubscriptionStatus.NEW
         };
 
-        const userProfile = await userProfileService.createUserProfile(params.id, profileData);
+        const userProfile = await userProfileService.createUserProfile(id, profileData);
         
         log.info({ profile: userProfile }, 'User profile created successfully');
         return NextResponse.json(userProfile, { status: 201 });
