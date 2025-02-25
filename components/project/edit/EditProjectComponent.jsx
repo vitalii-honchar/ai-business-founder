@@ -188,6 +188,10 @@ export default function EditProjectComponent({ project: initialProject }) {
             return false;
         }
 
+        if (!userProfileLimits.limits.maxValidationsPerProject) {
+            return false;
+        }
+
         const validationCount = userProfileLimits.usage.validationsPerProject[project.id] ?? 0;
         return validationCount >= userProfileLimits.limits.maxValidationsPerProject;
     };
