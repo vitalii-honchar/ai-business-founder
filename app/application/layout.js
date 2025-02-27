@@ -1,48 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { HiLogout } from 'react-icons/hi';
 import { getUserId } from '@/lib/db/dbServer';
-import { redirect } from 'next/navigation';
-import userProfileService from '@/lib/service/user_profile_service';
-import { SubscriptionStatus } from '@/lib/domain/user_profile';
-import { headers } from 'next/headers';
 import UserMenu from '@/components/user/UserMenu';
+import SubscriptionCheck from '@/components/subscription/SubscriptionCheck';
+import { getPathAndBypassStatus } from '@/lib/client/pathRules';
 
 export default async function AppLayout({ children }) {
     const userId = await getUserId();
     const isLoggedIn = userId != null;
 
-    // Get current path from custom header set by middleware
-    const headersList = await headers();
-    const pathname = headersList.get('x-pathname') || '';
-
-    // List of paths that should bypass subscription check
-    const bypassPaths = [
-        '/application/user-profile/subscription',
-        '/application/user-profile/subscription/checkout',
-        '/application/auth/logout'
-    ];
-
-    // Only check subscription for logged-in users and non-bypassed paths
-    if (isLoggedIn && !bypassPaths.some(path => pathname.startsWith(path))) {
-        const userProfile = await userProfileService.getUserProfile(userId);
-        
-        if (!userProfile?.isActive) {
-            const searchParams = new URLSearchParams();
-            
-            if (userProfile?.subscriptionStatus === SubscriptionStatus.EXPIRED) {
-                searchParams.set('message', 'Your subscription has expired. Please renew your plan to continue using the application.');
-            } else if (!userProfile || !userProfile.subscriptionPlan) {
-                searchParams.set('message', 'Please choose a subscription plan to continue using the application.');
-            } else {
-                searchParams.set('message', 'Your subscription is not active. Please check your subscription status.');
-            }
-            
-            // Use absolute path for redirect
-            const redirectUrl = `/application/user-profile/subscription?${searchParams.toString()}`;
-            redirect(redirectUrl);
-        }
-    }
+    // Get current path and bypass status
+    const { pathname, shouldBypass } = await getPathAndBypassStatus();
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
@@ -79,7 +47,6 @@ export default async function AppLayout({ children }) {
                         <span className="inline">Send Feedback</span>
                     </Link>
 
-                    {/* Replace the existing sign in/out button with UserMenu */}
                     <div className="ml-2 flex items-center gap-4">
                         <UserMenu isLoggedIn={isLoggedIn} />
                     </div>
@@ -87,7 +54,7 @@ export default async function AppLayout({ children }) {
             </header>
             <main className="flex-grow w-full px-2 sm:px-4 py-4">
                 {/* Only show subscription check message on protected pages */}
-                {isLoggedIn && !bypassPaths.some(path => pathname.startsWith(path)) && (
+                {isLoggedIn && !shouldBypass && (
                     <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                         <p className="font-medium">🔔 Open Beta Testing</p>
                         <p className="mt-1">This is an open beta version of AI Founder. Please be aware that you may encounter bugs or incomplete features. All data created during the beta period may be deleted after the testing phase. Your feedback is valuable to us!</p>
@@ -97,7 +64,9 @@ export default async function AppLayout({ children }) {
                     </div>
                 )}
                 <div className="bg-white shadow rounded-lg p-4 sm:p-6">
-                    {children}
+                    <SubscriptionCheck pathname={pathname} shouldBypass={shouldBypass}>
+                        {children}
+                    </SubscriptionCheck>
                 </div>
             </main>
             <footer className="bg-white shadow mt-4">
