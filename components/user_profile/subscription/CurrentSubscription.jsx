@@ -24,8 +24,6 @@ export default function CurrentSubscription({ userProfile, onUpgrade }) {
         features: []
     };
 
-    const buttonConfig = userProfile.buttonConfig;
-
     return (
         <div className="mb-8 p-6 bg-white rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
@@ -73,22 +71,20 @@ export default function CurrentSubscription({ userProfile, onUpgrade }) {
                 </div>
             )}
             
-            {buttonConfig && (
-                <div className="mt-6 border-t border-gray-100 pt-6">
-                    <div className="flex flex-col items-center gap-3">
-                        <button
-                            onClick={onUpgrade}
-                            className={`group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white transition-all duration-200 bg-gradient-to-r ${buttonConfig.gradient} rounded-full shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
-                        >
-                            <span className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                            <span className="flex items-center gap-2">
-                                <span role="img" aria-label="rocket" className="text-xl">🚀</span>
-                                Get started with a subscription
-                            </span>
-                        </button>
-                    </div>
+            <div className="mt-6 border-t border-gray-100 pt-6">
+                <div className="flex flex-col items-center gap-3">
+                    <button
+                        onClick={onUpgrade}
+                        className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white transition-all duration-200 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                    >
+                        <span className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span className="flex items-center gap-2">
+                            <span role="img" aria-label="rocket" className="text-xl">🚀</span>
+                            {userProfile.isNew ? 'Start Your Plan' : 'Upgrade Your Plan'}
+                        </span>
+                    </button>
                 </div>
-            )}
+            </div>
         </div>
     );
 } 

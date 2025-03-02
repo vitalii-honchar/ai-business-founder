@@ -13,7 +13,7 @@ import SubscriptionPlanSelector from './SubscriptionPlanSelector';
 
 export default function SubscriptionManager({ userProfileObj, message }) {
     const userProfile = new UserProfile(userProfileObj);
-    const [showPlans, setShowPlans] = useState(userProfile?.subscriptionPlan?.isNew || true);
+    const [showPlans, setShowPlans] = useState(userProfile.isNew);
     const [info, setInfo] = useState(message || '');
 
     return (
