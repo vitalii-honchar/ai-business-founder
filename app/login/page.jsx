@@ -9,6 +9,10 @@ import SendFeedbackComponent from '@/components/common/SendFeedbackComponent';
 import TabComponent from '@/components/common/TabComponent';
 import { useState } from 'react';
 
+// Note: Email confirmation is now bypassed in the registration flow.
+// Users are instantly logged in upon registration, but their profile stays in NEW state
+// to promote subscription upgrades. The CONFIRM_EMAIL operation is kept for backward
+// compatibility with users who registered before this change.
 const Operation = Object.freeze({
   LOGIN: 'login',
   REGISTER: 'register',

@@ -7,6 +7,7 @@ import InfoMessageComponent from '@/components/common/InfoMessageComponent';
 import useLoading from '@/lib/client/hooks/useLoading';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
+import userProfileApi from '@/lib/client/api/user_profile_api';
 
 const RegisterComponent = ({ tabKey, onSuccess }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -24,30 +25,76 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
         const formData = new FormData(e.target);
         const password = formData.get('password');
         const confirmPassword = formData.get('confirmPassword');
+        const email = formData.get('email');
 
         try {
             if (password !== confirmPassword) {
                 setError('Passwords do not match');
+                setLoading(false);
                 return;
             }
 
-            const { error: signUpError } = await supabase.auth.signUp({
-                email: formData.get('email'),
+            // Sign up the user without email confirmation
+            const { data, error: signUpError } = await supabase.auth.signUp({
+                email,
                 password,
                 options: {
-                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/login?operation=confirm_email&plan=${selectedPlan}`,
+                    data: {
+                        subscription_plan: selectedPlan
+                    },
                 },
             });
 
+            console.dir(data)
+
             if (signUpError) {
-                setError(signUpError.message);
+                console.error('Signup error:', signUpError);
+                setError(signUpError.message || 'Failed to sign up. Please try again later.');
+                setLoading(false);
                 return;
             }
 
-            setInfo('Account created. Please confirm your email and sign in.');
-            setIsRegistered(true);
-            onSuccess?.();
-        } finally {
+            if (!data?.user?.id) {
+                console.error('No user ID returned from signup');
+                setError('User creation failed - no user ID returned. Please try again later.');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                // Create a user profile in NEW state so we can promote subscription upgrades
+                await userProfileApi.createUserProfile(data.user.id, selectedPlan);
+                
+                // Sign in the user immediately without waiting for email confirmation
+                const { error: signInError } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+
+                if (signInError) {
+                    console.error('Sign-in error after registration:', signInError);
+                    setError(signInError.message || 'Account created but login failed. Please try logging in manually.');
+                    setLoading(false);
+                    return;
+                }
+
+                // Set registration complete status for tracking purposes
+                setIsRegistered(true);
+                
+                // If we have an onSuccess callback, call it
+                onSuccess?.();
+                
+                // Redirect to home page
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Failed to create user profile:', error);
+                setError('Failed to create user profile: ' + error.message);
+                setLoading(false);
+                return;
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            setError('An unexpected error occurred during registration');
             setLoading(false);
         }
     };
