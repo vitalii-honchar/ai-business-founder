@@ -11,8 +11,7 @@ import userProfileApi from '@/lib/client/api/user_profile_api';
 
 const RegisterComponent = ({ tabKey, onSuccess }) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [selectedPlan, setSelectedPlan] = useState('free');
+    const selectedPlan = 'free';
     const supabase = createClient();
     const { error, setError, info, setInfo, clearMessages } = useAuthMessage();
     const { loading, setLoading } = useLoading();
@@ -77,9 +76,6 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                     setLoading(false);
                     return;
                 }
-
-                // Set registration complete status for tracking purposes
-                setIsRegistered(true);
                 
                 // If we have an onSuccess callback, call it
                 onSuccess?.();
@@ -105,16 +101,8 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
 
             <InfoMessageComponent className={"mb-4"} message={info} />
 
-            {!isRegistered && (
-                <div className={loading ? 'pointer-events-none' : ''}>
-                    <form className="space-y-8" onSubmit={handleSubmit}>
-                        {/* Subscription Plans */}
-                        <div className="mb-8">
-                            <SubscriptionPlans 
-                                selectedPlan={selectedPlan}
-                                onPlanSelect={setSelectedPlan}
-                            />
-                        </div>
+            <div className={loading ? 'pointer-events-none' : ''}>
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         {/* Registration Details Section */}
                         <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
                             <div className="text-center">
@@ -203,7 +191,6 @@ const RegisterComponent = ({ tabKey, onSuccess }) => {
                         </div>
                     </form>
                 </div>
-            )}
         </div>
     );
 };
