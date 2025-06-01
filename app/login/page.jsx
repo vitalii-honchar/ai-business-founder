@@ -9,26 +9,14 @@ import SendFeedbackComponent from '@/components/common/SendFeedbackComponent';
 import TabComponent from '@/components/common/TabComponent';
 import { useState } from 'react';
 
-// Note: Email confirmation is now bypassed in the registration flow.
-// Users are instantly logged in upon registration, but their profile stays in NEW state
-// to promote subscription upgrades. The CONFIRM_EMAIL operation is kept for backward
-// compatibility with users who registered before this change.
-const Operation = Object.freeze({
-  LOGIN: 'login',
-  REGISTER: 'register',
-  RESET: 'reset',
-  FORGOT: 'forgot',
-  CONFIRM_EMAIL: 'confirm_email',
-});
-
 const getOperation = (params) => {
   const error = params?.error;
-  return error == 'access_denied' ? Operation.LOGIN : params?.operation;
+  return error == 'access_denied' ? 'login' : params?.operation;
 };
 
 const getLoginMessage = (params) => {
   const operation = getOperation(params);
-  if (operation === Operation.CONFIRM_EMAIL) {
+  if (operation === 'confirm_email') {
     return 'Account confirmed. Please login.';
   }
   return '';
@@ -37,20 +25,19 @@ const getLoginMessage = (params) => {
 const LoginPage = ({ searchParams }) => {
   const params = use(searchParams);
 
-  const [activeTab, setActiveTab] = useState(params?.activeTab || Operation.LOGIN);
+  const [activeTab, setActiveTab] = useState(params?.activeTab || 'login');
   const [showResetForm, setShowResetForm] = useState(true);
   const [loginMessage, setLoginMessage] = useState(getLoginMessage(params));
   const errorMessage = params?.error_description;
   const operation = getOperation(params);
   const code = params?.code;
-  const plan = params?.plan;
 
   const tabs = [
-    { id: Operation.LOGIN, label: 'Login' },
-    { id: Operation.REGISTER, label: 'Register' },
+    { id: 'login', label: 'Login' },
+    { id: 'register', label: 'Register' },
   ];
 
-  if (operation === Operation.RESET && showResetForm) {
+  if (operation === 'reset' && showResetForm) {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Reset Password</h2>
@@ -68,7 +55,7 @@ const LoginPage = ({ searchParams }) => {
   }
 
   // Handle forgot password view
-  if (operation === Operation.FORGOT) {
+  if (operation === 'forgot') {
     return (
       <CenterCardComponent>
         <h2 className="text-2xl font-bold text-center text-gray-800">Forgot Password</h2>
@@ -80,24 +67,18 @@ const LoginPage = ({ searchParams }) => {
 
   // Main login/register view
   return (
-    <CenterCardComponent size={'default'}>
+    <CenterCardComponent>
       <TabComponent
         activeTab={activeTab}
         tabs={tabs}
         onTabChange={setActiveTab}
       >
-        <LoginComponent 
-          tabKey={Operation.LOGIN} 
-          initialMessage={loginMessage} 
-          errorMessage={errorMessage}
-          isConfirmedEmail={operation === Operation.CONFIRM_EMAIL}
-          subscriptionPlan={plan}
-        />
-        <RegisterComponent tabKey={Operation.REGISTER} />
+        <LoginComponent tabKey="login" initialMessage={loginMessage} errorMessage={errorMessage} />
+        <RegisterComponent tabKey="register" />
       </TabComponent>
 
       <p className="text-center text-sm text-gray-600">
-        {activeTab === Operation.LOGIN ? (
+        {activeTab === 'login' ? (
           "Don't have an account? Click Register above."
         ) : (
           "Already have an account? Click Login above."
